@@ -12,6 +12,7 @@ class FindNearestQnodes(Resource):
         size = request.args.get('size', 20)
         extra_info = request.args.get('extra_info', 'false').lower() == 'true'
         query = es_search.create_exact_match_query(search_term, lowercase, size=size)
+        
         results = es_search.search_es(query)
         r_objs = []
 

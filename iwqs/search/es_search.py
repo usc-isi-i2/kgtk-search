@@ -41,10 +41,10 @@ class Search(object):
         if lower_case:
             search_term = search_term.lower()
 
-        exact_match_query['queru']['function_score']['query']['bool']['should'][0]['term'] = {
+        exact_match_query['query']['function_score']['query']['bool']['should'][0]['term'] = {
             search_field: {
                 'value': search_term
             }
         }
         exact_match_query['size'] = size
-        return size
+        return exact_match_query
