@@ -31,4 +31,4 @@
     ]
    ```
    
-   **Results subject to completion of the index
+   **Results subject to completion of the index**
