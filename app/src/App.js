@@ -53,13 +53,36 @@ const styles = theme => ({
   underlined: {
     textDecoration: 'underline',
   },
-  link: {
+  result: {
+    position: 'relative',
     marginTop: theme.spacing(3),
-    display: 'inline-block',
+  },
+  index: {
     color: '#fefefe',
+    position: 'absolute',
+    top: theme.spacing(1),
+    left: theme.spacing(1),
+  },
+  link: {
+    width: '100%',
+    display: 'inline-block',
+    padding: theme.spacing(1),
+    marginLeft: theme.spacing(5),
+    color: '#fefefe',
+    transition: '0.2s background ease',
+    '&:hover': {
+      background: 'rgba(255, 255, 255, 0.1)',
+      textDecoration: 'none',
+      cursor: 'pointer',
+    },
+  },
+  label: {
+    color: '#fefefe',
+    textDecoration: 'underline',
   },
   description: {
     color: '#fefefe',
+    textDecoration: 'none',
   },
 })
 
@@ -98,20 +121,31 @@ class App extends React.Component {
     const { classes } = this.props
     const { results } = this.state
     return results.map((result, i) => (
-      <Grid item xs={12} key={i}>
+      <Grid item xs={12} key={i}
+        className={classes.result}>
+        <Typography
+          component="h5"
+          variant="h5"
+          className={classes.index}>
+          {i+1}.
+        </Typography>
         <Link
           href={`https://sqid.toolforge.org/#/view?id=${result.qnode}`}
-          variant="h5"
           target="_blank"
           className={classes.link}>
-          {result.label[0]}
+          <Typography
+            component="h5"
+            variant="h5"
+            className={classes.label}>
+            {result.label[0]}
+          </Typography>
+          <Typography
+            component="p"
+            variant="body1"
+            className={classes.description}>
+            {result.description[0]}
+          </Typography>
         </Link>
-        <Typography
-          component="p"
-          variant="body1"
-          className={classes.description}>
-          {result.description[0]}
-        </Typography>
       </Grid>
     ))
   }
