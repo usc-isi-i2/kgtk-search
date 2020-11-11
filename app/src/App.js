@@ -65,6 +65,7 @@ class App extends React.Component {
 
     this.state = {
       query: '',
+      results: [],
     }
   }
 
@@ -74,7 +75,17 @@ class App extends React.Component {
 
   submit(event) {
     event.preventDefault()
-    console.log('submitting')
+    const { query } = this.state
+    return fetch(`/search/${query}?extra_info=true`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then((response) => response.json())
+    .then((results) => {
+      this.setState({results})
+    })
   }
 
   render() {
