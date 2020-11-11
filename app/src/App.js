@@ -2,6 +2,7 @@ import React from 'react'
 import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
+import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import { withStyles, createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
@@ -52,8 +53,12 @@ const styles = theme => ({
     textDecoration: 'underline',
   },
   link: {
-    cursor: 'pointer',
-    textDecoration: 'underline',
+    marginTop: theme.spacing(3),
+    display: 'inline-block',
+    color: '#fefefe',
+  },
+  description: {
+    color: '#fefefe',
   },
 })
 
@@ -88,6 +93,28 @@ class App extends React.Component {
     })
   }
 
+  renderResults() {
+    const { classes } = this.props
+    const { results } = this.state
+    return results.map((result, i) => (
+      <Grid item xs={12} key={i}>
+        <Link
+          href={`https://sqid.toolforge.org/#/view?id=${result.qnode}`}
+          variant="h5"
+          target="_blank"
+          className={classes.link}>
+          {result.label[0]}
+        </Link>
+        <Typography
+          component="p"
+          variant="body1"
+          className={classes.description}>
+          {result.description[0]}
+        </Typography>
+      </Grid>
+    ))
+  }
+
   render() {
     const { classes } = this.props
     const { query } = this.state
@@ -114,6 +141,7 @@ class App extends React.Component {
                     </Grid>
                   </Grid>
                 </Paper>
+                {this.renderResults()}
               </Grid>
             </Grid>
           </form>
