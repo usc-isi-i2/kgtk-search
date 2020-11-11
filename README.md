@@ -248,3 +248,11 @@
 4. Make sure the flask server is running on `http://0.0.0.0:7884/`  
    (or update the proxy setting in the `package.json` file)
 5. Run `npm start` - this should open the app in your default browser
+
+
+## Deploying the app with Docker
+
+1. Change into the `/app` directory and run `npm run build`  
+   (this will update the static front-end files used in deployment)
+2. Run `docker build -t <image_name> .` in the root directory
+3. Run `docker push <image_name>` to upload the new image
