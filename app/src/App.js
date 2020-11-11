@@ -137,7 +137,7 @@ class App extends React.Component {
             component="h5"
             variant="h5"
             className={classes.label}>
-            {result.label[0]}
+            {result.label[0]} ({result.qnode})
           </Typography>
           <Typography
             component="p"
