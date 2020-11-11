@@ -238,3 +238,10 @@
    ```
    
    **Results subject to completion of the index**
+
+
+## Running the app in development
+
+1. Change into the `/app` directory and run `npm install`
+2. Make sure the API is running on `http://0.0.0.0:7884/` (or update the proxy set in the `package.json` file)
+3. Run `npm start` - this should open the app in your default browser
