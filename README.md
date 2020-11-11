@@ -242,6 +242,9 @@
 
 ## Running the app in development
 
-1. Change into the `/app` directory and run `npm install`
-2. Make sure the API is running on `http://0.0.0.0:7884/` (or update the proxy set in the `package.json` file)
-3. Run `npm start` - this should open the app in your default browser
+1. Run `pip install -r requirements.txt`
+2. Run `python application.py` to start the flask server 
+3. Change into the `/app` directory and run `npm install`
+4. Make sure the flask server is running on `http://0.0.0.0:7884/`  
+   (or update the proxy setting in the `package.json` file)
+5. Run `npm start` - this should open the app in your default browser
