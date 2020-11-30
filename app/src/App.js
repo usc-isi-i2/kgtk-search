@@ -145,6 +145,14 @@ class App extends React.Component {
             className={classes.description}>
             {result.description[0]}
           </Typography>
+          {!!result.alias.length ? (
+            <Typography
+              component="span"
+              variant="body1"
+              className={classes.description}>
+              {result.alias.join(', ')}
+            </Typography>
+          ) : null}
         </Link>
       </Grid>
     ))
