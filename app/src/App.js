@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles, createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
 
 import Input from './components/Input'
+import ArrowUp from './components/ArrowUp'
 
 
 
@@ -164,6 +165,7 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <Container maxWidth="xl">
+          <div id="top" />
           <CssBaseline />
           <Typography
             component="h3"
@@ -188,6 +190,7 @@ class App extends React.Component {
               </Grid>
             </Grid>
           </form>
+          <ArrowUp />
         </Container>
       </ThemeProvider>
     )
