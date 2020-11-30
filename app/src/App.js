@@ -161,7 +161,7 @@ class App extends React.Component {
             component="h3"
             variant="h3"
             className={classes.header}>
-            ISI's Wikidata Query Service
+            Knowledge Graph Text Search
           </Typography>
           <form className={classes.form} noValidate onSubmit={this.submit.bind(this)}>
             <Grid container spacing={3}>

@@ -1,6 +1,6 @@
 {
-  "short_name": "IWQS",
-  "name": "ISI's Wikidata Query Service",
+  "short_name": "KGTS",
+  "name": "Knowledge Graph Text Search",
   "icons": [
     {
       "src": "icon.svg",
