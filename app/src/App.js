@@ -114,7 +114,7 @@ class App extends React.Component {
   submit(event) {
     event.preventDefault()
     const { query } = this.state
-    return fetch(`/search/${query}?extra_info=true`, {
+    return fetch(`/api/${query}?extra_info=true`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

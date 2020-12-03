@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 api = Api(app)
-api.add_resource(FindNearestQnodes, '/search/<string:search_term>')
+api.add_resource(FindNearestQnodes, '/api/<string:search_term>')
 
 if __name__ == '__main__':
     app.run(host=host, port=port)
