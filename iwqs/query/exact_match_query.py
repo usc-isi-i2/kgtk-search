@@ -7,6 +7,15 @@ query = {
                         {
                             "term": {}
                         }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "descriptions.keyword_lower": {
+                                    "value": "wikimedia disambiguation page"
+                                }
+                            }
+                        }
                     ]
                 }
             },
