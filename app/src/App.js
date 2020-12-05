@@ -152,14 +152,14 @@ class App extends React.Component {
             component="p"
             variant="body1"
             className={classes.description}>
-            {result.description[0]}
+            <b>Description:</b> {result.description[0]}
           </Typography>
           {!!result.alias.length ? (
             <Typography
               component="span"
               variant="body1"
               className={classes.description}>
-              {result.alias.join(', ')}
+              <b>Alias:</b> {result.alias.join(', ')}
             </Typography>
           ) : null}
         </Link>
