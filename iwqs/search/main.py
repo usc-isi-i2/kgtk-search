@@ -7,8 +7,13 @@ from iwqs.search.search_result import SearchResult
 
 class FindNearestQnodes(Resource):
     def get(self, search_term):
-        es_search = Search(es_url, es_index)
         lowercase = request.args.get('lowercase', 'true').lower() == 'true'
+        user_es_url = request.args.get('es_url', None)
+        user_es_index = request.args.get('es_index', None)
+        if user_es_url and user_es_index:
+            es_search = Search(user_es_url, user_es_index)
+        else:
+            es_search = Search(es_url, es_index)
         size = request.args.get('size', 20)
         extra_info = request.args.get('extra_info', 'false').lower() == 'true'
         query = es_search.create_exact_match_query(search_term, lowercase, size=size)
