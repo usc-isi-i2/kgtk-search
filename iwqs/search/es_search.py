@@ -32,11 +32,17 @@ class Search(object):
 
         return response_output
 
-    def create_exact_match_query(self, search_term, lower_case, size=20):
+    def create_exact_match_query(self, search_term, lower_case, size=20, language=None):
         exact_match_query = self.query
-        search_field = 'all_labels.keyword_lower'
+
+        if language is not None:
+            search_field = f'all_labels.{language}'
+        else:
+            search_field = f'all_labels_aliases'
         if not lower_case:
-            search_field = 'all_labels.keyword'
+            search_field += '.keyword'
+        else:
+            search_field += '.keyword_lower'
 
         if lower_case:
             search_term = search_term.lower()

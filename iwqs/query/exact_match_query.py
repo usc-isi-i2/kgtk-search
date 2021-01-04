@@ -11,7 +11,7 @@ query = {
                     "must_not": [
                         {
                             "term": {
-                                "descriptions.keyword_lower": {
+                                "descriptions.en.keyword_lower": {
                                     "value": "wikimedia disambiguation page"
                                 }
                             }
