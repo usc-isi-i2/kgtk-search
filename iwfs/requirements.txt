@@ -1,0 +1,4 @@
+pandas
+scikit-learn
+faiss-cpu
+sentence_transformers
