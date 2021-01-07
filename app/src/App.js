@@ -10,6 +10,8 @@ import { withStyles, createMuiTheme, responsiveFontSizes, ThemeProvider } from '
 import Logo from './components/Logo'
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 
 
@@ -95,6 +97,13 @@ const styles = theme => ({
   },
 })
 
+const options = [
+  { value: 'en', label: 'English'},
+  { value: 'ru', label: 'Russian'},
+  { value: 'es', label: "Spanish"},
+  { value: 'zh-cn', label: 'Simplified Chinese'}
+];
+const defaultOption = options[0];
 
 class App extends React.Component {
 
@@ -104,6 +113,7 @@ class App extends React.Component {
     this.state = {
       query: '',
       results: [],
+      language: 'en'
     }
   }
 
@@ -111,10 +121,15 @@ class App extends React.Component {
     this.setState({query})
   }
 
+  OnLanguageChange(language) {
+    this.setState({language})
+  }
+
   submit(event) {
     event.preventDefault()
     const { query } = this.state
-    return fetch(`/api/${query}?extra_info=true`, {
+    const { language } = this.state
+    return fetch(`/api/${query}?extra_info=true&language=${language.value}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -185,6 +200,8 @@ class App extends React.Component {
             Knowledge Graph Text Search
           </Typography>
           <form className={classes.form} noValidate onSubmit={this.submit.bind(this)}>
+            <Dropdown options={options} onChange={this.OnLanguageChange.bind(this)} value={defaultOption}
+                      placeholder="Select Language" wi />;
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper component="div" className={classes.paper} square>
