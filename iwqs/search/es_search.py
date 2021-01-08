@@ -3,6 +3,7 @@ import requests
 import logging
 from requests.auth import HTTPBasicAuth
 from iwqs.query.exact_match_query import query
+from iwqs.query.ngram_query import ngram_query
 
 
 class Search(object):
@@ -12,6 +13,7 @@ class Search(object):
         self.es_user = es_user
         self.es_pass = es_pass
         self.query = copy.deepcopy(query)
+        self.ngram_query = copy.deepcopy(ngram_query)
         self.logger = logging.getLogger(__name__)
 
     def search_es(self, query):
@@ -54,3 +56,10 @@ class Search(object):
         }
         exact_match_query['size'] = size
         return exact_match_query
+
+    def create_ngram_query(self, search_term, size=20):
+        ngrams_query = self.ngram_query
+        ngrams_query['query']['function_score']['query']['bool']['should'][0]['match'][
+            'all_labels.en.ngram'] = search_term
+        ngrams_query['size'] = size
+        return ngrams_query

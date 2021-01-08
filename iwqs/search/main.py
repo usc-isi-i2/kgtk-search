@@ -12,6 +12,7 @@ class FindNearestQnodes(Resource):
         user_es_url = request.args.get('es_url', None)
         user_es_index = request.args.get('es_index', None)
         language = request.args.get('language', None)
+        query_type = request.args.get('type', 'ngram')
 
         if user_es_url and user_es_index:
             es_search = Search(user_es_url, user_es_index)
@@ -20,7 +21,11 @@ class FindNearestQnodes(Resource):
 
         size = request.args.get('size', 20)
         extra_info = request.args.get('extra_info', 'false').lower() == 'true'
-        query = es_search.create_exact_match_query(search_term, lowercase, size=size, language=language)
+
+        if query_type == 'ngram':
+            query = es_search.create_ngram_query(search_term, size=size)
+        else:
+            query = es_search.create_exact_match_query(search_term, lowercase, size=size, language=language)
 
         results = es_search.search_es(query)
         r_objs = []
