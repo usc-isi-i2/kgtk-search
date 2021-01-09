@@ -27,7 +27,9 @@ const styles = theme => ({
       background: 'linear-gradient(150deg, #708090, #002133)',
       backgroundAttachment: 'fixed',
       backgroundSize: '100% 150%',
-      padding: theme.spacing(3, 1),
+      padding: theme.spacing(
+        3,
+        1),
       height: '100vh',
     },
   },
@@ -121,8 +123,14 @@ class App extends React.Component {
     this.state = {
       query: '',
       results: [],
-      language: { 'value': 'en', 'label': 'English' },
-      type: { value: 'ngram', label: 'Ngram Query' },
+      language: {
+        'value': 'en',
+        'label': 'English',
+      },
+      type: {
+        value: 'ngram',
+        label: 'Ngram Query',
+      },
     }
   }
 
@@ -130,9 +138,11 @@ class App extends React.Component {
     // this.setState({query})
     this.setState({ query }, () => {
       clearTimeout(this.timeoutID)
-      this.timeoutID = setTimeout(() => {
-        this.submit_es_query()
-      }, 300)
+      this.timeoutID = setTimeout(
+        () => {
+          this.submit_es_query()
+        },
+        300)
     })
   }
 
@@ -148,7 +158,7 @@ class App extends React.Component {
     const { query } = this.state
     const { language } = this.state
     const { type } = this.state
-    if ( !query ) {
+    if (!query) {
       this.setState({ results: [] })
     } else {
       return fetch(
@@ -158,9 +168,11 @@ class App extends React.Component {
           headers: {
             'Content-Type': 'application/json',
           },
-        }).then((response) => response.json()).then((results) => {
-        this.setState({ results })
-      })
+        }).
+        then((response) => response.json()).
+        then((results) => {
+          this.setState({ results })
+        })
     }
   }
 
@@ -173,13 +185,15 @@ class App extends React.Component {
     const { classes } = this.props
     const { results } = this.state
     return results.map((result, i) => (
-      <Grid item xs={ 12 } key={ i }
+      <Grid item xs={ 12 }
+            key={ i }
             className={ classes.result }>
         <Typography
           component="h5"
           variant="h5"
           className={ classes.index }>
-          { i + 1 }.
+          { i +
+          1 }.
         </Typography>
         <Link
           href={ `https://sqid.toolforge.org/#/view?id=${ result.qnode }` }
@@ -197,14 +211,17 @@ class App extends React.Component {
             className={ classes.description }>
             <b>Description:</b> { result.description[0] }
           </Typography>
-          { !!result.alias.length ? (
-            <Typography
-              component="span"
-              variant="body1"
-              className={ classes.description }>
-              <b>Alias:</b> { result.alias.join(', ') }
-            </Typography>
-          ) : null }
+          { !!result.alias.length
+            ? (
+              <Typography
+                component="span"
+                variant="body1"
+                className={ classes.description }>
+                <b>Alias:</b> { result.alias.join(
+                ', ') }
+              </Typography>
+            )
+            : null }
         </Link>
       </Grid>
     ))
@@ -225,27 +242,45 @@ class App extends React.Component {
             <div className={ classes.logo }>
               <Logo/>
             </div>
-            Knowledge Graph Text Search
+            Knowledge
+            Graph
+            Text
+            Search
           </Typography>
-          <form className={ classes.form } noValidate
-                onSubmit={ this.submit.bind(this) }>
-            <Dropdown options={ languageOptions }
-                      onChange={ this.OnLanguageChange.bind(this) }
-                      value={ defaultLanguageOption }
-                      placeholder="Select Language" wi/>
-            <Dropdown options={ queryTypeOptions }
-                      onChange={ this.OnTypeChange.bind(this) }
-                      value={ defaultQueryTypeOption }
-                      placeholder="Select Query Type" wi/>
-            <Grid container spacing={ 3 }>
-              <Grid item xs={ 12 }>
-                <Paper component="div" className={ classes.paper } square>
-                  <Grid container spacing={ 3 }>
-                    <Grid item xs={ 12 }>
+          <form className={ classes.form }
+                noValidate
+                onSubmit={ this.submit.bind(
+                  this) }>
+            <Dropdown
+              options={ languageOptions }
+              onChange={ this.OnLanguageChange.bind(
+                this) }
+              value={ defaultLanguageOption }
+              placeholder="Select Language"
+              wi/>
+            <Dropdown
+              options={ queryTypeOptions }
+              onChange={ this.OnTypeChange.bind(
+                this) }
+              value={ defaultQueryTypeOption }
+              placeholder="Select Query Type"
+              wi/>
+            <Grid container
+                  spacing={ 3 }>
+              <Grid item
+                    xs={ 12 }>
+                <Paper component="div"
+                       className={ classes.paper }
+                       square>
+                  <Grid container
+                        spacing={ 3 }>
+                    <Grid item
+                          xs={ 12 }>
                       <Input
                         text={ query }
                         autoFocus={ true }
-                        onChange={ this.handleOnChange.bind(this) }/>
+                        onChange={ this.handleOnChange.bind(
+                          this) }/>
                     </Grid>
                   </Grid>
                 </Paper>
