@@ -222,6 +222,12 @@ class App extends React.Component {
               </Typography>
             )
             : null }
+          <Typography
+            component="p"
+            variant="body1"
+            className={ classes.description }>
+            <b>Pagerank:</b> { result.pagerank }
+          </Typography>
         </Link>
       </Grid>
     ))
