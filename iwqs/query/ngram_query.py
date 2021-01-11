@@ -6,7 +6,10 @@ ngram_query = {
                     "should": [
                         {
                             "match": {
-                                "all_labels.en.ngram": ""
+                                "all_labels.en.ngram": {
+                                    "query": "",
+                                    "operator": "and"
+                                }
                             }
                         }
                     ],

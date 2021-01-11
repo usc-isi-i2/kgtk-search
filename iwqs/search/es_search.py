@@ -60,6 +60,6 @@ class Search(object):
     def create_ngram_query(self, search_term, size=20):
         ngrams_query = self.ngram_query
         ngrams_query['query']['function_score']['query']['bool']['should'][0]['match'][
-            'all_labels.en.ngram'] = search_term
+            'all_labels.en.ngram']['query'] = search_term
         ngrams_query['size'] = size
         return ngrams_query
