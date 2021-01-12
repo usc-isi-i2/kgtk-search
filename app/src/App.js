@@ -111,14 +111,12 @@ const languageOptions = [
   { value: 'es', label: 'Spanish' },
   { value: 'zh-cn', label: 'Simplified Chinese' },
 ]
-const defaultLanguageOption = languageOptions[0]
 
 
 const queryTypeOptions = [
   { value: 'ngram', label: 'Ngram Query' },
   { value: 'exact_match', label: 'Exact Match Query' },
 ]
-const defaultQueryTypeOption = queryTypeOptions[0]
 
 
 class App extends React.Component {
@@ -232,7 +230,7 @@ class App extends React.Component {
 
   render () {
     const { classes } = this.props
-    const { query } = this.state
+    const { language, type, query } = this.state
     return (
       <ThemeProvider theme={ theme }>
         <Container maxWidth="xl">
@@ -252,12 +250,12 @@ class App extends React.Component {
             <Dropdown
               options={ languageOptions }
               onChange={ this.OnLanguageChange.bind(this) }
-              value={ defaultLanguageOption }
+              value={ language }
               placeholder="Select Language" wi/>
             <Dropdown
               options={ queryTypeOptions }
               onChange={ this.OnTypeChange.bind(this) }
-              value={ defaultQueryTypeOption }
+              value={ type }
               placeholder="Select Query Type" wi/>
             <Grid container spacing={ 3 }>
               <Grid item xs={ 12 }>
