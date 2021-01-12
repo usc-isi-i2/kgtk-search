@@ -12,14 +12,17 @@ import {
   ThemeProvider,
 } from '@material-ui/core/styles'
 
+
 import Logo from './components/Logo'
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 
+
 let theme = createMuiTheme()
 theme = responsiveFontSizes(theme)
+
 
 const styles = theme => ({
   '@global': {
@@ -101,6 +104,7 @@ const styles = theme => ({
   },
 })
 
+
 const languageOptions = [
   { value: 'en', label: 'English' },
   { value: 'ru', label: 'Russian' },
@@ -109,11 +113,13 @@ const languageOptions = [
 ]
 const defaultLanguageOption = languageOptions[0]
 
+
 const queryTypeOptions = [
   { value: 'ngram', label: 'Ngram Query' },
   { value: 'exact_match', label: 'Exact Match Query' },
 ]
 const defaultQueryTypeOption = queryTypeOptions[0]
+
 
 class App extends React.Component {
 
@@ -135,14 +141,11 @@ class App extends React.Component {
   }
 
   handleOnChange (query) {
-    // this.setState({query})
     this.setState({ query }, () => {
       clearTimeout(this.timeoutID)
-      this.timeoutID = setTimeout(
-        () => {
-          this.submit_es_query()
-        },
-        300)
+      this.timeoutID = setTimeout(() => {
+        this.submit_es_query()
+      }, 300)
     })
   }
 
@@ -158,7 +161,8 @@ class App extends React.Component {
     const { query } = this.state
     const { language } = this.state
     const { type } = this.state
-    if (!query) {
+
+    if ( !query ) {
       this.setState({ results: [] })
     } else {
       return fetch(
@@ -184,9 +188,7 @@ class App extends React.Component {
     const { classes } = this.props
     const { results } = this.state
     return results.map((result, i) => (
-      <Grid item xs={ 12 }
-            key={ i }
-            className={ classes.result }>
+      <Grid item xs={ 12 } key={ i } className={ classes.result }>
         <Typography
           component="h5"
           variant="h5"
@@ -209,16 +211,14 @@ class App extends React.Component {
             className={ classes.description }>
             <b>Description:</b> { result.description[0] }
           </Typography>
-          { !!result.alias.length
-            ? (
-              <Typography
-                component="span"
-                variant="body1"
-                className={ classes.description }>
-                <b>Alias:</b> { result.alias.join(', ') }
-              </Typography>
-            )
-            : null }
+          { !!result.alias.length ? (
+            <Typography
+              component="span"
+              variant="body1"
+              className={ classes.description }>
+              <b>Alias:</b> { result.alias.join(', ') }
+            </Typography>
+          ) : null }
           <Typography
             component="p"
             variant="body1"
@@ -247,9 +247,8 @@ class App extends React.Component {
             </div>
             Knowledge Graph Text Search
           </Typography>
-          <form className={ classes.form }
-                noValidate
-                onSubmit={ this.submit.bind(this) }>
+          <form className={ classes.form } noValidate
+            onSubmit={ this.submit.bind(this) }>
             <Dropdown
               options={ languageOptions }
               onChange={ this.OnLanguageChange.bind(this) }
@@ -260,17 +259,11 @@ class App extends React.Component {
               onChange={ this.OnTypeChange.bind(this) }
               value={ defaultQueryTypeOption }
               placeholder="Select Query Type" wi/>
-            <Grid container
-                  spacing={ 3 }>
-              <Grid item
-                    xs={ 12 }>
-                <Paper component="div"
-                       className={ classes.paper }
-                       square>
-                  <Grid container
-                        spacing={ 3 }>
-                    <Grid item
-                          xs={ 12 }>
+            <Grid container spacing={ 3 }>
+              <Grid item xs={ 12 }>
+                <Paper component="div" className={ classes.paper } square>
+                  <Grid container spacing={ 3 }>
+                    <Grid item xs={ 12 }>
                       <Input text={ query } autoFocus={ true }
                              onChange={ this.handleOnChange.bind(this) }/>
                     </Grid>
@@ -286,5 +279,6 @@ class App extends React.Component {
     )
   }
 }
+
 
 export default withStyles(styles)(App)
