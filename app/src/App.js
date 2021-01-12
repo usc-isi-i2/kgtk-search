@@ -262,9 +262,30 @@ class App extends React.Component {
     )
   }
 
+  renderSettings() {
+    const { showSettings } = this.state
+    const { language, queryType } = this.state
+    if ( showSettings ) {
+      return (
+        <React.Fragment>
+          <Dropdown
+            options={ languageOptions }
+            onChange={ this.handleOnLanguageChange.bind(this) }
+            value={ language }
+            placeholder="Select Language" wi/>
+          <Dropdown
+            options={ queryTypeOptions }
+            onChange={ this.handleOnTypeChange.bind(this) }
+            value={ queryType }
+            placeholder="Select Query Type" wi/>
+        </React.Fragment>
+      )
+    }
+  }
+
   render () {
     const { classes } = this.props
-    const { language, queryType, query } = this.state
+    const { query } = this.state
     return (
       <ThemeProvider theme={ theme }>
         <Container maxWidth="xl">
@@ -281,16 +302,6 @@ class App extends React.Component {
           </Typography>
           <form className={ classes.form } noValidate
             onSubmit={ this.submit.bind(this) }>
-            <Dropdown
-              options={ languageOptions }
-              onChange={ this.handleOnLanguageChange.bind(this) }
-              value={ language }
-              placeholder="Select Language" wi/>
-            <Dropdown
-              options={ queryTypeOptions }
-              onChange={ this.handleOnTypeChange.bind(this) }
-              value={ queryType }
-              placeholder="Select Query Type" wi/>
             <Grid container spacing={ 3 }>
               <Grid item xs={ 12 }>
                 <Paper component="div" className={ classes.paper } square>
@@ -301,6 +312,7 @@ class App extends React.Component {
                     </Grid>
                   </Grid>
                   {this.renderSettingsToggle()}
+                  {this.renderSettings()}
                 </Paper>
                 { this.renderResults() }
               </Grid>
