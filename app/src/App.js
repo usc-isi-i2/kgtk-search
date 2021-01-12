@@ -174,7 +174,6 @@ class App extends React.Component {
     const { query } = this.state
     const { language } = this.state
     const { queryType } = this.state
-
     if ( !query ) {
       this.setState({ results: [] })
     } else {
@@ -184,9 +183,11 @@ class App extends React.Component {
           headers: {
             'Content-Type': 'application/json',
           },
-        }).then((response) => response.json()).then((results) => {
-        this.setState({ results })
-      })
+        })
+        .then((response) => response.json())
+        .then((results) => {
+          this.setState({ results })
+        })
     }
   }
 
