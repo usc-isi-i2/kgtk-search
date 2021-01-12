@@ -275,11 +275,22 @@ class App extends React.Component {
       return (
         <Grid container spacing={ 3 }>
           <Grid item xs={ 12 } sm={ 6 }>
-            <Dropdown
-              options={ LANGUAGE_OPTIONS }
-              onChange={ this.handleOnChangeLanguage.bind(this) }
-              value={ language }
-              placeholder="Select Language" wi/>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">
+                Language
+              </FormLabel>
+              <RadioGroup aria-label="query-type" name="query-type"
+                value={ language }
+                onChange={(event, option) => this.handleOnChangeLanguage(option)}>
+                { LANGUAGE_OPTIONS.map((option, index) => (
+                  <FormControlLabel
+                    key={ index }
+                    value={ option.value }
+                    control={ <Radio /> }
+                    label={ option.label } />
+                )) }
+              </RadioGroup>
+            </FormControl>
           </Grid>
           <Grid item xs={ 12 } sm={ 6 }>
             <FormControl component="fieldset">
