@@ -4,6 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormLabel from '@material-ui/core/FormLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
@@ -277,11 +282,20 @@ class App extends React.Component {
               placeholder="Select Language" wi/>
           </Grid>
           <Grid item xs={ 12 } sm={ 6 }>
-            <Dropdown
-              options={ QUERY_TYPE_OPTIONS }
-              onChange={ this.handleOnChangeQueryType.bind(this) }
-              value={ queryType }
-              placeholder="Select Query Type" wi/>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Query Type</FormLabel>
+              <RadioGroup aria-label="query-type" name="query-type"
+                value={ queryType }
+                onChange={(event, option) => this.handleOnChangeQueryType(option)}>
+                { QUERY_TYPE_OPTIONS.map((option, index) => (
+                  <FormControlLabel
+                    key={ index }
+                    value={ option.value }
+                    control={ <Radio /> }
+                    label={ option.label } />
+                )) }
+              </RadioGroup>
+            </FormControl>
           </Grid>
         </Grid>
       )
