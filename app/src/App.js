@@ -143,8 +143,8 @@ class App extends React.Component {
       query: '',
       results: [],
       showSettings: false,
-      language: LANGUAGE_OPTIONS[0],
-      queryType: QUERY_TYPE_OPTIONS[0],
+      language: LANGUAGE_OPTIONS[0].value,
+      queryType: QUERY_TYPE_OPTIONS[0].value,
     }
   }
 
