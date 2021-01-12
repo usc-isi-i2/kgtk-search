@@ -268,18 +268,22 @@ class App extends React.Component {
     const { language, queryType } = this.state
     if ( showSettings ) {
       return (
-        <React.Fragment>
-          <Dropdown
-            options={ languageOptions }
-            onChange={ this.handleOnLanguageChange.bind(this) }
-            value={ language }
-            placeholder="Select Language" wi/>
-          <Dropdown
-            options={ queryTypeOptions }
-            onChange={ this.handleOnTypeChange.bind(this) }
-            value={ queryType }
-            placeholder="Select Query Type" wi/>
-        </React.Fragment>
+        <Grid container spacing={ 3 }>
+          <Grid item xs={ 12 } sm={ 6 }>
+            <Dropdown
+              options={ languageOptions }
+              onChange={ this.handleOnLanguageChange.bind(this) }
+              value={ language }
+              placeholder="Select Language" wi/>
+          </Grid>
+          <Grid item xs={ 12 } sm={ 6 }>
+            <Dropdown
+              options={ queryTypeOptions }
+              onChange={ this.handleOnTypeChange.bind(this) }
+              value={ queryType }
+              placeholder="Select Query Type" wi/>
+          </Grid>
+        </Grid>
       )
     }
   }
