@@ -131,7 +131,7 @@ class App extends React.Component {
         'value': 'en',
         'label': 'English',
       },
-      type: {
+      queryType: {
         value: 'ngram',
         label: 'Ngram Query',
       },
@@ -151,21 +151,21 @@ class App extends React.Component {
     this.setState({ language })
   }
 
-  OnTypeChange (type) {
-    this.setState({ type })
+  OnTypeChange (queryType) {
+    this.setState({ queryType })
   }
 
   submit_es_query () {
     const { query } = this.state
     const { language } = this.state
-    const { type } = this.state
+    const { queryType } = this.state
 
     if ( !query ) {
       this.setState({ results: [] })
     } else {
       return fetch(
         `/api/${ query }?extra_info=true&language=${ language.value } \
-        &type=${ type.value }`,
+        &type=${ queryType.value }`,
         {
           method: 'GET',
           headers: {
@@ -230,7 +230,7 @@ class App extends React.Component {
 
   render () {
     const { classes } = this.props
-    const { language, type, query } = this.state
+    const { language, queryType, query } = this.state
     return (
       <ThemeProvider theme={ theme }>
         <Container maxWidth="xl">
@@ -255,7 +255,7 @@ class App extends React.Component {
             <Dropdown
               options={ queryTypeOptions }
               onChange={ this.OnTypeChange.bind(this) }
-              value={ type }
+              value={ queryType }
               placeholder="Select Query Type" wi/>
             <Grid container spacing={ 3 }>
               <Grid item xs={ 12 }>
