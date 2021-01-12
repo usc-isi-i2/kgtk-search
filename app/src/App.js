@@ -134,20 +134,20 @@ class App extends React.Component {
     this.setState({ query }, () => {
       clearTimeout(this.timeoutID)
       this.timeoutID = setTimeout(() => {
-        this.submit_es_query()
+        this.submitQuery()
       }, 300)
     })
   }
 
-  OnLanguageChange (language) {
+  handleOnLanguageChange (language) {
     this.setState({ language })
   }
 
-  OnTypeChange (queryType) {
+  handleOnTypeChange (queryType) {
     this.setState({ queryType })
   }
 
-  submit_es_query () {
+  submitQuery () {
     const { query } = this.state
     const { language } = this.state
     const { queryType } = this.state
@@ -171,7 +171,7 @@ class App extends React.Component {
 
   submit (event) {
     event.preventDefault()
-    this.submit_es_query()
+    this.submitQuery()
   }
 
   renderResults () {
@@ -241,12 +241,12 @@ class App extends React.Component {
             onSubmit={ this.submit.bind(this) }>
             <Dropdown
               options={ languageOptions }
-              onChange={ this.OnLanguageChange.bind(this) }
+              onChange={ this.handleOnLanguageChange.bind(this) }
               value={ language }
               placeholder="Select Language" wi/>
             <Dropdown
               options={ queryTypeOptions }
-              onChange={ this.OnTypeChange.bind(this) }
+              onChange={ this.handleOnTypeChange.bind(this) }
               value={ queryType }
               placeholder="Select Query Type" wi/>
             <Grid container spacing={ 3 }>
