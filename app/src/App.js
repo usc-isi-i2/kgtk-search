@@ -162,17 +162,16 @@ class App extends React.Component {
       this.setState({ results: [] })
     } else {
       return fetch(
-        `/api/${ query }?extra_info=true&language=${ language.value }&type=${ type.value }`,
+        `/api/${ query }?extra_info=true&language=${ language.value } \
+        &type=${ type.value }`,
         {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-        }).
-        then((response) => response.json()).
-        then((results) => {
-          this.setState({ results })
-        })
+        }).then((response) => response.json()).then((results) => {
+        this.setState({ results })
+      })
     }
   }
 
@@ -192,8 +191,7 @@ class App extends React.Component {
           component="h5"
           variant="h5"
           className={ classes.index }>
-          { i +
-          1 }.
+          { i + 1 }.
         </Typography>
         <Link
           href={ `https://sqid.toolforge.org/#/view?id=${ result.qnode }` }
@@ -217,8 +215,7 @@ class App extends React.Component {
                 component="span"
                 variant="body1"
                 className={ classes.description }>
-                <b>Alias:</b> { result.alias.join(
-                ', ') }
+                <b>Alias:</b> { result.alias.join(', ') }
               </Typography>
             )
             : null }
@@ -248,29 +245,21 @@ class App extends React.Component {
             <div className={ classes.logo }>
               <Logo/>
             </div>
-            Knowledge
-            Graph
-            Text
-            Search
+            Knowledge Graph Text Search
           </Typography>
           <form className={ classes.form }
                 noValidate
-                onSubmit={ this.submit.bind(
-                  this) }>
+                onSubmit={ this.submit.bind(this) }>
             <Dropdown
               options={ languageOptions }
-              onChange={ this.OnLanguageChange.bind(
-                this) }
+              onChange={ this.OnLanguageChange.bind(this) }
               value={ defaultLanguageOption }
-              placeholder="Select Language"
-              wi/>
+              placeholder="Select Language" wi/>
             <Dropdown
               options={ queryTypeOptions }
-              onChange={ this.OnTypeChange.bind(
-                this) }
+              onChange={ this.OnTypeChange.bind(this) }
               value={ defaultQueryTypeOption }
-              placeholder="Select Query Type"
-              wi/>
+              placeholder="Select Query Type" wi/>
             <Grid container
                   spacing={ 3 }>
               <Grid item
@@ -282,11 +271,8 @@ class App extends React.Component {
                         spacing={ 3 }>
                     <Grid item
                           xs={ 12 }>
-                      <Input
-                        text={ query }
-                        autoFocus={ true }
-                        onChange={ this.handleOnChange.bind(
-                          this) }/>
+                      <Input text={ query } autoFocus={ true }
+                             onChange={ this.handleOnChange.bind(this) }/>
                     </Grid>
                   </Grid>
                 </Paper>
