@@ -106,6 +106,7 @@ const styles = theme => ({
     position: 'relative',
     cursor: 'pointer',
     marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     color: '#fefefe',
     width: '100%',
     userSelect: 'none',
