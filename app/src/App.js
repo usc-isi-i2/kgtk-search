@@ -120,7 +120,7 @@ const styles = theme => ({
 })
 
 
-const languageOptions = [
+const LANGUAGE_OPTIONS = [
   { value: 'en', label: 'English' },
   { value: 'ru', label: 'Russian' },
   { value: 'es', label: 'Spanish' },
@@ -128,7 +128,7 @@ const languageOptions = [
 ]
 
 
-const queryTypeOptions = [
+const QUERY_TYPE_OPTIONS = [
   { value: 'ngram', label: 'Ngram Query' },
   { value: 'exact_match', label: 'Exact Match Query' },
 ]
@@ -143,8 +143,8 @@ class App extends React.Component {
       query: '',
       results: [],
       showSettings: false,
-      language: languageOptions[0],
-      queryType: queryTypeOptions[0],
+      language: LANGUAGE_OPTIONS[0],
+      queryType: QUERY_TYPE_OPTIONS[0],
     }
   }
 
@@ -271,14 +271,14 @@ class App extends React.Component {
         <Grid container spacing={ 3 }>
           <Grid item xs={ 12 } sm={ 6 }>
             <Dropdown
-              options={ languageOptions }
+              options={ LANGUAGE_OPTIONS }
               onChange={ this.handleOnLanguageChange.bind(this) }
               value={ language }
               placeholder="Select Language" wi/>
           </Grid>
           <Grid item xs={ 12 } sm={ 6 }>
             <Dropdown
-              options={ queryTypeOptions }
+              options={ QUERY_TYPE_OPTIONS }
               onChange={ this.handleOnTypeChange.bind(this) }
               value={ queryType }
               placeholder="Select Query Type" wi/>
