@@ -19,12 +19,9 @@ import {
   ThemeProvider,
 } from '@material-ui/core/styles'
 
-
 import Logo from './components/Logo'
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
-import Dropdown from 'react-dropdown'
-import 'react-dropdown/style.css'
 
 
 let theme = createMuiTheme()
