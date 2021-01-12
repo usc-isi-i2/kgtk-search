@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import {
   withStyles,
   createMuiTheme,
@@ -99,6 +101,20 @@ const styles = theme => ({
   description: {
     color: '#fefefe',
     textDecoration: 'none',
+  },
+  settingsToggle: {
+    position: 'relative',
+    cursor: 'pointer',
+    marginTop: theme.spacing(2),
+    color: '#fefefe',
+    width: '100%',
+    userSelect: 'none',
+    '@media (min-width:600px)': {
+      marginTop: theme.spacing(3),
+    },
+  },
+  expandIcon: {
+    verticalAlign: 'bottom',
   },
 })
 
@@ -220,6 +236,31 @@ class App extends React.Component {
     ))
   }
 
+  toggleSettings() {
+    const { showSettings } = this.state
+    this.setState({ showSettings: !showSettings })
+  }
+
+  renderSettingsToggle() {
+    const { showSettings } = this.state
+    const { classes } = this.props
+    return (
+      <Typography variant="button"
+        className={classes.settingsToggle}
+        onClick={this.toggleSettings.bind(this)}>
+        { showSettings ? (
+          <span>
+            <ExpandLessIcon className={classes.expandIcon} /> Hide settings
+          </span>
+        ) : (
+          <span>
+            <ExpandMoreIcon className={classes.expandIcon} /> Show settings
+          </span>
+        )}
+      </Typography>
+    )
+  }
+
   render () {
     const { classes } = this.props
     const { language, queryType, query } = this.state
@@ -255,9 +296,10 @@ class App extends React.Component {
                   <Grid container spacing={ 3 }>
                     <Grid item xs={ 12 }>
                       <Input text={ query } autoFocus={ true }
-                             onChange={ this.handleOnChange.bind(this) }/>
+                        onChange={ this.handleOnChange.bind(this) }/>
                     </Grid>
                   </Grid>
+                  {this.renderSettingsToggle()}
                 </Paper>
                 { this.renderResults() }
               </Grid>
