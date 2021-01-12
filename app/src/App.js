@@ -157,11 +157,11 @@ class App extends React.Component {
     })
   }
 
-  handleOnLanguageChange (language) {
+  handleOnChangeLanguage (language) {
     this.setState({ language })
   }
 
-  handleOnTypeChange (queryType) {
+  handleOnChangeQueryType (queryType) {
     this.setState({ queryType })
   }
 
@@ -272,14 +272,14 @@ class App extends React.Component {
           <Grid item xs={ 12 } sm={ 6 }>
             <Dropdown
               options={ LANGUAGE_OPTIONS }
-              onChange={ this.handleOnLanguageChange.bind(this) }
+              onChange={ this.handleOnChangeLanguage.bind(this) }
               value={ language }
               placeholder="Select Language" wi/>
           </Grid>
           <Grid item xs={ 12 } sm={ 6 }>
             <Dropdown
               options={ QUERY_TYPE_OPTIONS }
-              onChange={ this.handleOnTypeChange.bind(this) }
+              onChange={ this.handleOnChangeQueryType.bind(this) }
               value={ queryType }
               placeholder="Select Query Type" wi/>
           </Grid>
