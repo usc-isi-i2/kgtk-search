@@ -160,11 +160,15 @@ class App extends React.Component {
   }
 
   handleOnChangeLanguage (language) {
-    this.setState({ language })
+    this.setState({ language }, () => {
+      this.submitQuery()
+    })
   }
 
   handleOnChangeQueryType (queryType) {
-    this.setState({ queryType })
+    this.setState({ queryType }, () => {
+      this.submitQuery()
+    })
   }
 
   submitQuery () {
