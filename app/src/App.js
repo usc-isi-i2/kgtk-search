@@ -179,9 +179,7 @@ class App extends React.Component {
       this.setState({ results: [] })
     } else {
       return fetch(
-        `/api/${ query }?extra_info=true&language=${ language.value } \
-        &type=${ queryType.value }`,
-        {
+        `/api/${query}?extra_info=true&language=${language}&type=${queryType}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
