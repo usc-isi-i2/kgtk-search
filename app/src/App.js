@@ -125,14 +125,8 @@ class App extends React.Component {
     this.state = {
       query: '',
       results: [],
-      language: {
-        'value': 'en',
-        'label': 'English',
-      },
-      queryType: {
-        value: 'ngram',
-        label: 'Ngram Query',
-      },
+      language: languageOptions[0],
+      queryType: queryTypeOptions[0],
     }
   }
 
