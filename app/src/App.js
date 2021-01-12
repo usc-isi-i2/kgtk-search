@@ -141,6 +141,7 @@ class App extends React.Component {
     this.state = {
       query: '',
       results: [],
+      showSettings: false,
       language: languageOptions[0],
       queryType: queryTypeOptions[0],
     }
