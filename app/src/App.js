@@ -117,7 +117,18 @@ const styles = theme => ({
       marginTop: theme.spacing(3),
     },
   },
-  expandIcon: {
+  settingsLabel: {
+    color: '#fefefe',
+    userSelect: 'none',
+    '&.Mui-focused': {
+      color: '#fefefe',
+    },
+  },
+  settingsRadioGroup: {
+    color: '#fefefe',
+    userSelect: 'none',
+  },
+  alignedIcon: {
     verticalAlign: 'bottom',
   },
 })
@@ -258,11 +269,11 @@ class App extends React.Component {
         onClick={this.toggleSettings.bind(this)}>
         { showSettings ? (
           <span>
-            <ExpandLessIcon className={classes.expandIcon} /> Hide settings
+            <ExpandLessIcon className={classes.alignedIcon} /> Hide settings
           </span>
         ) : (
           <span>
-            <ExpandMoreIcon className={classes.expandIcon} /> Show settings
+            <ExpandMoreIcon className={classes.alignedIcon} /> Show settings
           </span>
         )}
       </Typography>
@@ -270,24 +281,25 @@ class App extends React.Component {
   }
 
   renderSettings() {
-    const { showSettings } = this.state
-    const { language, queryType } = this.state
+    const { language, queryType, showSettings } = this.state
+    const { classes } = this.props
     if ( showSettings ) {
       return (
         <Grid container spacing={ 3 }>
           <Grid item xs={ 12 } sm={ 6 }>
             <FormControl component="fieldset">
-              <FormLabel component="legend">
-                <TranslateIcon /> Language
+              <FormLabel component="legend" className={classes.settingsLabel}>
+                <TranslateIcon className={classes.alignedIcon} /> Language
               </FormLabel>
               <RadioGroup aria-label="query-type" name="query-type"
                 value={ language }
+                className={classes.settingsRadioGroup}
                 onChange={(event, option) => this.handleOnChangeLanguage(option)}>
                 { LANGUAGE_OPTIONS.map((option, index) => (
                   <FormControlLabel
                     key={ index }
                     value={ option.value }
-                    control={ <Radio /> }
+                    control={ <Radio color="default" /> }
                     label={ option.label } />
                 )) }
               </RadioGroup>
@@ -295,15 +307,18 @@ class App extends React.Component {
           </Grid>
           <Grid item xs={ 12 } sm={ 6 }>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Query Type</FormLabel>
+              <FormLabel component="legend" className={classes.settingsLabel}>
+                Query Type
+              </FormLabel>
               <RadioGroup aria-label="query-type" name="query-type"
                 value={ queryType }
+                className={classes.settingsRadioGroup}
                 onChange={(event, option) => this.handleOnChangeQueryType(option)}>
                 { QUERY_TYPE_OPTIONS.map((option, index) => (
                   <FormControlLabel
                     key={ index }
                     value={ option.value }
-                    control={ <Radio /> }
+                    control={ <Radio color="default" /> }
                     label={ option.label } />
                 )) }
               </RadioGroup>
