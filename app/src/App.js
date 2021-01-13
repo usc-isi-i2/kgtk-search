@@ -12,7 +12,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
-import TranslateIcon from '@material-ui/icons/Translate'
 import {
   withStyles,
   createMuiTheme,
@@ -289,7 +288,7 @@ class App extends React.Component {
           <Grid item xs={ 12 } sm={ 6 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
-                <TranslateIcon className={classes.alignedIcon} /> Language
+                Language
               </FormLabel>
               <RadioGroup aria-label="query-type" name="query-type"
                 value={ language }
