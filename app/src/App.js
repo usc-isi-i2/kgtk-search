@@ -142,8 +142,8 @@ const LANGUAGE_OPTIONS = [
 
 
 const QUERY_TYPE_OPTIONS = [
-  { value: 'ngram', label: 'Ngram Query' },
   { value: 'exact_match', label: 'Exact Match Query' },
+  { value: 'ngram', label: 'Ngram Query' },
 ]
 
 
