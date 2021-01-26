@@ -334,9 +334,11 @@ class App extends React.Component {
             component="h3"
             variant="h3"
             className={ classes.header }>
-            <div className={ classes.logo }>
-              <Logo/>
-            </div>
+            <a href="https://github.com/usc-isi-i2/kgtk" title="Knowledge Graph Toolkit" rel="noopener noreferrer nofollow" target="_blank">
+              <div className={ classes.logo }>
+                <Logo/>
+              </div>
+            </a>
             Knowledge Graph Text Search
           </Typography>
           <form className={ classes.form } noValidate
