@@ -243,12 +243,6 @@ class App extends React.Component {
               <b>Alias:</b> { result.alias.join(', ') }
             </Typography>
           ) : null }
-          <Typography
-            component="p"
-            variant="body1"
-            className={ classes.description }>
-            <b>Pagerank:</b> { result.pagerank }
-          </Typography>
         </Link>
       </Grid>
     ))
