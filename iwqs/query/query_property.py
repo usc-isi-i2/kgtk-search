@@ -8,11 +8,6 @@ query_property = {
                             "exists": {
                                 "field": "data_type"
                             }
-                        },
-                        {
-                            "term": {
-
-                            }
                         }
                     ]
                 }

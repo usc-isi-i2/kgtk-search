@@ -73,13 +73,26 @@ class Search(object):
 
     def create_property_query(self, search_term, size='20', query_type='ngram'):
         search_term = search_term.lower()
-        search_field = 'all_labels.en.keyword_lower'
+
         if query_type == 'ngram':
             search_field = 'all_labels.en.ngram'
+            query_part = {
+                "match": {
+                    search_field: {
+                        "query": search_term,
+                        "operator": "and"
+                    }
+                }
+            }
+        else:
+            search_field = 'all_labels.en.keyword_lower'
+            query_part = {
+                "term": {
+                    search_field: search_term
+                }
+            }
 
         _property_query = self.query_property
-        _property_query['query']['function_score']['query']['bool']['filter'][1]['term'] = {
-            search_field: search_term
-        }
+        _property_query['query']['function_score']['query']['bool']['filter'].append(query_part)
         _property_query['size'] = size
         return _property_query
