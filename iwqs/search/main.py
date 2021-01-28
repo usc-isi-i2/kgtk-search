@@ -23,7 +23,7 @@ class FindNearestQnodes(Resource):
         extra_info = request.args.get('extra_info', 'false').lower() == 'true'
 
         if query_type == 'ngram':
-            query = es_search.create_ngram_query(search_term, size=size)
+            query = es_search.create_ngram_query(search_term, size=size, language=language)
         else:
             query = es_search.create_exact_match_query(search_term, lowercase, size=size, language=language)
 
