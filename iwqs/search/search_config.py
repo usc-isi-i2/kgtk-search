@@ -1,2 +1,2 @@
-es_url = 'http://kg2018a.isi.edu:9200'
-es_index = 'wikidataos-03'
+es_url = 'http://ckg06.isi.edu:9200'
+es_index = 'wikidataos-05'
