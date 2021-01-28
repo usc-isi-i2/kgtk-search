@@ -4,6 +4,7 @@ import logging
 from requests.auth import HTTPBasicAuth
 from iwqs.query.exact_match_query import query
 from iwqs.query.ngram_query import ngram_query
+from iwqs.query.query_property import query_property
 
 
 class Search(object):
@@ -14,6 +15,7 @@ class Search(object):
         self.es_pass = es_pass
         self.query = copy.deepcopy(query)
         self.ngram_query = copy.deepcopy(ngram_query)
+        self.query_property = copy.deepcopy(query_property)
         self.logger = logging.getLogger(__name__)
 
     def search_es(self, query):
@@ -68,3 +70,29 @@ class Search(object):
         ngrams_query['query']['function_score']['query']['bool']['should'][0]['match'][search_field] = query_part
         ngrams_query['size'] = size
         return ngrams_query
+
+    def create_property_query(self, search_term, size='20', query_type='ngram'):
+        search_term = search_term.lower()
+
+        if query_type == 'ngram':
+            search_field = 'all_labels.en.ngram'
+            query_part = {
+                "match": {
+                    search_field: {
+                        "query": search_term,
+                        "operator": "and"
+                    }
+                }
+            }
+        else:
+            search_field = 'all_labels.en.keyword_lower'
+            query_part = {
+                "term": {
+                    search_field: search_term
+                }
+            }
+
+        _property_query = self.query_property
+        _property_query['query']['function_score']['query']['bool']['filter'].append(query_part)
+        _property_query['size'] = size
+        return _property_query

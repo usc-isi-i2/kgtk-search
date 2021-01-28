@@ -147,6 +147,11 @@ const QUERY_TYPE_OPTIONS = [
 
 ]
 
+const ITEM_TYPE_OPTIONS = [
+  { value: 'qnode', label: 'Qnode' },
+  { value: 'property', label: 'Property' }
+]
+
 
 class App extends React.Component {
 
@@ -159,6 +164,7 @@ class App extends React.Component {
       showSettings: false,
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
+      itemType: ITEM_TYPE_OPTIONS[0].value
     }
   }
 
@@ -183,15 +189,22 @@ class App extends React.Component {
     })
   }
 
+  handleOnChangeItemType (itemType) {
+    this.setState({ itemType }, () => {
+      this.submitQuery()
+    })
+  }
+
   submitQuery () {
     const { query } = this.state
     const { language } = this.state
     const { queryType } = this.state
+    const { itemType } = this.state
     if ( !query ) {
       this.setState({ results: [] })
     } else {
       return fetch(
-        `/api/${query}?extra_info=true&language=${language}&type=${queryType}`, {
+        `/api/${query}?extra_info=true&language=${language}&type=${queryType}&item=${itemType}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -275,12 +288,12 @@ class App extends React.Component {
   }
 
   renderSettings() {
-    const { language, queryType, showSettings } = this.state
+    const { language, queryType, itemType, showSettings } = this.state
     const { classes } = this.props
     if ( showSettings ) {
       return (
         <Grid container spacing={ 3 }>
-          <Grid item xs={ 12 } sm={ 6 }>
+          <Grid item xs={ 8 } sm={ 4 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Language
@@ -299,7 +312,7 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 12 } sm={ 6 }>
+          <Grid item xs={ 8 } sm={ 4 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Query Type
@@ -309,6 +322,25 @@ class App extends React.Component {
                 className={classes.settingsRadioGroup}
                 onChange={(event, option) => this.handleOnChangeQueryType(option)}>
                 { QUERY_TYPE_OPTIONS.map((option, index) => (
+                  <FormControlLabel
+                    key={ index }
+                    value={ option.value }
+                    control={ <Radio color="default" /> }
+                    label={ option.label } />
+                )) }
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={ 8 } sm={ 4 }>
+            <FormControl component="fieldset">
+              <FormLabel component="legend" className={classes.settingsLabel}>
+                Search
+              </FormLabel>
+              <RadioGroup aria-label="search-qnode" name="search-qnode"
+                value={ itemType }
+                className={classes.settingsRadioGroup}
+                onChange={(event, option) => this.handleOnChangeItemType(option)}>
+                { ITEM_TYPE_OPTIONS.map((option, index) => (
                   <FormControlLabel
                     key={ index }
                     value={ option.value }
