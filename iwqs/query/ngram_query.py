@@ -1,11 +1,13 @@
-query = {
+ngram_query = {
     "query": {
         "function_score": {
             "query": {
                 "bool": {
                     "should": [
                         {
-                            "term": {}
+                            "match": {
+
+                            }
                         }
                     ],
                     "must_not": [

@@ -4,13 +4,24 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormLabel from '@material-ui/core/FormLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
-import { withStyles, createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import {
+  withStyles,
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+} from '@material-ui/core/styles'
 
 import Logo from './components/Logo'
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
-
 
 
 let theme = createMuiTheme()
@@ -43,7 +54,7 @@ const styles = theme => ({
     paddingTop: theme.spacing(6),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
-    paddingBottom: theme.spacing(6),
+    paddingBottom: theme.spacing(2),
     backgroundColor: 'rgba(254, 254, 254, 0.25)',
     display: 'flex',
     flexDirection: 'column',
@@ -93,115 +104,263 @@ const styles = theme => ({
     color: '#fefefe',
     textDecoration: 'none',
   },
+  settingsToggle: {
+    position: 'relative',
+    cursor: 'pointer',
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    color: '#fefefe',
+    width: '100%',
+    userSelect: 'none',
+    '@media (min-width:600px)': {
+      marginTop: theme.spacing(3),
+    },
+  },
+  settingsLabel: {
+    color: '#fefefe',
+    userSelect: 'none',
+    '&.Mui-focused': {
+      color: '#fefefe',
+    },
+  },
+  settingsRadioGroup: {
+    color: '#fefefe',
+    userSelect: 'none',
+  },
+  alignedIcon: {
+    verticalAlign: 'bottom',
+  },
 })
+
+
+const LANGUAGE_OPTIONS = [
+  { value: 'en', label: 'English' },
+  { value: 'ru', label: 'Russian' },
+  { value: 'es', label: 'Spanish' },
+  { value: 'zh-cn', label: 'Simplified Chinese' },
+]
+
+
+const QUERY_TYPE_OPTIONS = [
+  { value: 'ngram', label: 'Autocompletion Search' },
+  { value: 'exact_match', label: 'Exact Match Search' }
+
+]
 
 
 class App extends React.Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
       query: '',
       results: [],
+      showSettings: false,
+      language: LANGUAGE_OPTIONS[0].value,
+      queryType: QUERY_TYPE_OPTIONS[0].value,
     }
   }
 
-  handleOnChange(query) {
-    this.setState({query})
+  handleOnChange (query) {
+    this.setState({ query }, () => {
+      clearTimeout(this.timeoutID)
+      this.timeoutID = setTimeout(() => {
+        this.submitQuery()
+      }, 300)
+    })
   }
 
-  submit(event) {
-    event.preventDefault()
+  handleOnChangeLanguage (language) {
+    this.setState({ language }, () => {
+      this.submitQuery()
+    })
+  }
+
+  handleOnChangeQueryType (queryType) {
+    this.setState({ queryType }, () => {
+      this.submitQuery()
+    })
+  }
+
+  submitQuery () {
     const { query } = this.state
-    return fetch(`/api/${query}?extra_info=true`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then((response) => response.json())
-    .then((results) => {
-      this.setState({results})
-    })
+    const { language } = this.state
+    const { queryType } = this.state
+    if ( !query ) {
+      this.setState({ results: [] })
+    } else {
+      return fetch(
+        `/api/${query}?extra_info=true&language=${language}&type=${queryType}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((response) => response.json())
+        .then((results) => {
+          this.setState({ results })
+        })
+    }
   }
 
-  renderResults() {
+  submit (event) {
+    event.preventDefault()
+    this.submitQuery()
+  }
+
+  renderResults () {
     const { classes } = this.props
     const { results } = this.state
     return results.map((result, i) => (
-      <Grid item xs={12} key={i}
-        className={classes.result}>
+      <Grid item xs={ 12 } key={ i } className={ classes.result }>
         <Typography
           component="h5"
           variant="h5"
-          className={classes.index}>
-          {i+1}.
+          className={ classes.index }>
+          { i + 1 }.
         </Typography>
         <Link
-          href={`https://sqid.toolforge.org/#/view?id=${result.qnode}`}
+          href={ `https://sqid.toolforge.org/#/view?id=${ result.qnode }` }
           target="_blank"
-          className={classes.link}>
+          className={ classes.link }>
           <Typography
             component="h5"
             variant="h5"
-            className={classes.label}>
-            {result.label[0]} ({result.qnode})
+            className={ classes.label }>
+            { result.label[0] } ({ result.qnode })
           </Typography>
           <Typography
             component="p"
             variant="body1"
-            className={classes.description}>
-            {result.description[0]}
+            className={ classes.description }>
+            <b>Description:</b> { result.description[0] }
           </Typography>
-          {!!result.alias.length ? (
+          { !!result.alias.length ? (
             <Typography
               component="span"
               variant="body1"
-              className={classes.description}>
-              {result.alias.join(', ')}
+              className={ classes.description }>
+              <b>Alias:</b> { result.alias.join(', ') }
             </Typography>
-          ) : null}
+          ) : null }
         </Link>
       </Grid>
     ))
   }
 
-  render() {
+  toggleSettings() {
+    const { showSettings } = this.state
+    this.setState({ showSettings: !showSettings })
+  }
+
+  renderSettingsToggle() {
+    const { showSettings } = this.state
+    const { classes } = this.props
+    return (
+      <Typography variant="button"
+        className={classes.settingsToggle}
+        onClick={this.toggleSettings.bind(this)}>
+        { showSettings ? (
+          <span>
+            <ExpandLessIcon className={classes.alignedIcon} /> Hide settings
+          </span>
+        ) : (
+          <span>
+            <ExpandMoreIcon className={classes.alignedIcon} /> Show settings
+          </span>
+        )}
+      </Typography>
+    )
+  }
+
+  renderSettings() {
+    const { language, queryType, showSettings } = this.state
+    const { classes } = this.props
+    if ( showSettings ) {
+      return (
+        <Grid container spacing={ 3 }>
+          <Grid item xs={ 12 } sm={ 6 }>
+            <FormControl component="fieldset">
+              <FormLabel component="legend" className={classes.settingsLabel}>
+                Language
+              </FormLabel>
+              <RadioGroup aria-label="query-type" name="query-type"
+                value={ language }
+                className={classes.settingsRadioGroup}
+                onChange={(event, option) => this.handleOnChangeLanguage(option)}>
+                { LANGUAGE_OPTIONS.map((option, index) => (
+                  <FormControlLabel
+                    key={ index }
+                    value={ option.value }
+                    control={ <Radio color="default" /> }
+                    label={ option.label } />
+                )) }
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={ 12 } sm={ 6 }>
+            <FormControl component="fieldset">
+              <FormLabel component="legend" className={classes.settingsLabel}>
+                Query Type
+              </FormLabel>
+              <RadioGroup aria-label="query-type" name="query-type"
+                value={ queryType }
+                className={classes.settingsRadioGroup}
+                onChange={(event, option) => this.handleOnChangeQueryType(option)}>
+                { QUERY_TYPE_OPTIONS.map((option, index) => (
+                  <FormControlLabel
+                    key={ index }
+                    value={ option.value }
+                    control={ <Radio color="default" /> }
+                    label={ option.label } />
+                )) }
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+        </Grid>
+      )
+    }
+  }
+
+  render () {
     const { classes } = this.props
     const { query } = this.state
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={ theme }>
         <Container maxWidth="xl">
-          <div id="top" />
-          <CssBaseline />
+          <div id="top"/>
+          <CssBaseline/>
           <Typography
             component="h3"
             variant="h3"
-            className={classes.header}>
-            <div className={classes.logo}>
-              <Logo />
-            </div>
+            className={ classes.header }>
+            <a href="https://github.com/usc-isi-i2/kgtk" title="Knowledge Graph Toolkit" rel="noopener noreferrer nofollow" target="_blank">
+              <div className={ classes.logo }>
+                <Logo/>
+              </div>
+            </a>
             Knowledge Graph Text Search
           </Typography>
-          <form className={classes.form} noValidate onSubmit={this.submit.bind(this)}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Paper component="div" className={classes.paper} square>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <Input
-                        text={query}
-                        autoFocus={true}
-                        onChange={this.handleOnChange.bind(this)} />
+          <form className={ classes.form } noValidate
+            onSubmit={ this.submit.bind(this) }>
+            <Grid container spacing={ 3 }>
+              <Grid item xs={ 12 }>
+                <Paper component="div" className={ classes.paper } square>
+                  <Grid container spacing={ 3 }>
+                    <Grid item xs={ 12 }>
+                      <Input text={ query } autoFocus={ true }
+                        onChange={ this.handleOnChange.bind(this) }/>
                     </Grid>
                   </Grid>
+                  {this.renderSettingsToggle()}
+                  {this.renderSettings()}
                 </Paper>
-                {this.renderResults()}
+                { this.renderResults() }
               </Grid>
             </Grid>
           </form>
-          <ArrowUp />
+          <ArrowUp/>
         </Container>
       </ThemeProvider>
     )
