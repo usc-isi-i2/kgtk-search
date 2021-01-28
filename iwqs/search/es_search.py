@@ -57,9 +57,14 @@ class Search(object):
         exact_match_query['size'] = size
         return exact_match_query
 
-    def create_ngram_query(self, search_term, size=20):
+    def create_ngram_query(self, search_term, language='en', size=20):
+        query_part = {
+            "query": search_term,
+            "operator": "and"
+        }
+
+        search_field = f'all_labels.{language}.ngram'
         ngrams_query = self.ngram_query
-        ngrams_query['query']['function_score']['query']['bool']['should'][0]['match'][
-            'all_labels.en.ngram']['query'] = search_term
+        ngrams_query['query']['function_score']['query']['bool']['should'][0]['match'][search_field] = query_part
         ngrams_query['size'] = size
         return ngrams_query
