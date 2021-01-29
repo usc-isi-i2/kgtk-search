@@ -257,6 +257,15 @@ class App extends React.Component {
               <b>Alias:</b> { result.alias.join(', ') }
             </Typography>
           ) : null }
+          <br />
+          { !!result.data_type ? (
+            <Typography
+              component="span"
+              variant="body1"
+              className={ classes.description }>
+              <b>Data type:</b> { result.data_type }
+            </Typography>
+          ) : null }
         </Link>
       </Grid>
     ))
