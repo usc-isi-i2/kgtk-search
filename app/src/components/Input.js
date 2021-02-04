@@ -14,12 +14,22 @@ const CustomTextField = withStyles({
       },
       color: '#fefefe',
     },
+    '&.small .MuiFormLabel-root': {
+      '@media (min-width:600px)': {
+        fontSize: '1rem',
+      }
+    },
     '& .MuiInput-input': {
       '@media (min-width:600px)': {
         fontSize: '2rem',
       },
       color: '#fefefe',
       transition: 'background 0.3s ease',
+    },
+    '&.small .MuiInput-input': {
+      '@media (min-width:600px)': {
+        fontSize: '1.5rem'
+      }
     },
     '& label.Mui-focused': {
       color: '#fefefe',
@@ -58,7 +68,7 @@ class Input extends React.Component {
   }
 
   render() {
-    const { autoFocus, query, disabled, label } = this.props
+    const { autoFocus, query, disabled, label, className } = this.props
     return (
       <CustomTextField
         ref={this.input}
@@ -71,6 +81,7 @@ class Input extends React.Component {
         autoComplete="off"
         onChange={this.handleOnChange.bind(this)}
         fullWidth
+        className={className}
       />
     )
   }
