@@ -14,7 +14,7 @@ class FindNearestQnodes(Resource):
         language = request.args.get('language', None)
         query_type = request.args.get('type', 'ngram')
         item = request.args.get('item', 'qnode')
-        instance_of = request.args.get('instance_of', None)
+        instance_of = request.args.get('instance_of', '')
 
         if user_es_url and user_es_index:
             es_search = Search(user_es_url, user_es_index)
