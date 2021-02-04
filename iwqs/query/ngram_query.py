@@ -3,13 +3,7 @@ ngram_query = {
         "function_score": {
             "query": {
                 "bool": {
-                    "should": [
-                        {
-                            "match": {
-
-                            }
-                        }
-                    ],
+                    "must": [],
                     "must_not": [
                         {
                             "term": {
