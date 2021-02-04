@@ -31,7 +31,8 @@ class FindNearestQnodes(Resource):
                 query = es_search.create_exact_match_query(search_term, lowercase, size=size, language=language,
                                                            instance_of=instance_of)
         else:
-            query = es_search.create_property_query(search_term, size=size, query_type=query_type)
+            query = es_search.create_property_query(search_term, size=size, query_type=query_type,
+                                                    instance_of=instance_of)
 
         results = es_search.search_es(query)
         r_objs = []

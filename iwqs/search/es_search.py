@@ -137,12 +137,20 @@ class Search(object):
                 }
             }
 
+        exists_part = {
+            "exists": {
+                "field": "data_type"
+            }
+        }
+
         _property_query = self.query_property
         _property_query['query']['function_score']['query']['bool']['must'].append(query_part)
+
+        _property_query['query']['function_score']['query']['bool']['must'].append(exists_part)
 
         if instance_of_part is not None:
             _property_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
 
         _property_query['size'] = size
-
+        
         return _property_query
