@@ -72,7 +72,9 @@ class Search(object):
 
         if instance_of_part is not None:
             exact_match_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
+
         exact_match_query['size'] = size
+
         return exact_match_query
 
     def create_ngram_query(self, search_term, language='en', size=20, instance_of=''):
@@ -94,11 +96,15 @@ class Search(object):
                     }
                 }
             }
+
         ngrams_query = self.ngram_query
         ngrams_query['query']['function_score']['query']['bool']['must'].append(query_part)
+
         if instance_of_part is not None:
             ngrams_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
+
         ngrams_query['size'] = size
+
         return ngrams_query
 
     def create_property_query(self, search_term, size='20', query_type='ngram', instance_of=''):
@@ -133,7 +139,10 @@ class Search(object):
 
         _property_query = self.query_property
         _property_query['query']['function_score']['query']['bool']['must'].append(query_part)
+
         if instance_of_part is not None:
             _property_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
+
         _property_query['size'] = size
+
         return _property_query
