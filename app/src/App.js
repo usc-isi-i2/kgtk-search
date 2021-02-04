@@ -369,10 +369,7 @@ class App extends React.Component {
           </Grid>
           <Grid item xs={ 6 } sm={ 3 }>
             <FormControl component="fieldset">
-              <FormLabel component="legend" className={classes.settingsLabel}>
-                Instance Of
-              </FormLabel>
-              <Input text={ instanceOfType } autoFocus={ false } value={''} label={''}
+              <Input text={ instanceOfType } autoFocus={ false } value={''} label={'instance of'}
                         onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
             </FormControl>
           </Grid>
@@ -407,7 +404,7 @@ class App extends React.Component {
                 <Paper component="div" className={ classes.paper } square>
                   <Grid container spacing={ 3 }>
                     <Grid item xs={ 12 }>
-                      <Input text={ query } autoFocus={ true }
+                      <Input text={ query } autoFocus={ true } label={'Search'}
                         onChange={ this.handleOnChange.bind(this) }/>
                     </Grid>
                   </Grid>
