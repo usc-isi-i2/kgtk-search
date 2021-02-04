@@ -58,13 +58,13 @@ class Input extends React.Component {
   }
 
   render() {
-    const { autoFocus, query, disabled } = this.props
+    const { autoFocus, query, disabled, label } = this.props
     return (
       <CustomTextField
         ref={this.input}
         id={'q'}
         name={'q'}
-        label={'Search'}
+        label={label}
         value={query}
         disabled={disabled}
         autoFocus={autoFocus}
