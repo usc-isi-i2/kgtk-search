@@ -11,6 +11,13 @@ ngram_query = {
                                     "value": "wikimedia disambiguation page"
                                 }
                             }
+                        },
+                        {
+                            "term": {
+                                "descriptions.en.keyword_lower": {
+                                    "value": "wikimedia category"
+                                }
+                            }
                         }
                     ]
                 }
