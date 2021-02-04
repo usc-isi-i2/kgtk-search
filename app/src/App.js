@@ -369,7 +369,7 @@ class App extends React.Component {
           </Grid>
           <Grid item xs={ 6 } sm={ 3 }>
             <FormControl component="fieldset">
-              <Input text={ instanceOfType } autoFocus={ false } value={''} label={'instance of'}
+              <Input text={ instanceOfType } autoFocus={ false } value={''} label={'instance of'} className={'small'}
                         onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
             </FormControl>
           </Grid>
