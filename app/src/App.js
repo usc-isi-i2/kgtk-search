@@ -164,7 +164,8 @@ class App extends React.Component {
       showSettings: false,
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
-      itemType: ITEM_TYPE_OPTIONS[0].value
+      itemType: ITEM_TYPE_OPTIONS[0].value,
+      instanceOfType: ''
     }
   }
 
@@ -195,16 +196,23 @@ class App extends React.Component {
     })
   }
 
+  handleOnChangeInstanceOfType(instanceOfType) {
+    this.setState({ instanceOfType }, () => {
+      this.submitQuery()
+    })
+  }
+
   submitQuery () {
     const { query } = this.state
     const { language } = this.state
     const { queryType } = this.state
     const { itemType } = this.state
+    const { instanceOfType } = this.state
     if ( !query ) {
       this.setState({ results: [] })
     } else {
       return fetch(
-        `/api/${query}?extra_info=true&language=${language}&type=${queryType}&item=${itemType}`, {
+        `/api/${query}?extra_info=true&language=${language}&type=${queryType}&item=${itemType}&instance_of=${instanceOfType}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -297,12 +305,12 @@ class App extends React.Component {
   }
 
   renderSettings() {
-    const { language, queryType, itemType, showSettings } = this.state
+    const { language, queryType, itemType, instanceOfType, showSettings } = this.state
     const { classes } = this.props
     if ( showSettings ) {
       return (
         <Grid container spacing={ 3 }>
-          <Grid item xs={ 8 } sm={ 4 }>
+          <Grid item xs={ 6 } sm={ 3 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Language
@@ -321,7 +329,7 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 8 } sm={ 4 }>
+          <Grid item xs={ 6 } sm={ 3 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Query Type
@@ -340,7 +348,7 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 8 } sm={ 4 }>
+          <Grid item xs={ 6 } sm={ 3 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Search
@@ -357,6 +365,15 @@ class App extends React.Component {
                     label={ option.label } />
                 )) }
               </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={ 6 } sm={ 3 }>
+            <FormControl component="fieldset">
+              <FormLabel component="legend" className={classes.settingsLabel}>
+                Instance Of
+              </FormLabel>
+              <Input text={ instanceOfType } autoFocus={ false } value={''} label={''}
+                        onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
             </FormControl>
           </Grid>
         </Grid>
