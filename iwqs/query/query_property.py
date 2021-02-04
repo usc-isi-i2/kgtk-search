@@ -3,13 +3,7 @@ query_property = {
         "function_score": {
             "query": {
                 "bool": {
-                    "filter": [
-                        {
-                            "exists": {
-                                "field": "data_type"
-                            }
-                        }
-                    ]
+                    "must": []
                 }
             },
             "boost": 1,
