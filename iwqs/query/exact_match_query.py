@@ -3,11 +3,7 @@ query = {
         "function_score": {
             "query": {
                 "bool": {
-                    "should": [
-                        {
-                            "term": {}
-                        }
-                    ],
+                    "must": [],
                     "must_not": [
                         {
                             "term": {
