@@ -14,6 +14,7 @@ class FindNearestQnodes(Resource):
         language = request.args.get('language', None)
         query_type = request.args.get('type', 'ngram')
         item = request.args.get('item', 'qnode')
+        instance_of = request.args.get('instance_of', None)
 
         if user_es_url and user_es_index:
             es_search = Search(user_es_url, user_es_index)
@@ -25,9 +26,10 @@ class FindNearestQnodes(Resource):
 
         if item == 'qnode':
             if query_type == 'ngram':
-                query = es_search.create_ngram_query(search_term, size=size, language=language)
+                query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of=instance_of)
             else:
-                query = es_search.create_exact_match_query(search_term, lowercase, size=size, language=language)
+                query = es_search.create_exact_match_query(search_term, lowercase, size=size, language=language,
+                                                           instance_of=instance_of)
         else:
             query = es_search.create_property_query(search_term, size=size, query_type=query_type)
 
@@ -57,10 +59,13 @@ class FindNearestQnodes(Resource):
             elif len(list(source['descriptions'])) > 0:
                 descriptions = source['descriptions'][list(source['descriptions'])[0]]
 
+            data_type = source.get('data_type', None)
+
             r_objs.append(SearchResult(source['id'],
                                        labels,
                                        aliases,
                                        descriptions,
-                                       source['pagerank']))
+                                       source['pagerank'],
+                                       data_type=data_type))
 
         return [x.to_json(extra_info=extra_info) for x in r_objs]

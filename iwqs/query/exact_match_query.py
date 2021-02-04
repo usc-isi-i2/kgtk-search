@@ -3,16 +3,19 @@ query = {
         "function_score": {
             "query": {
                 "bool": {
-                    "should": [
-                        {
-                            "term": {}
-                        }
-                    ],
+                    "must": [],
                     "must_not": [
                         {
                             "term": {
                                 "descriptions.en.keyword_lower": {
                                     "value": "wikimedia disambiguation page"
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "descriptions.en.keyword_lower": {
+                                    "value": "wikimedia category"
                                 }
                             }
                         }

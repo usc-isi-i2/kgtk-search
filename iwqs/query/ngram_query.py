@@ -3,18 +3,19 @@ ngram_query = {
         "function_score": {
             "query": {
                 "bool": {
-                    "should": [
-                        {
-                            "match": {
-
-                            }
-                        }
-                    ],
+                    "must": [],
                     "must_not": [
                         {
                             "term": {
                                 "descriptions.en.keyword_lower": {
                                     "value": "wikimedia disambiguation page"
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "descriptions.en.keyword_lower": {
+                                    "value": "wikimedia category"
                                 }
                             }
                         }

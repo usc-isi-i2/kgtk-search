@@ -36,8 +36,17 @@ class Search(object):
 
         return response_output
 
-    def create_exact_match_query(self, search_term, lower_case, size=20, language=None):
+    def create_exact_match_query(self, search_term, lower_case, size=20, language=None, instance_of=''):
         exact_match_query = self.query
+        instance_of_part = None
+        if instance_of.strip():
+            instance_of_part = {
+                "term": {
+                    "instance_ofs.keyword_lower": {
+                        "value": instance_of.lower()
+                    }
+                }
+            }
 
         if language is not None:
             search_field = f'all_labels.{language}'
@@ -51,27 +60,63 @@ class Search(object):
         if lower_case:
             search_term = search_term.lower()
 
-        exact_match_query['query']['function_score']['query']['bool']['should'][0]['term'] = {
-            search_field: {
-                'value': search_term
+        query_part = {
+            "term": {
+                search_field: {
+                    'value': search_term
+                }
             }
         }
+
+        exact_match_query['query']['function_score']['query']['bool']['must'].append(query_part)
+
+        if instance_of_part is not None:
+            exact_match_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
+
         exact_match_query['size'] = size
+
         return exact_match_query
 
-    def create_ngram_query(self, search_term, language='en', size=20):
-        query_part = {
-            "query": search_term,
-            "operator": "and"
-        }
-
+    def create_ngram_query(self, search_term, language='en', size=20, instance_of=''):
         search_field = f'all_labels.{language}.ngram'
+        instance_of_part = None
+        query_part = {
+            "match": {
+                search_field: {
+                    "query": search_term,
+                    "operator": "and"
+                }
+            }
+        }
+        if instance_of.strip():
+            instance_of_part = {
+                "term": {
+                    "instance_ofs.keyword_lower": {
+                        "value": instance_of.lower()
+                    }
+                }
+            }
+
         ngrams_query = self.ngram_query
-        ngrams_query['query']['function_score']['query']['bool']['should'][0]['match'][search_field] = query_part
+        ngrams_query['query']['function_score']['query']['bool']['must'].append(query_part)
+
+        if instance_of_part is not None:
+            ngrams_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
+
         ngrams_query['size'] = size
+
         return ngrams_query
 
-    def create_property_query(self, search_term, size='20', query_type='ngram'):
+    def create_property_query(self, search_term, size='20', query_type='ngram', instance_of=''):
+        instance_of_part = None
+        if instance_of.strip():
+            instance_of_part = {
+                "term": {
+                    "instance_ofs.keyword_lower": {
+                        "value": instance_of.lower()
+                    }
+                }
+            }
         search_term = search_term.lower()
 
         if query_type == 'ngram':
@@ -93,6 +138,11 @@ class Search(object):
             }
 
         _property_query = self.query_property
-        _property_query['query']['function_score']['query']['bool']['filter'].append(query_part)
+        _property_query['query']['function_score']['query']['bool']['must'].append(query_part)
+
+        if instance_of_part is not None:
+            _property_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
+
         _property_query['size'] = size
+
         return _property_query
