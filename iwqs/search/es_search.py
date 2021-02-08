@@ -79,14 +79,17 @@ class Search(object):
 
     def create_ngram_query(self, search_term, language='en', size=20, instance_of=''):
         # TODO remove the below restriction on search_term length after we have an index with > 10 ngrams
-        if len(search_term) > 10:
-            search_term = search_term[:10]
+        _search_terms = search_term.split(' ')
+        _search_terms = [x[:10] for x in _search_terms]
+
+        search_term_truncated = ' '.join(_search_terms)
+
         search_field = f'all_labels.{language}.ngram'
         instance_of_part = None
         query_part = {
             "match": {
                 search_field: {
-                    "query": search_term,
+                    "query": search_term_truncated,
                     "operator": "and"
                 }
             }
@@ -107,7 +110,7 @@ class Search(object):
             ngrams_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
 
         ngrams_query['size'] = size
-
+        
         return ngrams_query
 
     def create_property_query(self, search_term, size='20', query_type='ngram', instance_of=''):
