@@ -78,6 +78,9 @@ class Search(object):
         return exact_match_query
 
     def create_ngram_query(self, search_term, language='en', size=20, instance_of=''):
+        # TODO remove the below restriction on search_term length after we have an index with > 10 ngrams
+        if len(search_term) > 10:
+            search_term = search_term[:10]
         search_field = f'all_labels.{language}.ngram'
         instance_of_part = None
         query_part = {
@@ -152,5 +155,5 @@ class Search(object):
             _property_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
 
         _property_query['size'] = size
-        
+
         return _property_query
