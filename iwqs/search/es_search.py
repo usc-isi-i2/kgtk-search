@@ -94,6 +94,15 @@ class Search(object):
                 }
             }
         }
+        exact_match_field = f'all_labels.{language}.keyword_lower'
+        exact_match_part = {
+            "term": {
+                exact_match_field: {
+                    "value": search_term.lower(),
+                    "boost": 100
+                }
+            }
+        }
         if instance_of.strip():
             instance_of_part = {
                 "term": {
@@ -104,13 +113,14 @@ class Search(object):
             }
 
         ngrams_query = self.ngram_query
-        ngrams_query['query']['function_score']['query']['bool']['must'].append(query_part)
+        ngrams_query['query']['function_score']['query']['bool']['should'].append(query_part)
+        ngrams_query['query']['function_score']['query']['bool']['should'].append(exact_match_part)
 
         if instance_of_part is not None:
             ngrams_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
 
         ngrams_query['size'] = size
-        
+
         return ngrams_query
 
     def create_property_query(self, search_term, size='20', query_type='ngram', instance_of=''):
