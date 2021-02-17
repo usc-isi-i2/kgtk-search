@@ -163,6 +163,7 @@ class App extends React.Component {
 
     this.state = {
       query: '',
+      instanceOfTypeQuery: '',
       results: [],
       showSettings: false,
       language: LANGUAGE_OPTIONS[0].value,
@@ -200,8 +201,8 @@ class App extends React.Component {
     })
   }
 
-  handleOnChangeInstanceOfType(query) {
-    this.setState({ query }, () => {
+  handleOnChangeInstanceOfType(instanceOfTypeQuery) {
+    this.setState({ instanceOfTypeQuery }, () => {
       clearTimeout(this.timeoutID)
       this.timeoutID = setTimeout(() => {
         this.submitQuery(true)
