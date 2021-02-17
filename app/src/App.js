@@ -242,7 +242,7 @@ class App extends React.Component {
           { i + 1 }.
         </Typography>
         <Link
-          href={ `https://sqid.toolforge.org/#/view?id=${ result.qnode }` }
+          href={ `https://www.wikidata.org/wiki/${ result.qnode }` }
           target="_blank"
           className={ classes.link }>
           <Typography
