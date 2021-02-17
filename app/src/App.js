@@ -196,9 +196,9 @@ class App extends React.Component {
     })
   }
 
-  handleOnChangeInstanceOfType(instanceOfType) {
-    this.setState({ instanceOfType }, () => {
-      this.submitQuery()
+  handleOnChangeInstanceOfType(query) {
+    this.setState({ query }, () => {
+      this.submitQuery(true)
     })
   }
 
@@ -230,7 +230,11 @@ class App extends React.Component {
       })
       .then((response) => response.json())
       .then((results) => {
-        this.setState({ results })
+        if ( isClass ) {
+          this.setState({ instanceOfResults: results })
+        } else {
+          this.setState({ results })
+        }
       })
     }
   }
