@@ -87,7 +87,7 @@ const styles = theme => ({
     left: theme.spacing(1),
   },
   link: {
-    width: '100%',
+    width: '97%',
     display: 'inline-block',
     padding: theme.spacing(1),
     marginLeft: theme.spacing(5),
