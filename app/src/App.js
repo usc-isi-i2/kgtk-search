@@ -169,6 +169,7 @@ class App extends React.Component {
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
       itemType: ITEM_TYPE_OPTIONS[0].value,
+      instanceOfTypeMenu: false,
       instanceOfTypeResults: [],
       instanceOfType: '',
     }
@@ -244,7 +245,10 @@ class App extends React.Component {
       .then((response) => response.json())
       .then((results) => {
         if ( isClass ) {
-          this.setState({ instanceOfTypeResults: results })
+          this.setState({
+            instanceOfTypeResults: results,
+            instanceOfTypeMenu: true,
+          })
         } else {
           this.setState({ results })
         }
@@ -331,19 +335,25 @@ class App extends React.Component {
     )
   }
 
+  closeInstanceOfTypeMenu() {
+    this.setState({instanceOfTypeMenu: false})
+  }
+
   selectInstanceOfType(instanceOfType) {
-    this.setState({instanceOfType, instanceOfTypeResults: []}, () => {
+    this.setState({instanceOfType}, () => {
+      this.closeInstanceOfTypeMenu()
       this.submitQuery()
     })
   }
 
   renderInstanceOfTypeResults() {
-    const { instanceOfTypeResults } = this.state
+    const { instanceOfTypeResults, instanceOfTypeMenu } = this.state
     return (
       <Menu
         id="simple-menu"
         anchorEl={this.instanceOfTypeInput}
-        open={instanceOfTypeResults.length}
+        open={instanceOfTypeMenu}
+        onClose={() => this.closeInstanceOfTypeMenu()}
         keepMounted>
         {instanceOfTypeResults.map((result, index) => (
           <MenuItem key={index} onClick={() => this.selectInstanceOfType(result.qnode)}>
