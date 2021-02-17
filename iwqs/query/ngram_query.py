@@ -4,7 +4,7 @@ ngram_query = {
             "query": {
                 "bool": {
                     "should": [],
-                    "must": [],
+                    "filter": [],
                     "must_not": [
                         {
                             "term": {
