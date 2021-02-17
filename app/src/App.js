@@ -198,7 +198,10 @@ class App extends React.Component {
 
   handleOnChangeInstanceOfType(query) {
     this.setState({ query }, () => {
-      this.submitQuery(true)
+      clearTimeout(this.timeoutID)
+      this.timeoutID = setTimeout(() => {
+        this.submitQuery(true)
+      }, 300)
     })
   }
 
