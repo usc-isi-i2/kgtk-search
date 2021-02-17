@@ -163,7 +163,6 @@ class App extends React.Component {
 
     this.state = {
       query: '',
-      instanceOfTypeQuery: '',
       results: [],
       showSettings: false,
       language: LANGUAGE_OPTIONS[0].value,
@@ -171,16 +170,21 @@ class App extends React.Component {
       itemType: ITEM_TYPE_OPTIONS[0].value,
       instanceOfTypeMenu: false,
       instanceOfTypeResults: [],
+      instanceOfTypeQuery: '',
       instanceOfType: '',
     }
   }
 
   handleOnChange (query) {
     this.setState({ query }, () => {
-      clearTimeout(this.timeoutID)
-      this.timeoutID = setTimeout(() => {
-        this.submitQuery()
-      }, 300)
+      if ( !query ) {
+        this.setState({results: []})
+      } else {
+        clearTimeout(this.timeoutID)
+        this.timeoutID = setTimeout(() => {
+          this.submitQuery()
+        }, 300)
+      }
     })
   }
 
@@ -204,10 +208,20 @@ class App extends React.Component {
 
   handleOnChangeInstanceOfType(instanceOfTypeQuery) {
     this.setState({ instanceOfTypeQuery }, () => {
-      clearTimeout(this.timeoutID)
-      this.timeoutID = setTimeout(() => {
-        this.submitQuery(true)
-      }, 300)
+      if ( !instanceOfTypeQuery ) {
+        this.setState({
+          instanceOfType: '',
+          instanceOfTypeMenu: false,
+          instanceOfTypeResults: [],
+        }, () => {
+          this.submitQuery()
+        })
+      } else {
+        clearTimeout(this.timeoutID)
+        this.timeoutID = setTimeout(() => {
+          this.submitQuery(true)
+        }, 300)
+      }
     })
   }
 
@@ -236,27 +250,23 @@ class App extends React.Component {
       url += `&instance_of=${instanceOfType}`
     }
 
-    if ( !query ) {
-      this.setState({ results: [] })
-    } else {
-      return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((response) => response.json())
-      .then((results) => {
-        if ( isClass ) {
-          this.setState({
-            instanceOfTypeResults: results,
-            instanceOfTypeMenu: true,
-          })
-        } else {
-          this.setState({ results })
-        }
-      })
-    }
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => response.json())
+    .then((results) => {
+      if ( isClass ) {
+        this.setState({
+          instanceOfTypeResults: results,
+          instanceOfTypeMenu: true,
+        })
+      } else {
+        this.setState({ results })
+      }
+    })
   }
 
   submit (event) {
