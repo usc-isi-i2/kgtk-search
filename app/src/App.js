@@ -236,15 +236,14 @@ class App extends React.Component {
     const { instanceOfType } = this.state
     const { instanceOfTypeQuery } = this.state
 
-
     // Construct the url with correct parameters
     let url = `/api/`
-    if ( isClass ) {
+    if ( instanceOfTypeQuery && isClass ) {
       url += `${instanceOfTypeQuery}?`
       url += `&is_class=true`
       url += `&type=exact`
       url += `&size=5`
-    } else {
+    } else if ( query ) {
       url += `${query}?`
       url += `&type=${queryType}`
     }
@@ -253,23 +252,25 @@ class App extends React.Component {
       url += `&instance_of=${instanceOfType}`
     }
 
-    return fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then((response) => response.json())
-    .then((results) => {
-      if ( isClass ) {
-        this.setState({
-          instanceOfTypeResults: results,
-          instanceOfTypeMenu: true,
-        })
-      } else {
-        this.setState({ results })
-      }
-    })
+    if ( query || instanceOfTypeQuery ) {
+      return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => response.json())
+      .then((results) => {
+        if ( isClass ) {
+          this.setState({
+            instanceOfTypeResults: results,
+            instanceOfTypeMenu: !!results.length,
+          })
+        } else {
+          this.setState({ results })
+        }
+      })
+    }
   }
 
   submit (event) {
@@ -362,8 +363,11 @@ class App extends React.Component {
     this.setState({instanceOfTypeMenu: false})
   }
 
-  selectInstanceOfType(instanceOfType) {
-    this.setState({instanceOfType}, () => {
+  selectInstanceOfType(result) {
+    this.setState({
+      instanceOfType: result.qnode,
+      instanceOfTypeQuery: result.label[0],
+    }, () => {
       this.closeInstanceOfTypeMenu()
       this.submitQuery()
     })
@@ -389,7 +393,7 @@ class App extends React.Component {
         onClose={() => this.closeInstanceOfTypeMenu()}
         keepMounted>
         {instanceOfTypeResults.map((result, index) => (
-          <MenuItem key={index} onClick={() => this.selectInstanceOfType(result.qnode)}>
+          <MenuItem key={index} onClick={() => this.selectInstanceOfType(result)}>
             <ListItemText className={classes.cursor}>
               {result.label[0]} ({result.qnode})
             </ListItemText>
@@ -466,7 +470,7 @@ class App extends React.Component {
           <Grid item xs={ 6 } sm={ 3 }>
             <FormControl component="fieldset">
               <Input
-                value={instanceOfTypeQuery}
+                query={instanceOfTypeQuery}
                 label={'instance of'}
                 className={'small'}
                 onClick={this.openInstanceOfTypeMenu.bind(this)}
