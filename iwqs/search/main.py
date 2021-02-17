@@ -3,7 +3,6 @@ from iwqs.search.search_config import es_url, es_index
 from iwqs.search.es_search import Search
 from flask import request
 from iwqs.search.search_result import SearchResult
-import json
 
 
 class FindNearestQnodes(Resource):
@@ -15,6 +14,7 @@ class FindNearestQnodes(Resource):
         query_type = request.args.get('type', 'ngram')
         item = request.args.get('item', 'qnode')
         instance_of = request.args.get('instance_of', '')
+        is_class = request.args.get('is_class', 'false').lower().strip() == 'true'
 
         if user_es_url and user_es_index:
             es_search = Search(user_es_url, user_es_index)
@@ -22,11 +22,15 @@ class FindNearestQnodes(Resource):
             es_search = Search(es_url, es_index)
 
         size = request.args.get('size', 20)
-        extra_info = request.args.get('extra_info', 'false').lower() == 'true'
+        extra_info = request.args.get('extra_info', 'false').lower().strip() == 'true'
 
-        if item == 'qnode':
+        if is_class:
+            query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of='',
+                                                 is_class=is_class)
+        elif item == 'qnode':
             if query_type == 'ngram':
-                query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of=instance_of)
+                query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of=instance_of,
+                                                     is_class=False)
             else:
                 query = es_search.create_exact_match_query(search_term, lowercase, size=size, language=language,
                                                            instance_of=instance_of)
