@@ -335,6 +335,13 @@ class App extends React.Component {
     )
   }
 
+  openInstanceOfTypeMenu() {
+    const { instanceOfTypeResults } = this.state
+    if ( instanceOfTypeResults.length ) {
+      this.setState({instanceOfTypeMenu: true})
+    }
+  }
+
   closeInstanceOfTypeMenu() {
     this.setState({instanceOfTypeMenu: false})
   }
@@ -434,6 +441,7 @@ class App extends React.Component {
                 value={instanceOfTypeQuery}
                 label={'instance of'}
                 className={'small'}
+                onClick={this.openInstanceOfTypeMenu.bind(this)}
                 passInputRef={(element) => this.instanceOfTypeInput = element}
                 onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
               {this.renderInstanceOfTypeResults()}

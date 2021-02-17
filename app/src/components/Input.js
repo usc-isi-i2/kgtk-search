@@ -63,6 +63,13 @@ class Input extends React.Component {
     }
   }
 
+  handleOnClick() {
+    const { onClick } = this.props
+    if ( onClick ) {
+      this.props.onClick()
+    }
+  }
+
   handleOnChange(event) {
     this.props.onChange(event.target.value)
   }
@@ -79,6 +86,7 @@ class Input extends React.Component {
         disabled={disabled}
         autoFocus={autoFocus}
         autoComplete="off"
+        onClick={this.handleOnClick.bind(this)}
         onChange={this.handleOnChange.bind(this)}
         fullWidth
         className={className}
