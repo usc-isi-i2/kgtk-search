@@ -202,26 +202,36 @@ class App extends React.Component {
     })
   }
 
-  submitQuery () {
+  submitQuery(isClass=false) {
     const { query } = this.state
     const { language } = this.state
     const { queryType } = this.state
     const { itemType } = this.state
     const { instanceOfType } = this.state
+
+
+    // Construct the url with correct parameters
+    let url = `/api/${query}?extra_info=true&language=${language}&type=${queryType}&item=${itemType}`
+    if ( instanceOfType ) {
+      url += `&instance_of=${instanceOfType}`
+    }
+    if ( isClass ) {
+      url += `&is_class=true`
+    }
+
     if ( !query ) {
       this.setState({ results: [] })
     } else {
-      return fetch(
-        `/api/${query}?extra_info=true&language=${language}&type=${queryType}&item=${itemType}&instance_of=${instanceOfType}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((response) => response.json())
-        .then((results) => {
-          this.setState({ results })
-        })
+      return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => response.json())
+      .then((results) => {
+        this.setState({ results })
+      })
     }
   }
 
