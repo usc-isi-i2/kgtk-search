@@ -77,15 +77,15 @@ class Search(object):
 
         return exact_match_query
 
-    def create_ngram_query(self, search_term, language='en', size=20, instance_of=''):
-        # TODO remove the below restriction on search_term length after we have an index with > 10 ngrams
+    def create_ngram_query(self, search_term, language='en', size=20, instance_of='', is_class=False):
+        # TODO we have an index with ngrams of length upto 20
         _search_terms = search_term.split(' ')
-        _search_terms = [x[:10] for x in _search_terms]
+        _search_terms = [x[:20] for x in _search_terms]
 
         search_term_truncated = ' '.join(_search_terms)
 
         search_field = f'all_labels.{language}.ngram'
-        instance_of_part = None
+
         query_part = {
             "match": {
                 search_field: {
@@ -103,6 +103,11 @@ class Search(object):
                 }
             }
         }
+
+        ngrams_query = self.ngram_query
+        ngrams_query['query']['function_score']['query']['bool']['should'].append(query_part)
+        ngrams_query['query']['function_score']['query']['bool']['should'].append(exact_match_part)
+
         if instance_of.strip():
             instance_of_part = {
                 "term": {
@@ -111,16 +116,19 @@ class Search(object):
                     }
                 }
             }
-
-        ngrams_query = self.ngram_query
-        ngrams_query['query']['function_score']['query']['bool']['should'].append(query_part)
-        ngrams_query['query']['function_score']['query']['bool']['should'].append(exact_match_part)
-
-        if instance_of_part is not None:
             ngrams_query['query']['function_score']['query']['bool']['filter'].append(instance_of_part)
+        elif is_class:
+            is_class_part = {
+                "term": {
+                    "is_class.keyword_lower": {
+                        "value": "true"
+                    }
+                }
+            }
+            ngrams_query['query']['function_score']['query']['bool']['filter'].append(is_class_part)
 
         ngrams_query['size'] = size
-        
+
         return ngrams_query
 
     def create_property_query(self, search_term, size='20', query_type='ngram', instance_of=''):
