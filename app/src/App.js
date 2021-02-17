@@ -359,6 +359,15 @@ class App extends React.Component {
       <Menu
         id="simple-menu"
         anchorEl={this.instanceOfTypeInput}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
         open={instanceOfTypeMenu}
         onClose={() => this.closeInstanceOfTypeMenu()}
         keepMounted>
