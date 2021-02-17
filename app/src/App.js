@@ -12,6 +12,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import {
   withStyles,
   createMuiTheme,
@@ -165,7 +168,8 @@ class App extends React.Component {
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
       itemType: ITEM_TYPE_OPTIONS[0].value,
-      instanceOfType: ''
+      instanceOfTypeResults: [],
+      instanceOfType: '',
     }
   }
 
@@ -234,7 +238,7 @@ class App extends React.Component {
       .then((response) => response.json())
       .then((results) => {
         if ( isClass ) {
-          this.setState({ instanceOfResults: results })
+          this.setState({ instanceOfTypeResults: results })
         } else {
           this.setState({ results })
         }
@@ -321,6 +325,24 @@ class App extends React.Component {
     )
   }
 
+  selectInstanceOfType(instanceOfType) {
+    this.setState({instanceOfType, instanceOfTypeResults: []})
+  }
+
+  renderInstanceOfTypeResults() {
+    const { instanceOfTypeResults } = this.state
+    return (
+      <Menu
+        id="simple-menu"
+        open={instanceOfTypeResults.length}
+        keepMounted>
+        {instanceOfTypeResults.map((result, index) => (
+          <MenuItem key={index} onClick={() => this.selectInstanceOfType(result.qnode)}>{result.label[0]}</MenuItem>
+        ))}
+      </Menu>
+    )
+  }
+
   renderSettings() {
     const { language, queryType, itemType, instanceOfType, showSettings } = this.state
     const { classes } = this.props
@@ -388,6 +410,7 @@ class App extends React.Component {
             <FormControl component="fieldset">
               <Input text={ instanceOfType } autoFocus={ false } value={''} label={'instance of'} className={'small'}
                         onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
+              {this.renderInstanceOfTypeResults()}
             </FormControl>
           </Grid>
         </Grid>
