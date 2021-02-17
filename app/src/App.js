@@ -376,7 +376,9 @@ class App extends React.Component {
         keepMounted>
         {instanceOfTypeResults.map((result, index) => (
           <MenuItem key={index} onClick={() => this.selectInstanceOfType(result.qnode)}>
-            {result.label[0]}
+            <ListItemText>
+              {result.label[0]} ({result.qnode})
+            </ListItemText>
           </MenuItem>
         ))}
       </Menu>
