@@ -266,7 +266,7 @@ class App extends React.Component {
     if ( instanceOfTypeQuery && isClass ) {
       url += `${instanceOfTypeQuery}?`
       url += `&is_class=true`
-      url += `&type=exact`
+      url += `&type=ngram`
       url += `&size=5`
     } else if ( query ) {
       url += `${query}?`
