@@ -404,7 +404,7 @@ class App extends React.Component {
   }
 
   renderSettings() {
-    const { language, queryType, itemType, instanceOfType, showSettings } = this.state
+    const { language, queryType, itemType, showSettings } = this.state
     const { instanceOfTypeQuery } = this.state
     const { classes } = this.props
     if ( showSettings ) {
