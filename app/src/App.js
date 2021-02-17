@@ -133,6 +133,9 @@ const styles = theme => ({
   alignedIcon: {
     verticalAlign: 'bottom',
   },
+  cursor: {
+    cursor: 'pointer',
+  },
 })
 
 
@@ -368,6 +371,7 @@ class App extends React.Component {
 
   renderInstanceOfTypeResults() {
     const { instanceOfTypeResults, instanceOfTypeMenu } = this.state
+    const { classes } = this.props
     return (
       <Menu
         id="simple-menu"
@@ -386,7 +390,7 @@ class App extends React.Component {
         keepMounted>
         {instanceOfTypeResults.map((result, index) => (
           <MenuItem key={index} onClick={() => this.selectInstanceOfType(result.qnode)}>
-            <ListItemText>
+            <ListItemText className={classes.cursor}>
               {result.label[0]} ({result.qnode})
             </ListItemText>
           </MenuItem>
