@@ -139,6 +139,31 @@ const styles = theme => ({
 })
 
 
+const StyledMenu = withStyles((theme) => ({
+  paper: {
+    backgroundColor: 'rgb(120, 136, 148)',
+    borderRadius: 0,
+  },
+}))(Menu);
+
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    color: '#fefefe',
+    '&:hover': {
+      backgroundColor: '#657382',
+    },
+    '&:focus': {
+      backgroundColor: '#5a6773',
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: '#fefefe',
+        userSelect: 'none',
+      },
+    },
+  },
+}))(MenuItem);
+
+
 const LANGUAGE_OPTIONS = [
   { value: 'en', label: 'English' },
   { value: 'ru', label: 'Russian' },
@@ -377,7 +402,7 @@ class App extends React.Component {
     const { instanceOfTypeResults, instanceOfTypeMenu } = this.state
     const { classes } = this.props
     return (
-      <Menu
+      <StyledMenu
         id="simple-menu"
         anchorEl={this.instanceOfTypeInput}
         getContentAnchorEl={null}
@@ -393,13 +418,13 @@ class App extends React.Component {
         onClose={() => this.closeInstanceOfTypeMenu()}
         keepMounted>
         {instanceOfTypeResults.map((result, index) => (
-          <MenuItem key={index} onClick={() => this.selectInstanceOfType(result)}>
+          <StyledMenuItem key={index} onClick={() => this.selectInstanceOfType(result)}>
             <ListItemText className={classes.cursor}>
               {result.label[0]} ({result.qnode})
             </ListItemText>
-          </MenuItem>
+          </StyledMenuItem>
         ))}
-      </Menu>
+      </StyledMenu>
     )
   }
 
