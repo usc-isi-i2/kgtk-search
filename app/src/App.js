@@ -225,10 +225,13 @@ class App extends React.Component {
     if ( isClass ) {
       url += `${instanceOfTypeQuery}?`
       url += `&is_class=true`
+      url += `&type=exact`
+      url += `&size=5`
     } else {
       url += `${query}?`
+      url += `&type=${queryType}`
     }
-    url += `&extra_info=true&language=${language}&type=${queryType}&item=${itemType}`
+    url += `&extra_info=true&language=${language}&item=${itemType}`
     if ( instanceOfType ) {
       url += `&instance_of=${instanceOfType}`
     }
