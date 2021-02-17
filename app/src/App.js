@@ -216,15 +216,20 @@ class App extends React.Component {
     const { queryType } = this.state
     const { itemType } = this.state
     const { instanceOfType } = this.state
+    const { instanceOfTypeQuery } = this.state
 
 
     // Construct the url with correct parameters
-    let url = `/api/${query}?extra_info=true&language=${language}&type=${queryType}&item=${itemType}`
+    let url = `/api/`
+    if ( isClass ) {
+      url += `${instanceOfTypeQuery}?`
+      url += `&is_class=true`
+    } else {
+      url += `${query}?`
+    }
+    url += `&extra_info=true&language=${language}&type=${queryType}&item=${itemType}`
     if ( instanceOfType ) {
       url += `&instance_of=${instanceOfType}`
-    }
-    if ( isClass ) {
-      url += `&is_class=true`
     }
 
     if ( !query ) {
