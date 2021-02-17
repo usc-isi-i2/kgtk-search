@@ -342,10 +342,13 @@ class App extends React.Component {
     return (
       <Menu
         id="simple-menu"
+        anchorEl={this.instanceOfTypeInput}
         open={instanceOfTypeResults.length}
         keepMounted>
         {instanceOfTypeResults.map((result, index) => (
-          <MenuItem key={index} onClick={() => this.selectInstanceOfType(result.qnode)}>{result.label[0]}</MenuItem>
+          <MenuItem key={index} onClick={() => this.selectInstanceOfType(result.qnode)}>
+            {result.label[0]}
+          </MenuItem>
         ))}
       </Menu>
     )
@@ -353,6 +356,7 @@ class App extends React.Component {
 
   renderSettings() {
     const { language, queryType, itemType, instanceOfType, showSettings } = this.state
+    const { instanceOfTypeQuery } = this.state
     const { classes } = this.props
     if ( showSettings ) {
       return (
@@ -416,8 +420,12 @@ class App extends React.Component {
           </Grid>
           <Grid item xs={ 6 } sm={ 3 }>
             <FormControl component="fieldset">
-              <Input text={ instanceOfType } autoFocus={ false } value={''} label={'instance of'} className={'small'}
-                        onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
+              <Input
+                value={instanceOfTypeQuery}
+                label={'instance of'}
+                className={'small'}
+                passInputRef={(element) => this.instanceOfTypeInput = element}
+                onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
               {this.renderInstanceOfTypeResults()}
             </FormControl>
           </Grid>
