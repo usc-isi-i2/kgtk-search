@@ -332,7 +332,9 @@ class App extends React.Component {
   }
 
   selectInstanceOfType(instanceOfType) {
-    this.setState({instanceOfType, instanceOfTypeResults: []})
+    this.setState({instanceOfType, instanceOfTypeResults: []}, () => {
+      this.submitQuery()
+    })
   }
 
   renderInstanceOfTypeResults() {
