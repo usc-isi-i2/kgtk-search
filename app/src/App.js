@@ -286,7 +286,7 @@ class App extends React.Component {
       })
       .then((response) => response.json())
       .then((results) => {
-        if ( isClass ) {
+        if ( instanceOfTypeQuery && isClass ) {
           this.setState({
             instanceOfTypeResults: results,
             instanceOfTypeMenu: !!results.length,
