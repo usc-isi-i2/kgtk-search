@@ -12,6 +12,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
 import {
   withStyles,
   createMuiTheme,
@@ -84,7 +89,7 @@ const styles = theme => ({
     left: theme.spacing(1),
   },
   link: {
-    width: '100%',
+    width: '97%',
     display: 'inline-block',
     padding: theme.spacing(1),
     marginLeft: theme.spacing(5),
@@ -130,7 +135,49 @@ const styles = theme => ({
   alignedIcon: {
     verticalAlign: 'bottom',
   },
+  cursor: {
+    cursor: 'pointer',
+  },
 })
+
+
+const StyledMenu = withStyles((theme) => ({
+  paper: {
+    backgroundColor: 'rgb(120, 136, 148)',
+    borderRadius: 0,
+  },
+}))(Menu);
+
+const PurpleSwitch = withStyles({
+  switchBase: {
+    color: '#fefefe',
+    '&$checked': {
+      color: '#fefefe',
+    },
+    '&$checked + $track': {
+      backgroundColor: '#fefefe',
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    color: '#fefefe',
+    '&:hover': {
+      backgroundColor: '#657382',
+    },
+    '&:focus': {
+      backgroundColor: '#5a6773',
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: '#fefefe',
+        userSelect: 'none',
+      },
+    },
+  },
+}))(MenuItem);
 
 
 const LANGUAGE_OPTIONS = [
@@ -165,16 +212,24 @@ class App extends React.Component {
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
       itemType: ITEM_TYPE_OPTIONS[0].value,
-      instanceOfType: ''
+      instanceOfTypeMenu: false,
+      instanceOfTypeResults: [],
+      instanceOfTypeQuery: '',
+      instanceOfType: '',
+      debugSwitchState: false
     }
   }
 
   handleOnChange (query) {
     this.setState({ query }, () => {
-      clearTimeout(this.timeoutID)
-      this.timeoutID = setTimeout(() => {
-        this.submitQuery()
-      }, 300)
+      if ( !query ) {
+        this.setState({results: []})
+      } else {
+        clearTimeout(this.timeoutID)
+        this.timeoutID = setTimeout(() => {
+          this.submitQuery()
+        }, 300)
+      }
     })
   }
 
@@ -196,32 +251,71 @@ class App extends React.Component {
     })
   }
 
-  handleOnChangeInstanceOfType(instanceOfType) {
-    this.setState({ instanceOfType }, () => {
-      this.submitQuery()
+  handleOnChangeInstanceOfType(instanceOfTypeQuery) {
+    this.setState({ instanceOfTypeQuery }, () => {
+      if ( !instanceOfTypeQuery ) {
+        this.setState({
+          instanceOfType: '',
+          instanceOfTypeMenu: false,
+          instanceOfTypeResults: [],
+        }, () => {
+          this.submitQuery()
+        })
+      } else {
+        clearTimeout(this.timeoutID)
+        this.timeoutID = setTimeout(() => {
+          this.submitQuery(true)
+        }, 300)
+      }
     })
   }
 
-  submitQuery () {
+  handleDebugSwitchChange (debugSwitchState) {
+    this.setState({ debugSwitchState })
+  }
+
+  submitQuery(isClass=false) {
     const { query } = this.state
     const { language } = this.state
     const { queryType } = this.state
     const { itemType } = this.state
     const { instanceOfType } = this.state
-    if ( !query ) {
-      this.setState({ results: [] })
-    } else {
-      return fetch(
-        `/api/${query}?extra_info=true&language=${language}&type=${queryType}&item=${itemType}&instance_of=${instanceOfType}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((response) => response.json())
-        .then((results) => {
+    const { instanceOfTypeQuery } = this.state
+
+    // Construct the url with correct parameters
+    let url = `/api/`
+    if ( instanceOfTypeQuery && isClass ) {
+      url += `${instanceOfTypeQuery}?`
+      url += `&is_class=true`
+      url += `&type=ngram`
+      url += `&size=5`
+    } else if ( query ) {
+      url += `${query}?`
+      url += `&type=${queryType}`
+    }
+    url += `&extra_info=true&language=${language}&item=${itemType}`
+    if ( instanceOfType ) {
+      url += `&instance_of=${instanceOfType}`
+    }
+
+    if ( query || instanceOfTypeQuery ) {
+      return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => response.json())
+      .then((results) => {
+        if ( instanceOfTypeQuery && isClass ) {
+          this.setState({
+            instanceOfTypeResults: results,
+            instanceOfTypeMenu: !!results.length,
+          })
+        } else {
           this.setState({ results })
-        })
+        }
+      })
     }
   }
 
@@ -230,9 +324,11 @@ class App extends React.Component {
     this.submitQuery()
   }
 
+
   renderResults () {
     const { classes } = this.props
     const { results } = this.state
+    const { debugSwitchState } = this.state
     return results.map((result, i) => (
       <Grid item xs={ 12 } key={ i } className={ classes.result }>
         <Typography
@@ -242,7 +338,7 @@ class App extends React.Component {
           { i + 1 }.
         </Typography>
         <Link
-          href={ `https://sqid.toolforge.org/#/view?id=${ result.qnode }` }
+          href={ `https://www.wikidata.org/wiki/${ result.qnode }` }
           target="_blank"
           className={ classes.link }>
           <Typography
@@ -255,20 +351,35 @@ class App extends React.Component {
             component="p"
             variant="body1"
             className={ classes.description }>
-            <b>Description:</b> { result.description[0] }
+            <b>Description:</b> { !!result.description[0] ? result.description[0] : 'No Description'}
           </Typography>
           { !!result.alias.length ? (
             <Typography
-              component="span"
+              component="p"
               variant="body1"
               className={ classes.description }>
               <b>Alias:</b> { result.alias.join(', ') }
             </Typography>
           ) : null }
-          <br />
+          { !!debugSwitchState ? (
+          <Typography
+              component="p"
+              variant="body1"
+              className={ classes.description }>
+              <b>Pagerank:</b> { result.pagerank }
+            </Typography>
+            ) : null }
+          { !!debugSwitchState ? (
+          <Typography
+              component="p"
+              variant="body1"
+              className={ classes.description }>
+              <b>Statements:</b> { result.statements }
+            </Typography>
+            ) : null }
           { !!result.data_type ? (
             <Typography
-              component="span"
+              component="p"
               variant="body1"
               className={ classes.description }>
               <b>Data type:</b> { result.data_type }
@@ -304,13 +415,65 @@ class App extends React.Component {
     )
   }
 
+  openInstanceOfTypeMenu() {
+    const { instanceOfTypeResults } = this.state
+    if ( instanceOfTypeResults.length ) {
+      this.setState({instanceOfTypeMenu: true})
+    }
+  }
+
+  closeInstanceOfTypeMenu() {
+    this.setState({instanceOfTypeMenu: false})
+  }
+
+  selectInstanceOfType(result) {
+    this.setState({
+      instanceOfType: result.qnode,
+      instanceOfTypeQuery: result.label[0],
+    }, () => {
+      this.closeInstanceOfTypeMenu()
+      this.submitQuery()
+    })
+  }
+
+  renderInstanceOfTypeResults() {
+    const { instanceOfTypeResults, instanceOfTypeMenu } = this.state
+    const { classes } = this.props
+    return (
+      <StyledMenu
+        id="simple-menu"
+        anchorEl={this.instanceOfTypeInput}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        open={instanceOfTypeMenu}
+        onClose={() => this.closeInstanceOfTypeMenu()}
+        keepMounted>
+        {instanceOfTypeResults.map((result, index) => (
+          <StyledMenuItem key={index} onClick={() => this.selectInstanceOfType(result)}>
+            <ListItemText className={classes.cursor}>
+              {result.label[0]} ({result.qnode})
+            </ListItemText>
+          </StyledMenuItem>
+        ))}
+      </StyledMenu>
+    )
+  }
+
   renderSettings() {
-    const { language, queryType, itemType, instanceOfType, showSettings } = this.state
+    const { language, queryType, itemType, showSettings } = this.state
+    const { instanceOfTypeQuery } = this.state
     const { classes } = this.props
     if ( showSettings ) {
       return (
         <Grid container spacing={ 3 }>
-          <Grid item xs={ 6 } sm={ 3 }>
+          <Grid item xs={ 12 } lg={ 4 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Language
@@ -329,7 +492,7 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 6 } sm={ 3 }>
+          <Grid item xs={ 12 } lg={ 4 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Query Type
@@ -348,7 +511,7 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 6 } sm={ 3 }>
+          <Grid item xs={ 12 } lg={ 4 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Search
@@ -367,12 +530,6 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 6 } sm={ 3 }>
-            <FormControl component="fieldset">
-              <Input text={ instanceOfType } autoFocus={ false } value={''} label={'instance of'} className={'small'}
-                        onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
-            </FormControl>
-          </Grid>
         </Grid>
       )
     }
@@ -380,7 +537,7 @@ class App extends React.Component {
 
   render () {
     const { classes } = this.props
-    const { query } = this.state
+    const { query, instanceOfTypeQuery, debugSwitchState } = this.state
     return (
       <ThemeProvider theme={ theme }>
         <Container maxWidth="xl">
@@ -397,15 +554,42 @@ class App extends React.Component {
             </a>
             Knowledge Graph Text Search
           </Typography>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                    <PurpleSwitch
+                        checked={debugSwitchState}
+                        onChange={(event, checked) => this.handleDebugSwitchChange(checked)}
+                        label="Debug"
+                        name="debugSwitch"
+                        color="primary"
+                    />}
+              label="Debug"
+              className={ classes.description }
+              labelPlacement="start"
+            />
+          </FormGroup>
+
           <form className={ classes.form } noValidate
             onSubmit={ this.submit.bind(this) }>
             <Grid container spacing={ 3 }>
               <Grid item xs={ 12 }>
                 <Paper component="div" className={ classes.paper } square>
                   <Grid container spacing={ 3 }>
-                    <Grid item xs={ 12 }>
-                      <Input text={ query } autoFocus={ true } label={'Search'}
+                    <Grid item xs={ 9 }>
+                      <Input autoFocus={ true } label={'Search'}
                         onChange={ this.handleOnChange.bind(this) }/>
+                    </Grid>
+                    <Grid item xs={ 3 }>
+                      <FormControl component="fieldset">
+                        <Input
+                          query={instanceOfTypeQuery}
+                          label={'Instance of'}
+                          onClick={this.openInstanceOfTypeMenu.bind(this)}
+                          passInputRef={(element) => this.instanceOfTypeInput = element}
+                          onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
+                        {this.renderInstanceOfTypeResults()}
+                      </FormControl>
                     </Grid>
                   </Grid>
                   {this.renderSettingsToggle()}
