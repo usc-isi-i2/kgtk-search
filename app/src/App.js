@@ -351,7 +351,7 @@ class App extends React.Component {
             component="p"
             variant="body1"
             className={ classes.description }>
-            <b>Description:</b> { result.description[0] }
+            <b>Description:</b> { !!result.description[0] ? result.description[0] : 'No Description'}
           </Typography>
           { !!result.alias.length ? (
             <Typography
@@ -465,7 +465,7 @@ class App extends React.Component {
     if ( showSettings ) {
       return (
         <Grid container spacing={ 3 }>
-          <Grid item xs={ 6 } sm={ 3 }>
+          <Grid item xs={ 12 } lg={ 4 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Language
@@ -484,7 +484,7 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 6 } sm={ 3 }>
+          <Grid item xs={ 12 } lg={ 4 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Query Type
@@ -503,7 +503,7 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 6 } sm={ 3 }>
+          <Grid item xs={ 12 } lg={ 4 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Search
@@ -522,18 +522,6 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 6 } sm={ 3 }>
-            <FormControl component="fieldset">
-              <Input
-                query={instanceOfTypeQuery}
-                label={'instance of'}
-                className={'small'}
-                onClick={this.openInstanceOfTypeMenu.bind(this)}
-                passInputRef={(element) => this.instanceOfTypeInput = element}
-                onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
-              {this.renderInstanceOfTypeResults()}
-            </FormControl>
-          </Grid>
         </Grid>
       )
     }
@@ -541,8 +529,7 @@ class App extends React.Component {
 
   render () {
     const { classes } = this.props
-    const { query } = this.state
-    const { debugSwitchState } = this.state
+    const { query, instanceOfTypeQuery, debugSwitchState } = this.state
     return (
       <ThemeProvider theme={ theme }>
         <Container maxWidth="xl">
@@ -581,9 +568,20 @@ class App extends React.Component {
               <Grid item xs={ 12 }>
                 <Paper component="div" className={ classes.paper } square>
                   <Grid container spacing={ 3 }>
-                    <Grid item xs={ 12 }>
-                      <Input text={ query } autoFocus={ true } label={'Search'}
+                    <Grid item xs={ 9 }>
+                      <Input autoFocus={ true } label={'Search'}
                         onChange={ this.handleOnChange.bind(this) }/>
+                    </Grid>
+                    <Grid item xs={ 3 }>
+                      <FormControl component="fieldset">
+                        <Input
+                          query={instanceOfTypeQuery}
+                          label={'Instance of'}
+                          onClick={this.openInstanceOfTypeMenu.bind(this)}
+                          passInputRef={(element) => this.instanceOfTypeInput = element}
+                          onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
+                        {this.renderInstanceOfTypeResults()}
+                      </FormControl>
                     </Grid>
                   </Grid>
                   {this.renderSettingsToggle()}
