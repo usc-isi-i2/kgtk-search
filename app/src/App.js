@@ -355,25 +355,23 @@ class App extends React.Component {
           </Typography>
           { !!result.alias.length ? (
             <Typography
-              component="span"
+              component="p"
               variant="body1"
               className={ classes.description }>
               <b>Alias:</b> { result.alias.join(', ') }
             </Typography>
           ) : null }
-          <br />
           { !!debugSwitchState ? (
           <Typography
-              component="span"
+              component="p"
               variant="body1"
               className={ classes.description }>
               <b>Pagerank:</b> { result.pagerank }
             </Typography>
             ) : null }
-          <br />
           { !!result.data_type ? (
             <Typography
-              component="span"
+              component="p"
               variant="body1"
               className={ classes.description }>
               <b>Data type:</b> { result.data_type }
@@ -572,6 +570,7 @@ class App extends React.Component {
                         color="primary"
                     />}
               label="Debug"
+              className={ classes.description }
               labelPlacement="start"
             />
           </FormGroup>
