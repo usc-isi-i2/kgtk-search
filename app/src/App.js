@@ -338,7 +338,9 @@ class App extends React.Component {
           { i + 1 }.
         </Typography>
         <Link
-          href={ `https://www.wikidata.org/wiki/${ result.qnode }` }
+          href={ result.qnode[0] == 'Q' ?
+            `https://www.wikidata.org/wiki/${ result.qnode }` :
+            `https://www.wikidata.org/wiki/Property:${ result.qnode }` }
           target="_blank"
           className={ classes.link }>
           <Typography
