@@ -369,6 +369,14 @@ class App extends React.Component {
               <b>Pagerank:</b> { result.pagerank }
             </Typography>
             ) : null }
+          { !!debugSwitchState ? (
+          <Typography
+              component="p"
+              variant="body1"
+              className={ classes.description }>
+              <b>Statements:</b> { result.statements }
+            </Typography>
+            ) : null }
           { !!result.data_type ? (
             <Typography
               component="p"
