@@ -15,6 +15,8 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
 import {
   withStyles,
   createMuiTheme,
@@ -146,6 +148,20 @@ const StyledMenu = withStyles((theme) => ({
   },
 }))(Menu);
 
+const PurpleSwitch = withStyles({
+  switchBase: {
+    color: '#fefefe',
+    '&$checked': {
+      color: '#fefefe',
+    },
+    '&$checked + $track': {
+      backgroundColor: '#fefefe',
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
 
 const StyledMenuItem = withStyles((theme) => ({
   root: {
@@ -200,6 +216,7 @@ class App extends React.Component {
       instanceOfTypeResults: [],
       instanceOfTypeQuery: '',
       instanceOfType: '',
+      debugSwitchState: false
     }
   }
 
@@ -253,6 +270,10 @@ class App extends React.Component {
     })
   }
 
+  handleDebugSwitchChange (debugSwitchState) {
+    this.setState({ debugSwitchState })
+  }
+
   submitQuery(isClass=false) {
     const { query } = this.state
     const { language } = this.state
@@ -303,9 +324,11 @@ class App extends React.Component {
     this.submitQuery()
   }
 
+
   renderResults () {
     const { classes } = this.props
     const { results } = this.state
+    const { debugSwitchState } = this.state
     return results.map((result, i) => (
       <Grid item xs={ 12 } key={ i } className={ classes.result }>
         <Typography
@@ -338,6 +361,15 @@ class App extends React.Component {
               <b>Alias:</b> { result.alias.join(', ') }
             </Typography>
           ) : null }
+          <br />
+          { !!debugSwitchState ? (
+          <Typography
+              component="span"
+              variant="body1"
+              className={ classes.description }>
+              <b>Pagerank:</b> { result.pagerank }
+            </Typography>
+            ) : null }
           <br />
           { !!result.data_type ? (
             <Typography
@@ -512,6 +544,7 @@ class App extends React.Component {
   render () {
     const { classes } = this.props
     const { query } = this.state
+    const { debugSwitchState } = this.state
     return (
       <ThemeProvider theme={ theme }>
         <Container maxWidth="xl">
@@ -528,6 +561,21 @@ class App extends React.Component {
             </a>
             Knowledge Graph Text Search
           </Typography>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                    <PurpleSwitch
+                        checked={debugSwitchState}
+                        onChange={(event, checked) => this.handleDebugSwitchChange(checked)}
+                        label="Debug"
+                        name="debugSwitch"
+                        color="primary"
+                    />}
+              label="Debug"
+              labelPlacement="start"
+            />
+          </FormGroup>
+
           <form className={ classes.form } noValidate
             onSubmit={ this.submit.bind(this) }>
             <Grid container spacing={ 3 }>
