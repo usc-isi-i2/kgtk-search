@@ -86,27 +86,21 @@ class Search(object):
 
         search_field = f'all_labels.{language}.ngram'
 
-        query_part = {
-            "match": {
-                search_field: {
-                    "query": search_term_truncated,
-                    "operator": "and"
-                }
-            }
-        }
         exact_match_field = f'all_labels.{language}.keyword_lower'
-        exact_match_part = {
-            "term": {
-                exact_match_field: {
-                    "value": search_term.lower(),
-                    "boost": 100
-                }
+
+        query_part = {
+            "query_string": {
+                "fields": [
+                    f"{search_field}^1.0",
+                    f"{exact_match_field}^100"
+                ],
+                "query": search_term_truncated,
+                "default_operator": "AND"
             }
         }
 
         ngrams_query = self.ngram_query
-        ngrams_query['query']['function_score']['query']['bool']['should'].append(query_part)
-        ngrams_query['query']['function_score']['query']['bool']['should'].append(exact_match_part)
+        ngrams_query['query']['function_score']['query']['bool']['must'].append(query_part)
 
         if instance_of.strip():
             instance_of_part = {
@@ -116,7 +110,7 @@ class Search(object):
                     }
                 }
             }
-            ngrams_query['query']['function_score']['query']['bool']['filter'].append(instance_of_part)
+            ngrams_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
         elif is_class:
             is_class_part = {
                 "term": {
@@ -125,7 +119,7 @@ class Search(object):
                     }
                 }
             }
-            ngrams_query['query']['function_score']['query']['bool']['filter'].append(is_class_part)
+            ngrams_query['query']['function_score']['query']['bool']['must'].append(is_class_part)
 
         ngrams_query['size'] = size
 
