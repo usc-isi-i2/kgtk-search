@@ -66,11 +66,14 @@ class FindNearestQnodes(Resource):
 
             data_type = source.get('data_type', None)
 
+            statements = source.get('statements', 1)
+
             r_objs.append(SearchResult(source['id'],
                                        labels,
                                        aliases,
                                        descriptions,
                                        source['pagerank'],
-                                       data_type=data_type))
+                                       data_type=data_type,
+                                       statements=statements))
 
         return [x.to_json(extra_info=extra_info) for x in r_objs]
