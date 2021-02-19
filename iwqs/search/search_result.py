@@ -3,7 +3,7 @@ from typing import List
 
 class SearchResult(object):
     def __init__(self, qnode: str, label: List[str], alias: List[str], description: List[str], pagerank: float,
-                 data_type: str = None, statements: int = 1):
+                 score: float, data_type: str = None, statements: int = 1):
         self.qnode = qnode
         self.label = label
         self.alias = alias
@@ -11,6 +11,7 @@ class SearchResult(object):
         self.pagerank = pagerank
         self.data_type = data_type
         self.statements = statements
+        self.score = score
 
     def to_json(self, extra_info=False):
         r = {
@@ -22,6 +23,7 @@ class SearchResult(object):
             r['alias'] = self.alias
             r['pagerank'] = self.pagerank
             r['statements'] = self.statements
+            r['score'] = self.score
             if self.data_type:
                 r['data_type'] = self.data_type
         return r

@@ -45,6 +45,7 @@ class FindNearestQnodes(Resource):
 
         for result in results:
             source = result['_source']
+            score = result['_score']
             labels = []
             aliases = []
             descriptions = []
@@ -74,6 +75,7 @@ class FindNearestQnodes(Resource):
                                        descriptions,
                                        source['pagerank'],
                                        data_type=data_type,
-                                       statements=statements))
+                                       statements=statements,
+                                       score=score))
 
         return [x.to_json(extra_info=extra_info) for x in r_objs]
