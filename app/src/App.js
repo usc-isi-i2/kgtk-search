@@ -265,7 +265,7 @@ class App extends React.Component {
         clearTimeout(this.timeoutID)
         this.timeoutID = setTimeout(() => {
           this.submitQuery(true)
-        }, 300)
+        }, 600)
       }
     })
   }
@@ -338,7 +338,7 @@ class App extends React.Component {
           { i + 1 }.
         </Typography>
         <Link
-          href={ result.qnode[0] == 'Q' ?
+          href={ result.qnode[0] === 'Q' ?
             `https://www.wikidata.org/wiki/${ result.qnode }` :
             `https://www.wikidata.org/wiki/Property:${ result.qnode }` }
           target="_blank"
@@ -431,7 +431,7 @@ class App extends React.Component {
   selectInstanceOfType(result) {
     this.setState({
       instanceOfType: result.qnode,
-      instanceOfTypeQuery: result.label[0],
+      instanceOfTypeQuery: result.label[0] + ` (${result.qnode})`
     }, () => {
       this.closeInstanceOfTypeMenu()
       this.submitQuery()
