@@ -15,7 +15,7 @@ app.secret_key = os.environ.get('APP_SECRET', '')
 # Add mongo db settings for logging
 MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://0.0.0.0:27017/kgtk')
 app.config["MONGO_URI"] = MONGO_URI
-mongo = PyMongo(app)
+app.mongo = PyMongo(app)
 
 api = Api(app)
 api.add_resource(FindNearestQnodes, '/api/<string:search_term>')
