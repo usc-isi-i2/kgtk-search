@@ -31,6 +31,16 @@ class FindNearestQnodes(Resource):
         new_entry = current_app.mongo.db.search.insert_one({
             'created_at': timestamp,
             'search_term': search_term,
+            'extra_info': extra_info,
+            'query_type': query_type,
+            'instance_of': instance_of,
+            'is_class': is_class,
+            'lowercase': language,
+            'user_es_url': user_es_url,
+            'user_es_index': user_es_index,
+            'language': language,
+            'item': item,
+            'size': size,
         })
 
         if is_class:
