@@ -148,7 +148,7 @@ const StyledMenu = withStyles((theme) => ({
   },
 }))(Menu);
 
-const PurpleSwitch = withStyles({
+const CustomSwitch = withStyles({
   switchBase: {
     color: '#fefefe',
     '&$checked': {
@@ -208,7 +208,7 @@ class App extends React.Component {
     this.state = {
       query: '',
       results: [],
-      showSettings: false,
+      showSettings: true,
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
       itemType: ITEM_TYPE_OPTIONS[0].value,
@@ -216,7 +216,8 @@ class App extends React.Component {
       instanceOfTypeResults: [],
       instanceOfTypeQuery: '',
       instanceOfType: '',
-      debugSwitchState: false
+      debugSwitchState: false,
+      classesSwitchState: false
     }
   }
 
@@ -274,6 +275,14 @@ class App extends React.Component {
     this.setState({ debugSwitchState })
   }
 
+  handleClassesSwitchChange (classesSwitchState) {
+    this.setState({ classesSwitchState }, () => {
+      if (this.state.query) {
+        this.submitQuery()
+      }
+    })
+  }
+
   submitQuery(isClass=false) {
     const { query } = this.state
     const { language } = this.state
@@ -281,6 +290,7 @@ class App extends React.Component {
     const { itemType } = this.state
     const { instanceOfType } = this.state
     const { instanceOfTypeQuery } = this.state
+    const { classesSwitchState } = this.state
 
     // Construct the url with correct parameters
     let url = `/api/`
@@ -296,6 +306,10 @@ class App extends React.Component {
     url += `&extra_info=true&language=${language}&item=${itemType}`
     if ( instanceOfType ) {
       url += `&instance_of=${instanceOfType}`
+    }
+
+    if ( classesSwitchState ) {
+      url += `&is_class=true`
     }
 
     if ( query || instanceOfTypeQuery ) {
@@ -469,13 +483,12 @@ class App extends React.Component {
   }
 
   renderSettings() {
-    const { language, queryType, itemType, showSettings } = this.state
-    const { instanceOfTypeQuery } = this.state
+    const { language, queryType, itemType, showSettings, debugSwitchState, classesSwitchState } = this.state
     const { classes } = this.props
     if ( showSettings ) {
       return (
         <Grid container spacing={ 3 }>
-          <Grid item xs={ 12 } lg={ 4 }>
+          <Grid item xs={ 12 } lg={ 3 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Language
@@ -494,7 +507,7 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 12 } lg={ 4 }>
+          <Grid item xs={ 12 } lg={ 3 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Query Type
@@ -513,7 +526,7 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 12 } lg={ 4 }>
+          <Grid item xs={ 12 } lg={ 3 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Search
@@ -532,6 +545,38 @@ class App extends React.Component {
               </RadioGroup>
             </FormControl>
           </Grid>
+          <Grid item xs={ 12 } lg={ 3 }>
+             <FormLabel component="legend" className={classes.settingsLabel}>
+                Other Settings
+              </FormLabel>
+             <FormControlLabel
+              control={
+                    <CustomSwitch
+                        checked={classesSwitchState}
+                        onChange={(event, checked) => this.handleClassesSwitchChange(checked)}
+                        label="Classes"
+                        name="classesSwitch"
+                        color="primary"
+                    />}
+              label="Search Classes only"
+              className={ classes.description }
+              labelPlacement="end"
+            />
+            <br/>
+            <FormControlLabel
+              control={
+                    <CustomSwitch
+                        checked={debugSwitchState}
+                        onChange={(event, checked) => this.handleDebugSwitchChange(checked)}
+                        label="Debug"
+                        name="debugSwitch"
+                        color="primary"
+                    />}
+              label="Debug"
+              className={ classes.description }
+              labelPlacement="end"
+            />
+          </Grid>
         </Grid>
       )
     }
@@ -539,7 +584,7 @@ class App extends React.Component {
 
   render () {
     const { classes } = this.props
-    const { query, instanceOfTypeQuery, debugSwitchState } = this.state
+    const { instanceOfTypeQuery } = this.state
     return (
       <ThemeProvider theme={ theme }>
         <Container maxWidth="xl">
@@ -556,21 +601,6 @@ class App extends React.Component {
             </a>
             Knowledge Graph Text Search
           </Typography>
-          <FormGroup>
-            <FormControlLabel
-              control={
-                    <PurpleSwitch
-                        checked={debugSwitchState}
-                        onChange={(event, checked) => this.handleDebugSwitchChange(checked)}
-                        label="Debug"
-                        name="debugSwitch"
-                        color="primary"
-                    />}
-              label="Debug"
-              className={ classes.description }
-              labelPlacement="start"
-            />
-          </FormGroup>
 
           <form className={ classes.form } noValidate
             onSubmit={ this.submit.bind(this) }>
@@ -578,20 +608,19 @@ class App extends React.Component {
               <Grid item xs={ 12 }>
                 <Paper component="div" className={ classes.paper } square>
                   <Grid container spacing={ 3 }>
-                    <Grid item xs={ 9 }>
+                    <Grid item xs={ 8 }>
                       <Input autoFocus={ true } label={'Search'}
                         onChange={ this.handleOnChange.bind(this) }/>
                     </Grid>
-                    <Grid item xs={ 3 }>
-                      <FormControl component="fieldset">
+                    <Grid item xs={ 4 }>
                         <Input
                           query={instanceOfTypeQuery}
                           label={'Instance of'}
                           onClick={this.openInstanceOfTypeMenu.bind(this)}
                           passInputRef={(element) => this.instanceOfTypeInput = element}
-                          onChange={ this.handleOnChangeInstanceOfType.bind(this) }/>
+                          onChange={ this.handleOnChangeInstanceOfType.bind(this) }
+                        />
                         {this.renderInstanceOfTypeResults()}
-                      </FormControl>
                     </Grid>
                   </Grid>
                   {this.renderSettingsToggle()}
