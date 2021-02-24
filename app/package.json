@@ -37,5 +37,6 @@
       "last 1 safari version"
     ]
   },
+  "homepage" : "https://kgtk.isi.edu/search",
   "proxy": "http://0.0.0.0:7884/"
 }
