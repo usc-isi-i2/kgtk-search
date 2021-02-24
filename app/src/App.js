@@ -207,7 +207,7 @@ class App extends React.Component {
     this.state = {
       query: '',
       results: [],
-      showSettings: true,
+      showSettings: false,
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
       itemType: ITEM_TYPE_OPTIONS[0].value,
