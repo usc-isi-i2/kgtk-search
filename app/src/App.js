@@ -252,7 +252,10 @@ class App extends React.Component {
   }
 
   handleOnChangeInstanceOfType(instanceOfTypeQuery) {
-    this.setState({ instanceOfTypeQuery }, () => {
+    this.setState({
+      instanceOfTypeQuery,
+      instanceOfType: ''
+    }, () => {
       if ( !instanceOfTypeQuery ) {
         this.setState({
           instanceOfType: '',
@@ -262,12 +265,6 @@ class App extends React.Component {
           this.submitQuery()
         })
       } else {
-        // Had to set state here as well, check with Gleb
-        this.setState({
-          instanceOfType: '',
-          instanceOfTypeMenu: false,
-          instanceOfTypeResults: [],
-        })
         clearTimeout(this.timeoutID)
         this.timeoutID = setTimeout(() => {
           this.submitQuery(true)
