@@ -1,3 +1,5 @@
+from datetime import datetime
+from flask import current_app
 from flask_restful import Resource
 from iwqs.search.search_config import es_url, es_index
 from iwqs.search.es_search import Search
@@ -23,6 +25,13 @@ class FindNearestQnodes(Resource):
 
         size = request.args.get('size', 20)
         extra_info = request.args.get('extra_info', 'false').lower().strip() == 'true'
+
+        # Log the search in our mongo db
+        timestamp = datetime.now().isoformat()
+        new_entry = current_app.mongo.db.search.insert_one({
+            'created_at': timestamp,
+            'search_term': search_term,
+        })
 
         if is_class:
             query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of='',
