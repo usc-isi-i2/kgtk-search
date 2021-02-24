@@ -61,8 +61,10 @@ class FindNearestQnodes(Resource):
             query = es_search.create_property_query(search_term, size=size, query_type=query_type,
                                                     instance_of=instance_of)
 
-        results = es_search.search_es(query)
         r_objs = []
+        results = es_search.search_es(query)
+        if not results:
+            return r_objs
 
         lang = language if language else 'en'
 
