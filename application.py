@@ -7,6 +7,9 @@ from app_config import host, port
 app = Flask(__name__)
 CORS(app)
 
+# Set the APP_SECRET key
+app.secret_key = os.environ.get('APP_SECRET', '')
+
 api = Api(app)
 api.add_resource(FindNearestQnodes, '/api/<string:search_term>')
 
