@@ -308,8 +308,12 @@ class App extends React.Component {
     }
 
     if ( classesSwitchState ) {
-      url += `&is_class=true`
-    }
+      if ( !url.includes(`&is_class=true`) ) {
+          url += `&is_class=true`
+        }
+      }
+
+
 
     if ( query || instanceOfTypeQuery ) {
       return fetch(url, {
