@@ -1,4 +1,5 @@
 import os
+import json
 from datetime import datetime
 from flask import current_app
 from flask_restful import Resource
@@ -46,6 +47,15 @@ class FindNearestQnodes(Resource):
                 'item': item,
                 'size': size,
             })
+
+            # Send a message to slack with the search query
+            current_app.slack_client.api_call(
+                api_method='chat.postMessage',
+                json={
+                    'channel': '#kgtk-search',
+                    'text': 'New query on KGTK Search!',
+                },
+            )
 
         # if is_class:
         #     query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of='',
