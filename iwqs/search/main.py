@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from flask import current_app
 from flask_restful import Resource
+from slack.errors import SlackApiError
 from iwqs.search.search_config import es_url, es_index
 from iwqs.search.es_search import Search
 from flask import request
@@ -64,14 +65,17 @@ class FindNearestQnodes(Resource):
                 )},
             }]
 
-            current_app.slack_client.api_call(
-                api_method='chat.postMessage',
-                json={
-                    'channel': '#kgtk-search',
-                    'text': 'New query on KGTK Search!',
-                    'blocks': json.dumps(blocks),
-                },
-            )
+            try:
+                current_app.slack_client.api_call(
+                    api_method='chat.postMessage',
+                    json={
+                        'channel': '#kgtk-search',
+                        'text': 'New query on KGTK Search!',
+                        'blocks': json.dumps(blocks),
+                    },
+                )
+            except SlackApiError as e:
+                print('Slack error: {}'.format(e))
 
         # if is_class:
         #     query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of='',
