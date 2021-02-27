@@ -49,11 +49,27 @@ class FindNearestQnodes(Resource):
             })
 
             # Send a message to slack with the search query
+            blocks = [{
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "*New query on KGTK Search!*"
+                },
+            }, {
+                "type": "section",
+                "text": {
+                "type": "mrkdwn",
+                "text": "> {}".format(
+                   search_term,
+                )},
+            }]
+
             current_app.slack_client.api_call(
                 api_method='chat.postMessage',
                 json={
                     'channel': '#kgtk-search',
                     'text': 'New query on KGTK Search!',
+                    'blocks': json.dumps(blocks),
                 },
             )
 
