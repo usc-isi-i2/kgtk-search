@@ -36,7 +36,7 @@ class Search(object):
 
         return response_output
 
-    def create_exact_match_query(self, search_term, lower_case, size=20, language=None, instance_of=''):
+    def create_exact_match_query(self, search_term, lower_case, size=20, language=None, instance_of='', is_class=False):
         exact_match_query = self.query
         instance_of_part = None
         if instance_of.strip():
@@ -72,6 +72,16 @@ class Search(object):
 
         if instance_of_part is not None:
             exact_match_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
+
+        if is_class:
+            is_class_part = {
+                "term": {
+                    "is_class.keyword_lower": {
+                        "value": "true"
+                    }
+                }
+            }
+            exact_match_query['query']['function_score']['query']['bool']['must'].append(is_class_part)
 
         exact_match_query['size'] = size
 
@@ -111,7 +121,7 @@ class Search(object):
                 }
             }
             ngrams_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
-        elif is_class:
+        if is_class:
             is_class_part = {
                 "term": {
                     "is_class.keyword_lower": {
