@@ -111,10 +111,6 @@ class SlackEvents(Resource):
         """
         data = json.loads(request.values.get('payload'))
         data_id = data['actions'][0]['value']
-        print(data['message']['ts'])
         trigger_id = data.get('trigger_id')
         self.open_modal(data_id, trigger_id)
         return jsonify({'ok': True})
-
-
-
