@@ -34,7 +34,7 @@ class FindNearestQnodes(Resource):
         if is_production:
             # Log the search in our mongo db
             timestamp = datetime.now().isoformat()
-            current_app.mongo.db.search.insert_one({
+            logged_entry = current_app.mongo.db.search.insert_one({
                 'created_at': timestamp,
                 'search_term': search_term,
                 'extra_info': extra_info,
@@ -64,7 +64,7 @@ class FindNearestQnodes(Resource):
                         "text": "Show the top 10 results",
                         "emoji": True
                     },
-                    "value": search_term,
+                    "value": str(logged_entry.inserted_id),
                 },
             }, {
                 "type": "section",
