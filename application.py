@@ -60,6 +60,29 @@ def open_modal(data_id, trigger_id):
             "type": "divider"
         }]
 
+        # add various search parameters to the slack modal
+        search_params = ""
+        if 'language' in data and data['language']:
+            search_params += "\nLanguage: {}".format(data['language'])
+        if 'query_type' in data and data['query_type']:
+            search_params += "\nQuery Type: {}".format(data['query_type'])
+        if 'item' in data and data['item']:
+            search_params += "\nSearch: {}".format(data['item'])
+        if 'is_class' in data and data['is_class']:
+            search_params += "\nClasses only: {}".format(data['is_class'])
+        if 'instance_of' in data and data['instance_of']:
+            search_params += "\nInstance Of: {}".format(data['instance_of'])
+        if search_params:
+            blocks.append({
+                "type": "section",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Search Parameters:\n{}".format(search_params),
+                    "emoji": True
+                }
+            })
+            blocks.append({"type": "divider"})
+
     # Dump blocks into a string with json
     view = json.dumps({
         "type": "modal",
