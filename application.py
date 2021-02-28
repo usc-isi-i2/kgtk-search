@@ -100,7 +100,7 @@ def open_modal(data_id, trigger_id):
                 if 'description' in result and result['description']:
                     result_text += "\n{}".format(result['description'][0])
                 if 'pagerank' in result and result['pagerank']:
-                    result_text += "\nScore: {}".format(str(result['pagerank']))
+                    result_text += "\nPagerank: {}".format(str(result['pagerank']))
                 blocks.append({
                     "type": "section",
                     "text": {
