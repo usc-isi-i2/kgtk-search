@@ -1,7 +1,9 @@
 import os
+import json
 from datetime import datetime
 from flask import current_app
 from flask_restful import Resource
+from slack.errors import SlackApiError
 from iwqs.search.search_config import es_url, es_index
 from iwqs.search.es_search import Search
 from flask import request
@@ -32,7 +34,7 @@ class FindNearestQnodes(Resource):
         if is_production:
             # Log the search in our mongo db
             timestamp = datetime.now().isoformat()
-            current_app.mongo.db.search.insert_one({
+            logged_entry = current_app.mongo.db.search.insert_one({
                 'created_at': timestamp,
                 'search_term': search_term,
                 'extra_info': extra_info,
@@ -46,6 +48,44 @@ class FindNearestQnodes(Resource):
                 'item': item,
                 'size': size,
             })
+
+            # Send a message to slack with the search query
+            text = 'New search query on KGTK!'
+            blocks = [{
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "*{}*".format(text),
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "View search results",
+                        "emoji": True
+                    },
+                    "value": str(logged_entry.inserted_id),
+                },
+            }, {
+                "type": "section",
+                "text": {
+                "type": "mrkdwn",
+                "text": "> {}".format(
+                   search_term,
+                )},
+            }]
+
+            try:
+                current_app.slack_client.api_call(
+                    api_method='chat.postMessage',
+                    json={
+                        'channel': '#kgtk-search',
+                        'text': text,
+                        'blocks': json.dumps(blocks),
+                    },
+                )
+            except SlackApiError as e:
+                print('Slack error: {}'.format(e))
 
         # if is_class:
         #     query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of='',
@@ -102,5 +142,18 @@ class FindNearestQnodes(Resource):
                                        data_type=data_type,
                                        statements=statements,
                                        score=score))
+
+        # update our mongo db log entry with top 10 results
+        if is_production:
+            top10results = [{
+                'qnode': r_obj.qnode,
+                'label': r_obj.label,
+                'pagerank': r_obj.pagerank,
+                'description': r_obj.description,
+            } for r_obj in r_objs[:10]]
+            update = current_app.mongo.db.search.update_one(
+                {"_id": logged_entry.inserted_id},
+                {'$set': {'results': top10results}}
+            )
 
         return [x.to_json(extra_info=extra_info) for x in r_objs]
