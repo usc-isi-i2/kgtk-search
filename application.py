@@ -52,9 +52,8 @@ def open_modal(data_id, trigger_id):
         blocks = [{
             "type": "section",
             "text": {
-                "type": "plain_text",
-                "text": "Top 10 search results for the query:\n\n{}".format(data['search_term']),
-                "emoji": True
+                "type": "mrkdwn",
+                "text": "*Top 10 search results for the query:*\n\n{}".format(data['search_term']),
             }
         }, {
             "type": "divider"
@@ -76,9 +75,8 @@ def open_modal(data_id, trigger_id):
             blocks.append({
                 "type": "section",
                 "text": {
-                    "type": "plain_text",
-                    "text": "Search Parameters:\n{}".format(search_params),
-                    "emoji": True
+                    "type": "mrkdwn",
+                    "text": "*Search Parameters:*\n{}".format(search_params)
                 }
             })
             blocks.append({"type": "divider"})
