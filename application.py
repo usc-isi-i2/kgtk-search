@@ -81,6 +81,34 @@ def open_modal(data_id, trigger_id):
             })
             blocks.append({"type": "divider"})
 
+        # add search results to the slack modal
+        if 'results' in data and data['results']:
+            num_results = len(data['results'])
+            blocks.append({
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "*Top {} search results:*\n\n".format(num_results)
+                }
+            })
+            for index, result in enumerate(data['results']):
+                result_text = "{}. ".format(index + 1)
+                if 'label' in result and result['label']:
+                    result_text += "{}".format(result['label'][0])
+                if 'qnode' in result and result['qnode']:
+                    result_text += " ({})".format(result['qnode'])
+                if 'description' in result and result['description']:
+                    result_text += "\n{}".format(result['description'][0])
+                if 'score' in result and result['score']:
+                    result_text += "\nScore: {}".format(str(result['score']))
+                blocks.append({
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "{}".format(result_text)
+                    },
+                })
+
     # Dump blocks into a string with json
     view = json.dumps({
         "type": "modal",
