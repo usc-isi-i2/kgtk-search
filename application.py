@@ -99,8 +99,8 @@ def open_modal(data_id, trigger_id):
                     result_text += " ({})".format(result['qnode'])
                 if 'description' in result and result['description']:
                     result_text += "\n{}".format(result['description'][0])
-                if 'score' in result and result['score']:
-                    result_text += "\nScore: {}".format(str(result['score']))
+                if 'pagerank' in result and result['pagerank']:
+                    result_text += "\nScore: {}".format(str(result['pagerank']))
                 blocks.append({
                     "type": "section",
                     "text": {

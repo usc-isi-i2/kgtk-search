@@ -148,7 +148,7 @@ class FindNearestQnodes(Resource):
             top10results = [{
                 'qnode': r_obj.qnode,
                 'label': r_obj.label,
-                'score': r_obj.score,
+                'pagerank': r_obj.pagerank,
                 'description': r_obj.description,
             } for r_obj in r_objs[:10]]
             update = current_app.mongo.db.search.update_one(
