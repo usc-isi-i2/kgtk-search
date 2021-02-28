@@ -53,7 +53,7 @@ def open_modal(data_id, trigger_id):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "*Top 10 search results for the query:*\n\n{}".format(data['search_term']),
+                "text": "*Showing results for the search query:*\n\n{}".format(data['search_term']),
             }
         }, {
             "type": "divider"

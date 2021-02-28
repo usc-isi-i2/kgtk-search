@@ -61,7 +61,7 @@ class FindNearestQnodes(Resource):
                     "type": "button",
                     "text": {
                         "type": "plain_text",
-                        "text": "Show the top 10 results",
+                        "text": "View search results",
                         "emoji": True
                     },
                     "value": str(logged_entry.inserted_id),
