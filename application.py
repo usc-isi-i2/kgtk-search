@@ -1,5 +1,8 @@
 import os
+import json
 from flask import Flask
+from flask import jsonify
+from flask import request
 from flask_cors import CORS
 from flask_restful import Api
 from flask_pymongo import PyMongo
@@ -29,6 +32,17 @@ app.slack_client = WebClient(SLACK_TOKEN)
 
 api = Api(app)
 api.add_resource(FindNearestQnodes, '/api/<string:search_term>')
+
+
+@app.route('/events', methods=['POST'])
+def events():
+    """
+    Handles incoming slack events
+    """
+    data = json.loads(request.values.get('payload'))
+    data_id = data['actions'][0]['value']
+    trigger_id = data.get('trigger_id')
+    return jsonify({'ok': True})
 
 
 if __name__ == '__main__':
