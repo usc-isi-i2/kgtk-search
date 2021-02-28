@@ -143,4 +143,17 @@ class FindNearestQnodes(Resource):
                                        statements=statements,
                                        score=score))
 
+        # update our mongo db log entry with top 10 results
+        if is_production:
+            top10results = [{
+                'qnode': r_obj.qnode,
+                'label': r_obj.label,
+                'score': r_obj.score,
+                'description': r_obj.description,
+            } for r_obj in r_objs[:10]]
+            update = current_app.mongo.db.search.update_one(
+                {"_id": logged_entry.inserted_id},
+                {'$set': {'results': top10results}}
+            )
+
         return [x.to_json(extra_info=extra_info) for x in r_objs]
