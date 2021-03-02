@@ -228,7 +228,7 @@ class App extends React.Component {
         clearTimeout(this.timeoutID)
         this.timeoutID = setTimeout(() => {
           this.submitQuery()
-        }, 300)
+        }, 500)
       }
     })
   }
@@ -268,7 +268,7 @@ class App extends React.Component {
         clearTimeout(this.timeoutID)
         this.timeoutID = setTimeout(() => {
           this.submitQuery(true)
-        }, 600)
+        }, 500)
       }
     })
   }
