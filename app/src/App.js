@@ -228,7 +228,7 @@ class App extends React.Component {
         clearTimeout(this.timeoutID)
         this.timeoutID = setTimeout(() => {
           this.submitQuery()
-        }, 300)
+        }, 500)
       }
     })
   }
@@ -268,7 +268,7 @@ class App extends React.Component {
         clearTimeout(this.timeoutID)
         this.timeoutID = setTimeout(() => {
           this.submitQuery(true)
-        }, 600)
+        }, 500)
       }
     })
   }
@@ -440,7 +440,16 @@ class App extends React.Component {
   openInstanceOfTypeMenu() {
     const { instanceOfTypeResults } = this.state
     if ( instanceOfTypeResults.length ) {
-      this.setState({instanceOfTypeMenu: true})
+      if ( !!this.clickTimeoutID ) {
+        clearTimeout(this.clickTimeoutID)
+        delete this.clickTimeoutID
+      } else {
+        this.clickTimeoutID = setTimeout(() => {
+          this.setState({instanceOfTypeMenu: true}, () => {
+            delete this.clickTimeoutID
+          })
+        }, 250)
+      }
     }
   }
 
