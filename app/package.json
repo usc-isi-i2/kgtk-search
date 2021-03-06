@@ -38,5 +38,7 @@
     ]
   },
   "homepage" : "https://kgtk.isi.edu/search",
-  "proxy": "http://0.0.0.0:7884/"
+  "proxy": "http://0.0.0.0:7884/",
+  "host": "0.0.0.0",
+  "port": 3000
 }
