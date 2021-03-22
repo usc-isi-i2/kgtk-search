@@ -294,35 +294,40 @@ class App extends React.Component {
     const { instanceOfTypeQuery } = this.state
     const { classesSwitchState } = this.state
 
+    let url = ``
     // Construct the url with correct parameters
-    let url = `/api/`
-    if ( instanceOfTypeQuery && isClass ) {
-      url += `${instanceOfTypeQuery}?`
-      url += `&is_class=true`
-      url += `&type=ngram`
-      url += `&size=5`
-    } else if ( query ) {
-      url += `${query}?`
-      url += `&type=${queryType}`
-    }
-    url += `&extra_info=true&language=${language}&item=${itemType}`
-    if ( instanceOfType ) {
-      url += `&instance_of=${instanceOfType}`
-    }
-
-    if ( classesSwitchState ) {
-      if ( !url.includes(`&is_class=true`) ) {
-          url += `&is_class=true`
-        }
+    if ( itemType === 'qnode') {
+      url = `http://0.0.0.0:7884/api/`
+      if ( instanceOfTypeQuery && isClass ) {
+        url += `${instanceOfTypeQuery}?`
+        url += `&is_class=true`
+        url += `&type=ngram`
+        url += `&size=5`
+      } else if ( query ) {
+        url += `${query}?`
+        url += `&type=${queryType}`
+      }
+      url += `&extra_info=true&language=${language}&item=${itemType}`
+      if ( instanceOfType ) {
+        url += `&instance_of=${instanceOfType}`
       }
 
+      if ( classesSwitchState ) {
+        if ( !url.includes(`&is_class=true`) ) {
+            url += `&is_class=true`
+          }
+        }
+      } // Use the wikidata property finder  for property
+    else {
+       url = `http://localhost:12576/search?label=${query}`
+    }
 
 
     if ( query || instanceOfTypeQuery ) {
       return fetch(url, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
       })
       .then((response) => response.json())
