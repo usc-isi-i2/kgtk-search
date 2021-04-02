@@ -301,7 +301,7 @@ Results:
 ]
 ```
 
-4. `https://kgtk.isi.edu/api/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%9F%D1%83%D1%82%D0%B8%D0%BD?extra_info=true&language=ru&is_class=false&type=ngram&size=5`
+4. `https://kgtk.isi.edu/api/Владимир%20Путин?extra_info=true&language=ru&is_class=false&type=ngram&size=5`
 
 Search for **Validimir Putin**, search type=`ngram`, language=`ru`, is_class=`false`
 
