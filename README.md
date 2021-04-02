@@ -14,7 +14,7 @@ Deployed URL: `https://kgtk.isi.edu/api`
 
 ## Examples
 
-1. `https://kgtk.isi.edu/api/apple?extra_info=true&language=en&is_class=false&type=ngram&size=5` 
+1. `https://kgtk.isi.edu/api?q=apple&extra_info=true&language=en&is_class=false&type=ngram&size=5` 
 
 Search for **apple**, search type=`ngram`, language=`en`
 
@@ -115,7 +115,7 @@ Results:
 ]
   ```
   
-2. `https://kgtk.isi.edu/api/apple?extra_info=true&language=en&is_class=false&type=ngram&size=5&instance_of=Q5`
+2. `https://kgtk.isi.edu/api?q=apple&extra_info=true&language=en&is_class=false&type=ngram&size=5&instance_of=Q5`
 
 Search for **apple**, search type=`ngram`, language=`en`, instance_of=`Q5` (human)
 
@@ -199,7 +199,7 @@ Results:
 ]
 ```
 
-3. `https://kgtk.isi.edu/api/honda?extra_info=true&language=en&is_class=true&type=ngram&size=5`
+3. `https://kgtk.isi.edu/api?q=ford%20escort&extra_info=true&language=en&is_class=true&type=ngram&size=5`
 
 Search for **honda**, search type=`ngram`, language=`en`, is_class=`true`
 
@@ -301,7 +301,7 @@ Results:
 ]
 ```
 
-4. `https://kgtk.isi.edu/api/Владимир%20Путин?extra_info=true&language=ru&is_class=false&type=ngram&size=5`
+4. `https://kgtk.isi.edu/api?q=Владимир%20Путин&extra_info=true&language=ru&is_class=false&type=ngram&size=5`
 
 Search for **Validimir Putin**, search type=`ngram`, language=`ru`, is_class=`false`
 
@@ -337,7 +337,7 @@ Results:
 ]
 ```
 
-5. `https://kgtk.isi.edu/api/time?extra_info=true&language=en&is_class=false&type=ngram&size=5&item=property`
+5. `https://kgtk.isi.edu/api?q=time&extra_info=true&language=en&is_class=false&type=ngram&size=5&item=property`
 
 Search for **time**, search type=`ngram`, language=`en`, is_class=`false`, item=`property`
 
