@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask_restful import Api
 from flask_pymongo import PyMongo
 from app_config import host, port
-from iwqs.search.main import FindNearestQnodes
+from iwqs.search.main import FindNearestQnodes, FindNearestQnodes2
 from iwqs.slack.main import SlackEvents
 from slack import WebClient
 
@@ -31,6 +31,7 @@ app.slack_client = WebClient(SLACK_TOKEN)
 api = Api(app)
 api.add_resource(SlackEvents, '/api/slack/events')
 api.add_resource(FindNearestQnodes, '/api/<string:search_term>')
+api.add_resource(FindNearestQnodes2, '/api')
 
 
 if __name__ == '__main__':
