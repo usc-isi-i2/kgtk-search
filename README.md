@@ -117,7 +117,7 @@ Results:
   
 2. `https://kgtk.isi.edu/api/apple?extra_info=true&language=en&is_class=false&type=ngram&size=5&instance_of=Q5`
 
-Search for **apple**, search type=`ngram`, language=`en`, instance_of=`Q5`
+Search for **apple**, search type=`ngram`, language=`en`, instance_of=`Q5` (human)
 
 Results:
 ```
@@ -303,7 +303,7 @@ Results:
 
 4. `https://kgtk.isi.edu/api/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%9F%D1%83%D1%82%D0%B8%D0%BD?extra_info=true&language=ru&is_class=false&type=ngram&size=5`
 
-Search for **Validimir Putin (in russian)**, search type=`ngram`, language=`ru`, is_class=`false`
+Search for **Validimir Putin**, search type=`ngram`, language=`ru`, is_class=`false`
 
 Results:
 ```
