@@ -14,7 +14,7 @@ Deployed URL: `https://kgtk.isi.edu/api`
 
 ## Examples
 
-1. `https://kgtk.isi.edu/api/apple?extra_info=true&language=en&is_class=false&type=ngram&size=5` 
+1. `https://kgtk.isi.edu/api?q=apple&extra_info=true&language=en&is_class=false&type=ngram&size=5` 
 
 Search for **apple**, search type=`ngram`, language=`en`
 
@@ -115,7 +115,7 @@ Results:
 ]
   ```
   
-2. `https://kgtk.isi.edu/api/apple?extra_info=true&language=en&is_class=false&type=ngram&size=5&instance_of=Q5`
+2. `https://kgtk.isi.edu/api?q=apple&extra_info=true&language=en&is_class=false&type=ngram&size=5&instance_of=Q5`
 
 Search for **apple**, search type=`ngram`, language=`en`, instance_of=`Q5` (human)
 
@@ -199,109 +199,65 @@ Results:
 ]
 ```
 
-3. `https://kgtk.isi.edu/api/honda?extra_info=true&language=en&is_class=true&type=ngram&size=5`
+3. `https://kgtk.isi.edu/api?q=ford%20escort&extra_info=true&language=en&is_class=true&type=ngram&size=5`
 
-Search for **honda**, search type=`ngram`, language=`en`, is_class=`true`
+Search for **ford escort**, search type=`ngram`, language=`en`, is_class=`true`
 
 Results:
 ```
 [
   {
-    "qnode": "Q9584",
+    "qnode": "Q504644",
     "description": [
-      "manufacturer of automobiles, motorcycles, and power equipment"
+      "European small family car"
     ],
     "label": [
-      "Honda"
+      "Ford Escort"
     ],
     "alias": [
-      "Honda Motor Company, Ltd.",
-      "Honda Motor Co., Ltd.",
-      "Honda Giken Kōgyō",
-      "Honda Giken Kogyo K.K."
+      "Ford Escort Ghia",
+      "Ford Escort RS 1600",
+      "Ford Escort RS1800",
+      "Ford Escort RS1600",
+      "Ford Escort RS Cosworth",
+      "Ford Escort RS2000",
+      "Ford Escort Cosworth",
+      "Ford Escort RS"
     ],
-    "pagerank": 0.0000014562066273910058,
-    "statements": 255,
-    "score": 21.48871
+    "pagerank": 2.1400817331862214E-8,
+    "statements": 194,
+    "score": 0.36644888
   },
   {
-    "qnode": "Q5892712",
+    "qnode": "Q2584029",
     "description": [
-      "A sports award, given to the best collegiate female athlete in each of twelve sports"
+      "racing automobile model"
     ],
     "label": [
-      "Honda Sports Award"
+      "Ford Escort WRC"
     ],
-    "alias": [
-      "CWSA",
-      "Collegiate Women Sports Awards",
-      "Honda Broderick Award",
-      "Honda Award",
-      "Honda-Broderick Award",
-      "collegiatewomensportsawards.com"
-    ],
-    "pagerank": 4.543758881131463E-8,
-    "statements": 132,
-    "score": 0.004066212
+    "alias": [],
+    "pagerank": 5.218473500144622E-9,
+    "statements": 116,
+    "score": 0.0012064546
   },
   {
-    "qnode": "Q5892456",
+    "qnode": "Q1436815",
     "description": [
-      "Honda moped"
+      "car model"
     ],
     "label": [
-      "Honda Express"
+      "Ford Escort (North America)"
     ],
-    "alias": [
-      "Honda NC50"
-    ],
-    "pagerank": 3.563811374275516E-8,
-    "statements": 121,
-    "score": 0.0040584547
-  },
-  {
-    "qnode": "Q1350359",
-    "description": [
-      "IndyCar Series race"
-    ],
-    "label": [
-      "Honda Indy 200"
-    ],
-    "alias": [
-      "Honda 200",
-      "Red Roof Inns 200",
-      "Miller Genuine Draft 200",
-      "Honda Indy 200 at Mid-Ohio",
-      "Red Roof Inns 150",
-      "Miller Lite 200",
-      "Pioneer Electronics 200",
-      "Escort Radar Warning 200",
-      "Miller 200",
-      "Honda Indy 200"
-    ],
-    "pagerank": 1.9142571818797832E-8,
-    "statements": 69,
-    "score": 0.002382414
-  },
-  {
-    "qnode": "Q26698328",
-    "description": [
-      "political position in Spain"
-    ],
-    "label": [
-      "mayor of Hondarribia"
-    ],
-    "alias": [
-      "alcalde de Hondarribia"
-    ],
-    "pagerank": 2.347983464359752E-8,
-    "statements": 224,
-    "score": 0.002342138
+    "alias": [],
+    "pagerank": 4.541820077538962E-9,
+    "statements": 116,
+    "score": 0.0008560259
   }
 ]
 ```
 
-4. `https://kgtk.isi.edu/api/Владимир%20Путин?extra_info=true&language=ru&is_class=false&type=ngram&size=5`
+4. `https://kgtk.isi.edu/api?q=Владимир%20Путин&extra_info=true&language=ru&is_class=false&type=ngram&size=5`
 
 Search for **Validimir Putin**, search type=`ngram`, language=`ru`, is_class=`false`
 
@@ -337,7 +293,7 @@ Results:
 ]
 ```
 
-5. `https://kgtk.isi.edu/api/time?extra_info=true&language=en&is_class=false&type=ngram&size=5&item=property`
+5. `https://kgtk.isi.edu/api?q=time&extra_info=true&language=en&is_class=false&type=ngram&size=5&item=property`
 
 Search for **time**, search type=`ngram`, language=`en`, is_class=`false`, item=`property`
 
