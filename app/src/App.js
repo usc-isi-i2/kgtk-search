@@ -26,6 +26,7 @@ import {
 import Logo from './components/Logo'
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
+import Select from '@material-ui/core/Select';
 
 
 let theme = createMuiTheme()
@@ -181,9 +182,16 @@ const StyledMenuItem = withStyles((theme) => ({
 
 const LANGUAGE_OPTIONS = [
   { value: 'en', label: 'English' },
-  { value: 'ru', label: 'Russian' },
+  { value: 'de', label: 'German' },
   { value: 'es', label: 'Spanish' },
-  { value: 'zh-cn', label: 'Simplified Chinese' },
+  { value: 'fr', label: 'French' },
+  { value: 'it', label: 'Italian' },
+  { value: 'nl', label: 'Dutch' },
+  { value: 'pl', label: 'Polish' },
+  { value: 'pt', label: 'Portuguese' },
+  { value: 'ru', label: 'Russian' },
+  { value: 'sv', label: 'Swedish' },
+  { value: 'zh-cn',label: 'Simplified Chinese' }
 ]
 
 
@@ -233,8 +241,9 @@ class App extends React.Component {
     })
   }
 
-  handleOnChangeLanguage (language) {
-    this.setState({ language }, () => {
+  handleOnChangeLanguage (event) {
+    console.log(event.target.value)
+    this.setState({ language:event.target.value }, () => {
       this.submitQuery()
     })
   }
@@ -503,21 +512,16 @@ class App extends React.Component {
         <Grid container spacing={ 3 }>
           <Grid item xs={ 12 } lg={ 3 }>
             <FormControl component="fieldset">
-              <FormLabel component="legend" className={classes.settingsLabel}>
-                Language
-              </FormLabel>
-              <RadioGroup aria-label="query-type" name="query-type"
-                value={ language }
-                className={classes.settingsRadioGroup}
-                onChange={(event, option) => this.handleOnChangeLanguage(option)}>
+            <FormLabel component="legend" className={classes.settingsLabel}>Language</FormLabel>
+              <Select
+                labelId="language-select"
+                id="language-select-id"
+                value={language}
+                onChange={(event) => this.handleOnChangeLanguage(event)}>
                 { LANGUAGE_OPTIONS.map((option, index) => (
-                  <FormControlLabel
-                    key={ index }
-                    value={ option.value }
-                    control={ <Radio color="default" /> }
-                    label={ option.label } />
-                )) }
-              </RadioGroup>
+                  <MenuItem value={ option.value } >{ option.label }</MenuItem>))
+                }
+              </Select>
             </FormControl>
           </Grid>
           <Grid item xs={ 12 } lg={ 3 }>

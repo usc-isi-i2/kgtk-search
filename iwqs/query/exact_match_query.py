@@ -6,17 +6,16 @@ query = {
                     "must": [],
                     "must_not": [
                         {
-                            "term": {
-                                "descriptions.en.keyword_lower": {
-                                    "value": "wikimedia disambiguation page"
-                                }
-                            }
-                        },
-                        {
-                            "term": {
-                                "descriptions.en.keyword_lower": {
-                                    "value": "wikimedia category"
-                                }
+                            "terms": {
+                                "descriptions.en.keyword_lower": [
+                                    "wikimedia disambiguation page",
+                                    "wikimedia category",
+                                    "wikimedia kml file",
+                                    "wikimedia list article",
+                                    "wikimedia template",
+                                    "wikimedia module",
+                                    "wikinews article"
+                                ]
                             }
                         }
                     ]
