@@ -87,18 +87,24 @@ class FindNearestQnodes(Resource):
             except SlackApiError as e:
                 print('Slack error: {}'.format(e))
 
-        # if is_class:
-        #     query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of='',
-        #                                          is_class=is_class)
         if item == 'qnode':
             if query_type == 'ngram':
-                query = es_search.create_ngram_query(search_term, size=size, language=language, instance_of=instance_of,
+                query = es_search.create_ngram_query(search_term,
+                                                     size=size,
+                                                     language=language,
+                                                     instance_of=instance_of,
                                                      is_class=is_class)
             else:
-                query = es_search.create_exact_match_query(search_term, lowercase, size=size, language=language,
-                                                           instance_of=instance_of)
+                query = es_search.create_exact_match_query(search_term,
+                                                           lowercase,
+                                                           size=size,
+                                                           language=language,
+                                                           instance_of=instance_of,
+                                                           is_class=is_class)
         else:
-            query = es_search.create_property_query(search_term, size=size, query_type=query_type,
+            query = es_search.create_property_query(search_term,
+                                                    size=size,
+                                                    query_type=query_type,
                                                     instance_of=instance_of)
 
         r_objs = []
