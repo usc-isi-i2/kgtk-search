@@ -26,8 +26,6 @@ import {
 import Logo from './components/Logo'
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
-
-import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 
 
