@@ -248,9 +248,11 @@ class App extends React.Component {
     })
   }
 
-  handleOnChangeLanguage (event) {
-    console.log(event.target.value)
-    this.setState({ language:event.target.value }, () => {
+  handleOnChangeLanguage(option) {
+    this.setState({
+      language: option.value,
+      openLanguageSettings: false,
+    }, () => {
       this.submitQuery()
     })
   }
