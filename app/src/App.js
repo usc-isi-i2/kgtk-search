@@ -132,6 +132,12 @@ const styles = theme => ({
     color: '#fefefe',
     userSelect: 'none',
   },
+  languageSetting: {
+    color: '#fefefe',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    fontSize: theme.spacing(2),
+  },
   alignedIcon: {
     verticalAlign: 'bottom',
   },
@@ -512,16 +518,13 @@ class App extends React.Component {
         <Grid container spacing={ 3 }>
           <Grid item xs={ 12 } lg={ 3 }>
             <FormControl component="fieldset">
-            <FormLabel component="legend" className={classes.settingsLabel}>Language</FormLabel>
-              <Select
-                labelId="language-select"
-                id="language-select-id"
-                value={language}
-                onChange={(event) => this.handleOnChangeLanguage(event)}>
-                { LANGUAGE_OPTIONS.map((option, index) => (
-                  <MenuItem value={ option.value } >{ option.label }</MenuItem>))
-                }
-              </Select>
+              <FormLabel component="legend" className={classes.settingsLabel}
+                passInputRef={(element) => this.languageSettingRef = element}>
+                Language
+              </FormLabel>
+              <p className={classes.languageSetting}>
+                {LANGUAGE_OPTIONS.find(option => option.value === language).label}
+              </p>
             </FormControl>
           </Grid>
           <Grid item xs={ 12 } lg={ 3 }>
