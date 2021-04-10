@@ -26,7 +26,6 @@ import {
 import Logo from './components/Logo'
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
-import Select from '@material-ui/core/Select';
 
 
 let theme = createMuiTheme()
@@ -522,7 +521,7 @@ class App extends React.Component {
   }
 
   renderLanguageSettings() {
-    const { language, openLanguageSettings } = this.state
+    const { openLanguageSettings } = this.state
     const { classes } = this.props
     return (
       <StyledMenu
