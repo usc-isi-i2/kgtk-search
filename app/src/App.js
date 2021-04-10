@@ -222,6 +222,7 @@ class App extends React.Component {
       query: '',
       results: [],
       showSettings: false,
+      openLanguageSettings: false,
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
       itemType: ITEM_TYPE_OPTIONS[0].value,
@@ -510,6 +511,45 @@ class App extends React.Component {
     )
   }
 
+  openLanguageSettings() {
+    this.setState({openLanguageSettings: true})
+  }
+
+  closeLanguageSettings() {
+    this.setState({openLanguageSettings: false})
+  }
+
+  renderLanguageSettings() {
+    const { language, openLanguageSettings } = this.state
+    const { classes } = this.props
+    return (
+      <StyledMenu
+        id="language-settings"
+        anchorEl={this.languageSettingRef}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        open={openLanguageSettings}
+        onClose={() => this.closeLanguageSettings()}
+        keepMounted>
+        {LANGUAGE_OPTIONS.map((option, index) => (
+          <StyledMenuItem key={index}
+            onClick={() => this.handleOnChangeLanguage(option)}>
+            <ListItemText className={classes.cursor}>
+              {option.label}
+            </ListItemText>
+          </StyledMenuItem>
+        ))}
+      </StyledMenu>
+    )
+  }
+
   renderSettings() {
     const { language, queryType, itemType, showSettings, debugSwitchState, classesSwitchState } = this.state
     const { classes } = this.props
@@ -519,12 +559,14 @@ class App extends React.Component {
           <Grid item xs={ 12 } lg={ 3 }>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}
-                passInputRef={(element) => this.languageSettingRef = element}>
+                ref={(element) => this.languageSettingRef = element}>
                 Language
               </FormLabel>
-              <p className={classes.languageSetting}>
+              <p className={classes.languageSetting}
+                onClick={() => this.openLanguageSettings()}>
                 {LANGUAGE_OPTIONS.find(option => option.value === language).label}
               </p>
+              {this.renderLanguageSettings()}
             </FormControl>
           </Grid>
           <Grid item xs={ 12 } lg={ 3 }>
