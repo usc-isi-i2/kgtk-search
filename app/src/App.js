@@ -678,7 +678,7 @@ class App extends React.Component {
                     <Grid item xs={ 4 }>
                         <Input
                           query={instanceOfTypeQuery}
-                          label={'Instance of'}
+                          label={'Is A'}
                           onClick={this.openInstanceOfTypeMenu.bind(this)}
                           passInputRef={(element) => this.instanceOfTypeInput = element}
                           onChange={ this.handleOnChangeInstanceOfType.bind(this) }
