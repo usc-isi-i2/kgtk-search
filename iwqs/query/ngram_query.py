@@ -14,7 +14,8 @@ ngram_query = {
                                     "wikimedia list article",
                                     "wikimedia template",
                                     "wikimedia module",
-                                    "wikinews article"
+                                    "wikinews article",
+                                    "wikimedia template page"
                                 ]
                             }
                         }
