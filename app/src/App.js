@@ -12,10 +12,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Switch from '@material-ui/core/Switch';
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import Switch from '@material-ui/core/Switch'
 import {
   withStyles,
   createMuiTheme,
@@ -151,7 +151,8 @@ const StyledMenu = withStyles((theme) => ({
     backgroundColor: 'rgb(120, 136, 148)',
     borderRadius: 0,
   },
-}))(Menu);
+}))(Menu)
+
 
 const CustomSwitch = withStyles({
   switchBase: {
@@ -165,7 +166,7 @@ const CustomSwitch = withStyles({
   },
   checked: {},
   track: {},
-})(Switch);
+})(Switch)
 
 
 const StyledMenuItem = withStyles((theme) => ({
@@ -182,7 +183,7 @@ const StyledMenuItem = withStyles((theme) => ({
       },
     },
   },
-}))(MenuItem);
+}))(MenuItem)
 
 
 const LANGUAGE_OPTIONS = [
@@ -196,19 +197,19 @@ const LANGUAGE_OPTIONS = [
   { value: 'pt', label: 'Portuguese' },
   { value: 'ru', label: 'Russian' },
   { value: 'sv', label: 'Swedish' },
-  { value: 'zh-cn',label: 'Simplified Chinese' }
+  { value: 'zh-cn',label: 'Simplified Chinese' },
 ]
 
 
 const QUERY_TYPE_OPTIONS = [
   { value: 'ngram', label: 'Autocompletion Search' },
-  { value: 'exact_match', label: 'Exact Match Search' }
-
+  { value: 'exact_match', label: 'Exact Match Search' },
 ]
+
 
 const ITEM_TYPE_OPTIONS = [
   { value: 'qnode', label: 'Qnode' },
-  { value: 'property', label: 'Property' }
+  { value: 'property', label: 'Property' },
 ]
 
 
@@ -230,11 +231,11 @@ class App extends React.Component {
       instanceOfTypeQuery: '',
       instanceOfType: '',
       debugSwitchState: false,
-      classesSwitchState: false
+      classesSwitchState: false,
     }
   }
 
-  handleOnChange (query) {
+  handleOnChange(query) {
     this.setState({ query }, () => {
       if ( !query ) {
         this.setState({results: []})
@@ -256,13 +257,13 @@ class App extends React.Component {
     })
   }
 
-  handleOnChangeQueryType (queryType) {
+  handleOnChangeQueryType(queryType) {
     this.setState({ queryType }, () => {
       this.submitQuery()
     })
   }
 
-  handleOnChangeItemType (itemType) {
+  handleOnChangeItemType(itemType) {
     this.setState({ itemType }, () => {
       this.submitQuery()
     })
@@ -271,7 +272,7 @@ class App extends React.Component {
   handleOnChangeInstanceOfType(instanceOfTypeQuery) {
     this.setState({
       instanceOfTypeQuery,
-      instanceOfType: ''
+      instanceOfType: '',
     }, () => {
       if ( !instanceOfTypeQuery ) {
         this.setState({
@@ -290,11 +291,11 @@ class App extends React.Component {
     })
   }
 
-  handleDebugSwitchChange (debugSwitchState) {
+  handleDebugSwitchChange(debugSwitchState) {
     this.setState({ debugSwitchState })
   }
 
-  handleClassesSwitchChange (classesSwitchState) {
+  handleClassesSwitchChange(classesSwitchState) {
     this.setState({ classesSwitchState }, () => {
       if (this.state.query) {
         this.submitQuery()
@@ -312,16 +313,17 @@ class App extends React.Component {
     const { classesSwitchState } = this.state
 
     // Construct the url with correct parameters
-    let url = `/api/`
+    let url = `/api?`
     if ( instanceOfTypeQuery && isClass ) {
-      url += `${instanceOfTypeQuery}?`
+      url += `&q=${instanceOfTypeQuery}`
       url += `&is_class=true`
       url += `&type=ngram`
       url += `&size=5`
     } else if ( query ) {
-      url += `${query}?`
+      url += `&q=${query}`
       url += `&type=${queryType}`
     }
+
     url += `&extra_info=true&language=${language}&item=${itemType}`
     if ( instanceOfType ) {
       url += `&instance_of=${instanceOfType}`
@@ -329,11 +331,9 @@ class App extends React.Component {
 
     if ( classesSwitchState ) {
       if ( !url.includes(`&is_class=true`) ) {
-          url += `&is_class=true`
-        }
+        url += `&is_class=true`
       }
-
-
+    }
 
     if ( query || instanceOfTypeQuery ) {
       return fetch(url, {
@@ -356,70 +356,76 @@ class App extends React.Component {
     }
   }
 
-  submit (event) {
+  submit(event) {
     event.preventDefault()
     this.submitQuery()
   }
 
+  openLink(result) {
+    clearTimeout(this.timeoutID)
+    this.timeoutID = setTimeout(() => {
+      window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')
+    }, 100)
+  }
 
-  renderResults () {
+  renderResults() {
     const { classes } = this.props
     const { results } = this.state
     const { debugSwitchState } = this.state
     return results.map((result, i) => (
-      <Grid item xs={ 12 } key={ i } className={ classes.result }>
+      <Grid item xs={12} key={i} className={classes.result}>
         <Typography
           component="h5"
           variant="h5"
-          className={ classes.index }>
-          { i + 1 }.
+          className={classes.index}>
+          {i + 1}.
         </Typography>
         <Link
-          href={`https://ringgaard.com/kb/${result.qnode}`}
-          target="_blank"
-          className={ classes.link }>
+          component="div"
+          className={classes.link}
+          onClick={() => this.openLink(result)}>
           <Typography
             component="h5"
             variant="h5"
-            className={ classes.label }>
-            { result.label[0] } ({ result.qnode })
+            className={classes.label}>
+            {result.label[0]} ({result.qnode})
           </Typography>
           <Typography
             component="p"
             variant="body1"
-            className={ classes.description }>
-            <b>Description:</b> { !!result.description[0] ? result.description[0] : 'No Description'}
+            className={classes.description}>
+            <b>Description:</b> {!!result.description[0] ? result.description[0] : 'No Description'}
           </Typography>
           { !!result.alias.length ? (
             <Typography
               component="p"
               variant="body1"
-              className={ classes.description }>
-              <b>Alias:</b> { result.alias.join(', ') }
+              className={classes.description}>
+              <b>Alias:</b> {result.alias.join(', ')}
             </Typography>
           ) : null }
           { !!debugSwitchState ? (
           <Typography
               component="p"
               variant="body1"
-              className={ classes.description }>
-              <b>Pagerank:</b> { result.pagerank }
+              className={classes.description}>
+              <b>Pagerank:</b> {result.pagerank}
             </Typography>
             ) : null }
           { !!debugSwitchState ? (
           <Typography
               component="p"
               variant="body1"
-              className={ classes.description }>
-              <b>Statements:</b> { result.statements }
+              className={classes.description}>
+              <b>Statements:</b> {result.statements}
             </Typography>
             ) : null }
           { !!result.data_type ? (
             <Typography
               component="p"
               variant="body1"
-              className={ classes.description }>
-              <b>Data type:</b> { result.data_type }
+              className={classes.description}>
+              <b>Data type:</b> {result.data_type}
             </Typography>
           ) : null }
         </Link>
@@ -556,8 +562,8 @@ class App extends React.Component {
     const { classes } = this.props
     if ( showSettings ) {
       return (
-        <Grid container spacing={ 3 }>
-          <Grid item xs={ 12 } lg={ 3 }>
+        <Grid container spacing={3}>
+          <Grid item xs={12} lg={3}>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}
                 ref={(element) => this.languageSettingRef = element}>
@@ -570,93 +576,91 @@ class App extends React.Component {
               {this.renderLanguageSettings()}
             </FormControl>
           </Grid>
-          <Grid item xs={ 12 } lg={ 3 }>
+          <Grid item xs={12} lg={3}>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Query Type
               </FormLabel>
               <RadioGroup aria-label="query-type" name="query-type"
-                value={ queryType }
+                value={queryType}
                 className={classes.settingsRadioGroup}
                 onChange={(event, option) => this.handleOnChangeQueryType(option)}>
                 { QUERY_TYPE_OPTIONS.map((option, index) => (
                   <FormControlLabel
-                    key={ index }
-                    value={ option.value }
-                    control={ <Radio color="default" /> }
-                    label={ option.label } />
+                    key={index}
+                    value={option.value}
+                    control={<Radio color="default" />}
+                    label={option.label} />
                 )) }
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 12 } lg={ 3 }>
+          <Grid item xs={12} lg={3}>
             <FormControl component="fieldset">
               <FormLabel component="legend" className={classes.settingsLabel}>
                 Search
               </FormLabel>
               <RadioGroup aria-label="search-qnode" name="search-qnode"
-                value={ itemType }
+                value={itemType}
                 className={classes.settingsRadioGroup}
                 onChange={(event, option) => this.handleOnChangeItemType(option)}>
                 { ITEM_TYPE_OPTIONS.map((option, index) => (
                   <FormControlLabel
-                    key={ index }
-                    value={ option.value }
-                    control={ <Radio color="default" /> }
-                    label={ option.label } />
+                    key={index}
+                    value={option.value}
+                    control={<Radio color="default" />}
+                    label={option.label} />
                 )) }
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={ 12 } lg={ 3 }>
-             <FormLabel component="legend" className={classes.settingsLabel}>
-                Other Settings
-              </FormLabel>
-             <FormControlLabel
+          <Grid item xs={12} lg={3}>
+            <FormLabel component="legend" className={classes.settingsLabel}>
+              Other Settings
+            </FormLabel>
+            <FormControlLabel
               control={
-                    <CustomSwitch
-                        checked={classesSwitchState}
-                        onChange={(event, checked) => this.handleClassesSwitchChange(checked)}
-                        label="Classes"
-                        name="classesSwitch"
-                        color="primary"
-                    />}
+                <CustomSwitch
+                  checked={classesSwitchState}
+                  onChange={(event, checked) => this.handleClassesSwitchChange(checked)}
+                  label="Classes"
+                  name="classesSwitch"
+                  color="primary" />
+              }
               label="Search Classes only"
-              className={ classes.description }
-              labelPlacement="end"
-            />
+              className={classes.description}
+              labelPlacement="end" />
             <br/>
             <FormControlLabel
               control={
-                    <CustomSwitch
-                        checked={debugSwitchState}
-                        onChange={(event, checked) => this.handleDebugSwitchChange(checked)}
-                        label="Debug"
-                        name="debugSwitch"
-                        color="primary"
-                    />}
+                <CustomSwitch
+                  checked={debugSwitchState}
+                  onChange={(event, checked) => this.handleDebugSwitchChange(checked)}
+                  label="Debug"
+                  name="debugSwitch"
+                  color="primary" />
+              }
               label="Debug"
-              className={ classes.description }
-              labelPlacement="end"
-            />
+              className={classes.description}
+              labelPlacement="end" />
           </Grid>
         </Grid>
       )
     }
   }
 
-  render () {
+  render() {
     const { classes } = this.props
     const { instanceOfTypeQuery } = this.state
     return (
-      <ThemeProvider theme={ theme }>
+      <ThemeProvider theme={theme}>
         <Container maxWidth="xl">
-          <div id="top"/>
-          <CssBaseline/>
+          <div id="top" />
+          <CssBaseline />
           <Typography
             component="h3"
             variant="h3"
-            className={ classes.header }>
+            className={classes.header}>
             <a href="https://github.com/usc-isi-i2/kgtk" title="Knowledge Graph Toolkit" rel="noopener noreferrer nofollow" target="_blank">
               <div className={ classes.logo }>
                 <Logo/>
@@ -664,32 +668,30 @@ class App extends React.Component {
             </a>
             Knowledge Graph Text Search
           </Typography>
-
-          <form className={ classes.form } noValidate
-            onSubmit={ this.submit.bind(this) }>
-            <Grid container spacing={ 3 }>
-              <Grid item xs={ 12 }>
-                <Paper component="div" className={ classes.paper } square>
-                  <Grid container spacing={ 3 }>
-                    <Grid item xs={ 8 }>
+          <form className={classes.form} noValidate
+            onSubmit={this.submit.bind(this)}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Paper component="div" className={classes.paper} square>
+                  <Grid container spacing={3}>
+                    <Grid item xs={8}>
                       <Input autoFocus={ true } label={'Search'}
                         onChange={ this.handleOnChange.bind(this) }/>
                     </Grid>
-                    <Grid item xs={ 4 }>
-                        <Input
-                          query={instanceOfTypeQuery}
-                          label={'Is A'}
-                          onClick={this.openInstanceOfTypeMenu.bind(this)}
-                          passInputRef={(element) => this.instanceOfTypeInput = element}
-                          onChange={ this.handleOnChangeInstanceOfType.bind(this) }
-                        />
-                        {this.renderInstanceOfTypeResults()}
+                    <Grid item xs={4}>
+                      <Input
+                        query={instanceOfTypeQuery}
+                        label={'Is A'}
+                        onClick={this.openInstanceOfTypeMenu.bind(this)}
+                        passInputRef={(element) => this.instanceOfTypeInput = element}
+                        onChange={this.handleOnChangeInstanceOfType.bind(this)} />
+                      {this.renderInstanceOfTypeResults()}
                     </Grid>
                   </Grid>
                   {this.renderSettingsToggle()}
                   {this.renderSettings()}
                 </Paper>
-                { this.renderResults() }
+                {this.renderResults()}
               </Grid>
             </Grid>
           </form>
