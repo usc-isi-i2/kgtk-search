@@ -373,7 +373,18 @@ class App extends React.Component {
     }
   }
 
-  handleOnMouseUp(result) {
+  handleOnMouseUp(event, result) {
+
+    // check if users clicked on the wikidata logo
+    if ( event.target.nodeName === 'svg' || event.target.parentElement.nodeName === 'svg' ) {
+      if ( result.qnode[0] === 'Q' ) {
+        window.open(`https://www.wikidata.org/wiki/${result.qnode}`, '_blank')
+      } else {
+        window.open(`https://www.wikidata.org/wiki/Property:${result.qnode}`, '_blank')
+      }
+    }
+
+    // else redirect to the ringgaard knowledge base
     if ( this.state.mouseDown && !this.state.selecting ) {
       clearTimeout(this.timeoutID)
       this.timeoutID = setTimeout(() => {
@@ -400,7 +411,7 @@ class App extends React.Component {
           className={classes.link}
           onMouseDown={() => this.handleOnMouseDown()}
           onMouseMove={() => this.handleOnMouseMove()}
-          onMouseUp={() => this.handleOnMouseUp(result)}>
+          onMouseUp={(event) => this.handleOnMouseUp(event, result)}>
           <Typography
             component="h5"
             variant="h5"
