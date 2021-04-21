@@ -234,6 +234,8 @@ class App extends React.Component {
       instanceOfType: '',
       debugSwitchState: false,
       classesSwitchState: false,
+      mouseDown: false,
+      selecting: false,
     }
   }
 
@@ -391,6 +393,8 @@ class App extends React.Component {
         window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')
       }, 100)
     }
+
+    // reset selecting and mouseDown state setttings
     this.setState({selecting: false, mouseDown: false})
   }
 
