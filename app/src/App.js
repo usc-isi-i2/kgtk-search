@@ -24,6 +24,8 @@ import {
 } from '@material-ui/core/styles'
 
 import Logo from './components/Logo'
+import WikidataLogo from './components/WikidataLogo'
+
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
 
@@ -232,6 +234,8 @@ class App extends React.Component {
       instanceOfType: '',
       debugSwitchState: false,
       classesSwitchState: false,
+      mouseDown: false,
+      selecting: false,
     }
   }
 
@@ -361,11 +365,37 @@ class App extends React.Component {
     this.submitQuery()
   }
 
-  openLink(result) {
-    clearTimeout(this.timeoutID)
-    this.timeoutID = setTimeout(() => {
-      window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')
-    }, 100)
+  handleOnMouseDown() {
+    this.setState({mouseDown: true})
+  }
+
+  handleOnMouseMove() {
+    if ( this.state.mouseDown ) {
+      this.setState({selecting: true})
+    }
+  }
+
+  handleOnMouseUp(event, result) {
+
+    // check if users clicked on the wikidata logo
+    if ( event.target.nodeName === 'svg' || event.target.parentElement.nodeName === 'svg' ) {
+      if ( result.qnode[0] === 'Q' ) {
+        window.open(`https://www.wikidata.org/wiki/${result.qnode}`, '_blank')
+      } else {
+        window.open(`https://www.wikidata.org/wiki/Property:${result.qnode}`, '_blank')
+      }
+    }
+
+    // else redirect to the ringgaard knowledge base
+    if ( this.state.mouseDown && !this.state.selecting ) {
+      clearTimeout(this.timeoutID)
+      this.timeoutID = setTimeout(() => {
+        window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')
+      }, 100)
+    }
+
+    // reset selecting and mouseDown state setttings
+    this.setState({selecting: false, mouseDown: false})
   }
 
   renderResults() {
@@ -383,12 +413,15 @@ class App extends React.Component {
         <Link
           component="div"
           className={classes.link}
-          onClick={() => this.openLink(result)}>
+          onMouseDown={() => this.handleOnMouseDown()}
+          onMouseMove={() => this.handleOnMouseMove()}
+          onMouseUp={(event) => this.handleOnMouseUp(event, result)}>
           <Typography
             component="h5"
             variant="h5"
             className={classes.label}>
             {result.label[0]} ({result.qnode})
+            <WikidataLogo />
           </Typography>
           <Typography
             component="p"
