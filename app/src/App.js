@@ -361,6 +361,13 @@ class App extends React.Component {
     this.submitQuery()
   }
 
+  openLink(result) {
+    clearTimeout(this.timeoutID)
+    this.timeoutID = setTimeout(() => {
+      window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')
+    }, 100)
+  }
+
   renderResults() {
     const { classes } = this.props
     const { results } = this.state
@@ -376,7 +383,7 @@ class App extends React.Component {
         <Link
           component="div"
           className={classes.link}
-          onClick={() => window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')}>
+          onClick={() => this.openLink(result)}>
           <Typography
             component="h5"
             variant="h5"
