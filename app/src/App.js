@@ -24,6 +24,8 @@ import {
 } from '@material-ui/core/styles'
 
 import Logo from './components/Logo'
+import WikidataLogo from './components/WikidataLogo'
+
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
 
@@ -404,6 +406,7 @@ class App extends React.Component {
             variant="h5"
             className={classes.label}>
             {result.label[0]} ({result.qnode})
+            <WikidataLogo />
           </Typography>
           <Typography
             component="p"
