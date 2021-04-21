@@ -315,14 +315,14 @@ class App extends React.Component {
     const { classesSwitchState } = this.state
 
     // Construct the url with correct parameters
-    let url = `/api/`
+    let url = `/api?`
     if ( instanceOfTypeQuery && isClass ) {
-      url += `${instanceOfTypeQuery}?`
+      url += `&q=${instanceOfTypeQuery}`
       url += `&is_class=true`
       url += `&type=ngram`
       url += `&size=5`
     } else if ( query ) {
-      url += `${query}?`
+      url += `&q=${query}`
       url += `&type=${queryType}`
     }
 

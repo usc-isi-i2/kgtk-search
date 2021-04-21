@@ -135,7 +135,7 @@ class Search(object):
 
         return ngrams_query
 
-    def create_property_query(self, search_term, size='20', query_type='ngram', instance_of=''):
+    def create_property_query(self, search_term, size='20', query_type='ngram', instance_of='', data_type=None):
         instance_of_part = None
         if instance_of.strip():
             instance_of_part = {
@@ -178,6 +178,17 @@ class Search(object):
 
         if instance_of_part is not None:
             _property_query['query']['function_score']['query']['bool']['must'].append(instance_of_part)
+
+        if data_type:
+            data_type_must = {
+                "term": {
+                    "data_type.keyword_lower": {
+                        "value": data_type.lower()
+
+                    }
+                }
+            }
+            _property_query['query']['function_score']['query']['bool']['must'].append(data_type_must)
 
         _property_query['size'] = size
 
