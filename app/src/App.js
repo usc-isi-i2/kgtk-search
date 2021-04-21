@@ -361,11 +361,24 @@ class App extends React.Component {
     this.submitQuery()
   }
 
-  openLink(result) {
-    clearTimeout(this.timeoutID)
-    this.timeoutID = setTimeout(() => {
-      window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')
-    }, 100)
+  handleOnMouseDown() {
+    this.setState({mouseDown: true})
+  }
+
+  handleOnMouseMove() {
+    if ( this.state.mouseDown ) {
+      this.setState({selecting: true})
+    }
+  }
+
+  handleOnMouseUp(result) {
+    if ( this.state.mouseDown && !this.state.selecting ) {
+      clearTimeout(this.timeoutID)
+      this.timeoutID = setTimeout(() => {
+        window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')
+      }, 100)
+    }
+    this.setState({selecting: false, mouseDown: false})
   }
 
   renderResults() {
@@ -383,7 +396,9 @@ class App extends React.Component {
         <Link
           component="div"
           className={classes.link}
-          onClick={() => this.openLink(result)}>
+          onMouseDown={() => this.handleOnMouseDown()}
+          onMouseMove={() => this.handleOnMouseMove()}
+          onMouseUp={() => this.handleOnMouseUp(result)}>
           <Typography
             component="h5"
             variant="h5"
