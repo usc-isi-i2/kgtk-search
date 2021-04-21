@@ -374,9 +374,9 @@ class App extends React.Component {
           {i + 1}.
         </Typography>
         <Link
-          href={`https://ringgaard.com/kb/${result.qnode}`}
-          target="_blank"
-          className={classes.link}>
+          component="div"
+          className={classes.link}
+          onClick={() => window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')}>
           <Typography
             component="h5"
             variant="h5"
