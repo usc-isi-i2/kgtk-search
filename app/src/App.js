@@ -359,6 +359,13 @@ class App extends React.Component {
     this.submitQuery()
   }
 
+  getWikidataLink(result) {
+    if ( result.qnode[0] === 'Q' ) {
+      return `https://www.wikidata.org/wiki/${result.qnode}`
+    }
+    return `https://www.wikidata.org/wiki/Property:${result.qnode}`
+  }
+
   renderResults() {
     const { classes } = this.props
     const { results } = this.state
@@ -382,6 +389,13 @@ class App extends React.Component {
             className={classes.label}>
             {result.label[0]} ({result.qnode})
           </Typography>
+        </Link>
+        <Link
+          component="a"
+          target="_blank"
+          style={{display: 'inline-block'}}
+          href={this.getWikidataLink(result)}>
+          <WikidataLogo />
         </Link>
         <Typography
           component="p"
