@@ -85,10 +85,10 @@ class Input extends React.Component {
         value={query}
         disabled={disabled}
         autoFocus={autoFocus}
-        autocorrect="off"
-        autocomplete="off"
-        autocapitalize="off"
-        spellcheck="false"
+        autoCorrect="off"
+        autoComplete="off"
+        autoCapitalize="off"
+        spellCheck="false"
         onClick={this.handleOnClick.bind(this)}
         onChange={this.handleOnChange.bind(this)}
         fullWidth
