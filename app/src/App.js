@@ -90,25 +90,21 @@ const styles = theme => ({
     left: theme.spacing(1),
   },
   link: {
-    width: '97%',
     display: 'inline-block',
     padding: theme.spacing(1),
     marginLeft: theme.spacing(5),
     color: '#fefefe',
     transition: '0.2s background ease',
     '&:hover': {
-      background: 'rgba(255, 255, 255, 0.1)',
-      textDecoration: 'none',
+      textDecoration: 'underline',
       cursor: 'pointer',
     },
-  },
-  label: {
-    color: '#fefefe',
-    textDecoration: 'underline',
   },
   description: {
     color: '#fefefe',
     textDecoration: 'none',
+    paddingLeft: theme.spacing(1),
+    marginLeft: theme.spacing(5),
   },
   settingsToggle: {
     position: 'relative',
@@ -234,8 +230,6 @@ class App extends React.Component {
       instanceOfType: '',
       debugSwitchState: false,
       classesSwitchState: false,
-      mouseDown: false,
-      selecting: false,
     }
   }
 
@@ -365,39 +359,6 @@ class App extends React.Component {
     this.submitQuery()
   }
 
-  handleOnMouseDown() {
-    this.setState({mouseDown: true})
-  }
-
-  handleOnMouseMove() {
-    if ( this.state.mouseDown ) {
-      this.setState({selecting: true})
-    }
-  }
-
-  handleOnMouseUp(event, result) {
-
-    // check if users clicked on the wikidata logo
-    if ( event.target.nodeName === 'svg' || event.target.parentElement.nodeName === 'svg' ) {
-      if ( result.qnode[0] === 'Q' ) {
-        window.open(`https://www.wikidata.org/wiki/${result.qnode}`, '_blank')
-      } else {
-        window.open(`https://www.wikidata.org/wiki/Property:${result.qnode}`, '_blank')
-      }
-    }
-
-    // else redirect to the ringgaard knowledge base
-    if ( this.state.mouseDown && !this.state.selecting ) {
-      clearTimeout(this.timeoutID)
-      this.timeoutID = setTimeout(() => {
-        window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')
-      }, 100)
-    }
-
-    // reset selecting and mouseDown state setttings
-    this.setState({selecting: false, mouseDown: false})
-  }
-
   renderResults() {
     const { classes } = this.props
     const { results } = this.state
@@ -411,57 +372,55 @@ class App extends React.Component {
           {i + 1}.
         </Typography>
         <Link
-          component="div"
-          className={classes.link}
-          onMouseDown={() => this.handleOnMouseDown()}
-          onMouseMove={() => this.handleOnMouseMove()}
-          onMouseUp={(event) => this.handleOnMouseUp(event, result)}>
+          component="a"
+          href={`https://ringgaard.com/kb/${result.qnode}`}
+          target="_blank"
+          className={classes.link}>
           <Typography
             component="h5"
             variant="h5"
             className={classes.label}>
             {result.label[0]} ({result.qnode})
-            <WikidataLogo />
           </Typography>
+        </Link>
+        <Typography
+          component="p"
+          variant="body1"
+          className={classes.description}>
+          <b>Description:</b> {!!result.description[0] ? result.description[0] : 'No Description'}
+        </Typography>
+        { !!result.alias.length ? (
           <Typography
             component="p"
             variant="body1"
             className={classes.description}>
-            <b>Description:</b> {!!result.description[0] ? result.description[0] : 'No Description'}
+            <b>Alias:</b> {result.alias.join(', ')}
           </Typography>
-          { !!result.alias.length ? (
-            <Typography
-              component="p"
-              variant="body1"
-              className={classes.description}>
-              <b>Alias:</b> {result.alias.join(', ')}
-            </Typography>
+        ) : null }
+        { !!debugSwitchState ? (
+        <Typography
+            component="p"
+            variant="body1"
+            className={classes.description}>
+            <b>Pagerank:</b> {result.pagerank}
+          </Typography>
           ) : null }
-          { !!debugSwitchState ? (
-          <Typography
-              component="p"
-              variant="body1"
-              className={classes.description}>
-              <b>Pagerank:</b> {result.pagerank}
-            </Typography>
-            ) : null }
-          { !!debugSwitchState ? (
-          <Typography
-              component="p"
-              variant="body1"
-              className={classes.description}>
-              <b>Statements:</b> {result.statements}
-            </Typography>
-            ) : null }
-          { !!result.data_type ? (
-            <Typography
-              component="p"
-              variant="body1"
-              className={classes.description}>
-              <b>Data type:</b> {result.data_type}
-            </Typography>
+        { !!debugSwitchState ? (
+        <Typography
+            component="p"
+            variant="body1"
+            className={classes.description}>
+            <b>Statements:</b> {result.statements}
+          </Typography>
           ) : null }
-        </Link>
+        { !!result.data_type ? (
+          <Typography
+            component="p"
+            variant="body1"
+            className={classes.description}>
+            <b>Data type:</b> {result.data_type}
+          </Typography>
+        ) : null }
       </Grid>
     ))
   }
