@@ -371,7 +371,10 @@ class App extends React.Component {
 
   handleOnMouseMove() {
     if ( this.state.mouseDown ) {
-      this.setState({selecting: true})
+      const selection = window.getSelection()
+      if ( !!selection.toString() ) {
+        this.setState({selecting: true})
+      }
     }
   }
 
