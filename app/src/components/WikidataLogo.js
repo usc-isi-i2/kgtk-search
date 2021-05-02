@@ -6,7 +6,6 @@ const useStyles = makeStyles(theme => ({
   wikidataLogo: {
     width: theme.spacing(4),
     marginLeft: theme.spacing(1),
-    marginTop: '-5px',
     verticalAlign: 'middle',
     cursor: 'pointer',
     opacity: '0.75',
