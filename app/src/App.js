@@ -326,6 +326,8 @@ class App extends React.Component {
     } else if ( query ) {
       url += `&q=${query}`
       url += `&type=${queryType}`
+    } else {
+      return false
     }
 
     url += `&extra_info=true&language=${language}&item=${itemType}`
