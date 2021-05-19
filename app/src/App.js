@@ -549,6 +549,11 @@ class App extends React.Component {
           <StyledMenuItem key={index} onClick={() => this.selectInstanceOfType(result)}>
             <ListItemText className={classes.cursor}>
               {result.label[0]} ({result.qnode})
+              {!!result.description && !!result.description.length && (
+                <Typography variant="body1">
+                  {result.description[0]}
+                </Typography>
+              )}
             </ListItemText>
           </StyledMenuItem>
         ))}
