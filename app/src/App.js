@@ -142,8 +142,14 @@ const styles = theme => ({
   alignedIcon: {
     verticalAlign: 'bottom',
   },
-  cursor: {
+  listItem: {
     cursor: 'pointer',
+    '& .MuiTypography-body1': {
+      maxWidth: '500px',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+    },
   },
 })
 
@@ -547,7 +553,7 @@ class App extends React.Component {
         keepMounted>
         {instanceOfTypeResults.map((result, index) => (
           <StyledMenuItem key={index} onClick={() => this.selectInstanceOfType(result)}>
-            <ListItemText className={classes.cursor}>
+            <ListItemText className={classes.listItem}>
               {result.label[0]} ({result.qnode})
               {!!result.description && !!result.description.length && (
                 <Typography variant="body1">
@@ -591,7 +597,7 @@ class App extends React.Component {
         {LANGUAGE_OPTIONS.map((option, index) => (
           <StyledMenuItem key={index}
             onClick={() => this.handleOnChangeLanguage(option)}>
-            <ListItemText className={classes.cursor}>
+            <ListItemText className={classes.listItem}>
               {option.label}
             </ListItemText>
           </StyledMenuItem>
