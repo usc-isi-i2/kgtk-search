@@ -140,18 +140,12 @@ class FindNearestQnodes(Resource):
 
             if lang in source['labels']:
                 labels = source['labels'][lang]
-            elif len(list(source['labels'])) > 0:
-                labels = source['labels'][list(source['labels'])[0]]
 
             if lang in source['aliases']:
                 aliases = source['aliases'][lang]
-            elif len(list(source['aliases'])) > 0:
-                aliases = source['aliases'][list(source['aliases'])[0]]
 
             if lang in source['descriptions']:
                 descriptions = source['descriptions'][lang]
-            elif len(list(source['descriptions'])) > 0:
-                descriptions = source['descriptions'][list(source['descriptions'])[0]]
 
             data_type = source.get('data_type', None)
 
