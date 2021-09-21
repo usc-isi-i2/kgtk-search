@@ -129,7 +129,7 @@ const InstanceOfSearch = ({ onSelect }) => {
       })
     }, 500)
 
-  }, [inputValue]);
+  }, [inputValue])
 
   useEffect(() => {
     if (!open) {
@@ -142,10 +142,10 @@ const InstanceOfSearch = ({ onSelect }) => {
       id="instance-of-search"
       open={open}
       onOpen={() => {
-        setOpen(true);
+        setOpen(true)
       }}
       onClose={() => {
-        setOpen(false);
+        setOpen(false)
       }}
       onChange={(event, value) => onSelect(value)}
       getOptionSelected={(option, value) => option.label[0] === value.name}
@@ -189,7 +189,7 @@ const InstanceOfSearch = ({ onSelect }) => {
         />
       )}
     />
-  );
+  )
 }
 
 export default InstanceOfSearch
