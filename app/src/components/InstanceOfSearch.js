@@ -87,7 +87,8 @@ const StyledTextField = withStyles({
   },
 })(TextField)
 
-const InstanceOfSearch = () => {
+
+const InstanceOfSearch = ({ onSelect }) => {
 
   const classes = useStyles()
 
@@ -146,6 +147,7 @@ const InstanceOfSearch = () => {
       onClose={() => {
         setOpen(false);
       }}
+      onChange={(event, value) => onSelect(value)}
       getOptionSelected={(option, value) => option.label[0] === value.name}
       getOptionLabel={(option) => option.label[0]}
       onInputChange={(event, newInputValue) => {
