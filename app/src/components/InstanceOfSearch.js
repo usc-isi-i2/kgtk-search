@@ -28,14 +28,15 @@ const InstanceOfSearch = () => {
 
   const [open, setOpen] = useState(false)
   const [options, setOptions] = useState([])
+  const [loading, setLoading] = useState(false)
   const [inputValue, setInputValue] = useState('')
-
-  const loading = open && options.length === 0
 
   React.useEffect(() => {
 
     clearTimeout(timeoutID.current)
     timeoutID.current = setTimeout(() => {
+
+      setLoading(true)
 
       let url = `/api?`
       url += `&q=${inputValue}`
@@ -54,6 +55,7 @@ const InstanceOfSearch = () => {
       })
       .then((response) => response.json())
       .then((results) => {
+        setLoading(false)
         setOptions(results)
       })
     }, 500)
