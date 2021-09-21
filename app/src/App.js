@@ -24,10 +24,10 @@ import {
 } from '@material-ui/core/styles'
 
 import Logo from './components/Logo'
-import WikidataLogo from './components/WikidataLogo'
-
 import Input from './components/Input'
 import ArrowUp from './components/ArrowUp'
+import WikidataLogo from './components/WikidataLogo'
+import InstanceOfSearch from './components/InstanceOfSearch'
 
 
 let theme = createMuiTheme()
@@ -523,13 +523,22 @@ class App extends React.Component {
   }
 
   selectInstanceOfType(result) {
-    this.setState({
-      instanceOfType: result.qnode,
-      instanceOfTypeQuery: result.label[0] + ` (${result.qnode})`
-    }, () => {
-      this.closeInstanceOfTypeMenu()
-      this.submitQuery()
-    })
+    if ( !result ) {
+      this.setState({
+        instanceOfTypeQuery: '',
+        instanceOfType: '',
+      }, () => {
+        this.submitQuery()
+      })
+    } else {
+      this.setState({
+        instanceOfType: result.qnode,
+        instanceOfTypeQuery: result.label[0] + ` (${result.qnode})`
+      }, () => {
+        this.closeInstanceOfTypeMenu()
+        this.submitQuery()
+      })
+    }
   }
 
   renderInstanceOfTypeResults() {
@@ -708,16 +717,10 @@ class App extends React.Component {
   }
 
   renderInstanceOfSearch() {
-    const { instanceOfTypeQuery } = this.state
     return (
       <Grid item xs={4}>
-        <Input
-          query={instanceOfTypeQuery}
-          label={'Is A'}
-          onClick={this.openInstanceOfTypeMenu.bind(this)}
-          passInputRef={(element) => this.instanceOfTypeInput = element}
-          onChange={this.handleOnChangeInstanceOfType.bind(this)} />
-        {this.renderInstanceOfTypeResults()}
+        <InstanceOfSearch
+          onSelect={result => this.selectInstanceOfType(result)} />
       </Grid>
     )
   }
