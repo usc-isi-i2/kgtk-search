@@ -234,7 +234,6 @@ class App extends React.Component {
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
       itemType: ITEM_TYPE_OPTIONS[0].value,
-      instanceOfTypeMenu: false,
       instanceOfTypeResults: [],
       instanceOfTypeQuery: '',
       instanceOfType: '',
@@ -276,28 +275,6 @@ class App extends React.Component {
   handleOnChangeItemType(itemType) {
     this.setState({ itemType }, () => {
       this.submitQuery()
-    })
-  }
-
-  handleOnChangeInstanceOfType(instanceOfTypeQuery) {
-    this.setState({
-      instanceOfTypeQuery,
-      instanceOfType: '',
-    }, () => {
-      if ( !instanceOfTypeQuery ) {
-        this.setState({
-          instanceOfType: '',
-          instanceOfTypeMenu: false,
-          instanceOfTypeResults: [],
-        }, () => {
-          this.submitQuery()
-        })
-      } else {
-        clearTimeout(this.timeoutID)
-        this.timeoutID = setTimeout(() => {
-          this.submitQuery(true)
-        }, 500)
-      }
     })
   }
 
@@ -359,7 +336,6 @@ class App extends React.Component {
         if ( instanceOfTypeQuery && isClass ) {
           this.setState({
             instanceOfTypeResults: results,
-            instanceOfTypeMenu: !!results.length,
           })
         } else {
           this.setState({ results })
@@ -502,26 +478,6 @@ class App extends React.Component {
     )
   }
 
-  openInstanceOfTypeMenu() {
-    const { instanceOfTypeResults } = this.state
-    if ( instanceOfTypeResults.length ) {
-      if ( !!this.clickTimeoutID ) {
-        clearTimeout(this.clickTimeoutID)
-        delete this.clickTimeoutID
-      } else {
-        this.clickTimeoutID = setTimeout(() => {
-          this.setState({instanceOfTypeMenu: true}, () => {
-            delete this.clickTimeoutID
-          })
-        }, 250)
-      }
-    }
-  }
-
-  closeInstanceOfTypeMenu() {
-    this.setState({instanceOfTypeMenu: false})
-  }
-
   selectInstanceOfType(result) {
     if ( !result ) {
       this.setState({
@@ -539,41 +495,6 @@ class App extends React.Component {
         this.submitQuery()
       })
     }
-  }
-
-  renderInstanceOfTypeResults() {
-    const { instanceOfTypeResults, instanceOfTypeMenu } = this.state
-    const { classes } = this.props
-    return (
-      <StyledMenu
-        id="simple-menu"
-        anchorEl={this.instanceOfTypeInput}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        open={instanceOfTypeMenu}
-        onClose={() => this.closeInstanceOfTypeMenu()}
-        keepMounted>
-        {instanceOfTypeResults.map((result, index) => (
-          <StyledMenuItem key={index} onClick={() => this.selectInstanceOfType(result)}>
-            <ListItemText className={classes.listItem}>
-              {result.label[0]} ({result.qnode})
-              {!!result.description && !!result.description.length && (
-                <Typography variant="body1">
-                  {result.description[0]}
-                </Typography>
-              )}
-            </ListItemText>
-          </StyledMenuItem>
-        ))}
-      </StyledMenu>
-    )
   }
 
   openLanguageSettings() {
