@@ -43,6 +43,7 @@ const InstanceOfSearch = () => {
   const [inputValue, setInputValue] = useState('')
 
   React.useEffect(() => {
+    if ( !inputValue ) { return }
 
     clearTimeout(timeoutID.current)
     timeoutID.current = setTimeout(() => {
