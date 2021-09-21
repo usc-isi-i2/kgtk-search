@@ -698,52 +698,77 @@ class App extends React.Component {
     }
   }
 
-  render() {
-    const { classes } = this.props
+  renderSearchBar() {
+    return (
+      <Grid item xs={8}>
+        <Input autoFocus={ true } label={'Search'}
+          onChange={ this.handleOnChange.bind(this) }/>
+      </Grid>
+    )
+  }
+
+  renderInstanceOfSearch() {
     const { instanceOfTypeQuery } = this.state
+    return (
+      <Grid item xs={4}>
+        <Input
+          query={instanceOfTypeQuery}
+          label={'Is A'}
+          onClick={this.openInstanceOfTypeMenu.bind(this)}
+          passInputRef={(element) => this.instanceOfTypeInput = element}
+          onChange={this.handleOnChangeInstanceOfType.bind(this)} />
+        {this.renderInstanceOfTypeResults()}
+      </Grid>
+    )
+  }
+
+  renderHeader() {
+    const { classes } = this.props
+    return (
+      <Typography
+        component="h3"
+        variant="h3"
+        className={classes.header}>
+        <a href="https://github.com/usc-isi-i2/kgtk" title="Knowledge Graph Toolkit" rel="noopener noreferrer nofollow" target="_blank">
+          <div className={ classes.logo }>
+            <Logo/>
+          </div>
+        </a>
+        Knowledge Graph Text Search
+      </Typography>
+    )
+  }
+
+  renderSearchForm() {
+    const { classes } = this.props
+    return (
+      <form className={classes.form} noValidate
+        onSubmit={this.submit.bind(this)}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper component="div" className={classes.paper} square>
+              <Grid container spacing={3}>
+                {this.renderSearchBar()}
+                {this.renderInstanceOfSearch()}
+              </Grid>
+              {this.renderSettingsToggle()}
+              {this.renderSettings()}
+            </Paper>
+            {this.renderResults()}
+          </Grid>
+        </Grid>
+      </form>
+    )
+  }
+
+  render() {
     return (
       <ThemeProvider theme={theme}>
         <Container maxWidth="xl">
           <div id="top" />
           <CssBaseline />
-          <Typography
-            component="h3"
-            variant="h3"
-            className={classes.header}>
-            <a href="https://github.com/usc-isi-i2/kgtk" title="Knowledge Graph Toolkit" rel="noopener noreferrer nofollow" target="_blank">
-              <div className={ classes.logo }>
-                <Logo/>
-              </div>
-            </a>
-            Knowledge Graph Text Search
-          </Typography>
-          <form className={classes.form} noValidate
-            onSubmit={this.submit.bind(this)}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Paper component="div" className={classes.paper} square>
-                  <Grid container spacing={3}>
-                    <Grid item xs={8}>
-                      <Input autoFocus={ true } label={'Search'}
-                        onChange={ this.handleOnChange.bind(this) }/>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Input
-                        query={instanceOfTypeQuery}
-                        label={'Is A'}
-                        onClick={this.openInstanceOfTypeMenu.bind(this)}
-                        passInputRef={(element) => this.instanceOfTypeInput = element}
-                        onChange={this.handleOnChangeInstanceOfType.bind(this)} />
-                      {this.renderInstanceOfTypeResults()}
-                    </Grid>
-                  </Grid>
-                  {this.renderSettingsToggle()}
-                  {this.renderSettings()}
-                </Paper>
-                {this.renderResults()}
-              </Grid>
-            </Grid>
-          </form>
+          {this.renderHeader()}
+          {this.renderSearchForm()}
           <ArrowUp/>
         </Container>
       </ThemeProvider>
