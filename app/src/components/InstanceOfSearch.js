@@ -8,6 +8,17 @@ import { makeStyles } from '@material-ui/core/styles'
 
 
 const useStyles = makeStyles(theme => ({
+  paper: {
+    backgroundColor: 'rgb(120, 136, 148)',
+    borderRadius: 0,
+    '& > div': {
+      color: '#fefefe',
+    },
+    '& > ul': {
+      color: '#fefefe',
+      padding: 0,
+    },
+  },
   listItem: {
     cursor: 'pointer',
     '& .MuiTypography-body1': {
@@ -83,6 +94,9 @@ const InstanceOfSearch = () => {
       getOptionLabel={(option) => option.label[0]}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)
+      }}
+      classes={{
+        paper: classes.paper,
       }}
       renderOption={(option, { selected }) => (
         <ListItemText className={classes.listItem}>
