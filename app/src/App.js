@@ -491,7 +491,6 @@ class App extends React.Component {
         instanceOfType: result.qnode,
         instanceOfTypeQuery: result.label[0] + ` (${result.qnode})`
       }, () => {
-        this.closeInstanceOfTypeMenu()
         this.submitQuery()
       })
     }
