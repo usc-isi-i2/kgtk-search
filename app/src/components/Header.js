@@ -2,6 +2,8 @@ import React from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import GitHubIcon from '@material-ui/icons/GitHub'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Logo from './Logo'
@@ -17,6 +19,15 @@ const useStyles = makeStyles(theme => ({
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
+    },
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
     },
   },
 }))
@@ -40,6 +51,17 @@ const Header = () => {
         <Typography className={classes.title} variant="h6" noWrap>
           Knowledge Graph Text Search
         </Typography>
+        <div className={classes.grow} />
+        <div className={classes.sectionDesktop}>
+          <IconButton
+            color="inherit"
+            href="https://github.com/usc-isi-i2/kgtk"
+            title="Knowledge Graph Toolkit"
+            rel="noopener noreferrer nofollow"
+            target="_blank">
+            <GitHubIcon fontSize="large" />
+          </IconButton>
+        </div>
       </Toolbar>
     </AppBar>
   )
