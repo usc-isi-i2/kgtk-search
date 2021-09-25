@@ -24,11 +24,10 @@ import InstanceOfSearch from './InstanceOfSearch'
 const styles = theme => ({
   paper: {
     marginTop: theme.spacing(3),
-    paddingTop: theme.spacing(6),
+    paddingTop: theme.spacing(3),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
     paddingBottom: theme.spacing(2),
-    backgroundColor: 'rgba(254, 254, 254, 0.25)',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -38,43 +37,36 @@ const styles = theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
-  button: {
-    color: 'white',
-    borderColor: 'whitesmoke',
-    marginTop: theme.spacing(3),
-  },
-  underlined: {
-    textDecoration: 'underline',
-  },
   result: {
     position: 'relative',
     marginTop: theme.spacing(3),
   },
   index: {
-    color: '#fefefe',
+    color: '#333',
     position: 'absolute',
     top: theme.spacing(1),
     left: theme.spacing(1),
   },
   link: {
+    color: '#333',
     width: '97%',
     display: 'inline-block',
     padding: theme.spacing(1),
     marginLeft: theme.spacing(5),
-    color: '#fefefe',
     transition: '0.2s background ease',
     '&:hover': {
-      background: 'rgba(255, 255, 255, 0.1)',
+      background: '#eee',
       textDecoration: 'none',
       cursor: 'pointer',
+      color: '#111',
     },
   },
   label: {
-    color: '#fefefe',
+    color: '#333',
     textDecoration: 'underline',
   },
   description: {
-    color: '#fefefe',
+    color: '#333',
     textDecoration: 'none',
   },
   settingsToggle: {
@@ -82,7 +74,7 @@ const styles = theme => ({
     cursor: 'pointer',
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    color: '#fefefe',
+    color: '#333',
     width: '100%',
     userSelect: 'none',
     '@media (min-width:600px)': {
@@ -90,18 +82,18 @@ const styles = theme => ({
     },
   },
   settingsLabel: {
-    color: '#fefefe',
+    color: '#333',
     userSelect: 'none',
     '&.Mui-focused': {
-      color: '#fefefe',
+      color: '#333',
     },
   },
   settingsRadioGroup: {
-    color: '#fefefe',
+    color: '#333',
     userSelect: 'none',
   },
   languageSetting: {
-    color: '#fefefe',
+    color: '#333',
     cursor: 'pointer',
     fontWeight: 'bold',
     fontSize: theme.spacing(2),
@@ -123,7 +115,7 @@ const styles = theme => ({
 
 const StyledMenu = withStyles((theme) => ({
   paper: {
-    backgroundColor: 'rgb(120, 136, 148)',
+    backgroundColor: '#fefefe',
     borderRadius: 0,
   },
 }))(Menu)
@@ -131,12 +123,12 @@ const StyledMenu = withStyles((theme) => ({
 
 const CustomSwitch = withStyles({
   switchBase: {
-    color: '#fefefe',
+    color: '#777',
     '&$checked': {
-      color: '#fefefe',
+      color: '#555',
     },
     '&$checked + $track': {
-      backgroundColor: '#fefefe',
+      backgroundColor: '#111',
     },
   },
   checked: {},
@@ -146,14 +138,14 @@ const CustomSwitch = withStyles({
 
 const StyledMenuItem = withStyles((theme) => ({
   root: {
-    color: '#fefefe',
+    color: '#333',
     '&:hover': {
-      backgroundColor: '#657382',
+      backgroundColor: '#fefefe',
     },
     '&:focus': {
-      backgroundColor: '#5a6773',
+      backgroundColor: '#eee',
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: '#fefefe',
+        color: '#111',
         userSelect: 'none',
       },
     },
@@ -196,7 +188,7 @@ class Search extends React.Component {
     this.state = {
       query: '',
       results: [],
-      showSettings: false,
+      showSettings: true,
       openLanguageSettings: false,
       language: LANGUAGE_OPTIONS[0].value,
       queryType: QUERY_TYPE_OPTIONS[0].value,
