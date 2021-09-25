@@ -27,15 +27,6 @@ import InstanceOfSearch from './InstanceOfSearch'
 
 
 const styles = theme => ({
-  '@global': {
-    body: {
-      background: 'linear-gradient(150deg, #708090, #002133)',
-      backgroundAttachment: 'fixed',
-      backgroundSize: '100% 150%',
-      padding: theme.spacing(3, 1),
-      height: '100vh',
-    },
-  },
   paper: {
     marginTop: theme.spacing(3),
     paddingTop: theme.spacing(6),

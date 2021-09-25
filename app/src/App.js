@@ -9,7 +9,27 @@ import {
 import Content from './components/Content'
 
 
-let theme = createMuiTheme()
+let theme = createMuiTheme({
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          WebkitFontSmoothing: 'auto',
+        },
+        body: {
+          background: '#fefefe',
+          color: '#333',
+        },
+      },
+    },
+    MuiAppBar: {
+      colorPrimary: {
+        backgroundColor: '#fefefe',
+        color: '#333',
+      },
+    },
+  },
+})
 theme = responsiveFontSizes(theme)
 
 
