@@ -641,12 +641,14 @@ class Content extends React.Component {
 
   render() {
     return (
-      <Container maxWidth="xl">
+      <React.Fragment>
         <div id="top" />
         <Header />
-        {this.renderSearchForm()}
-        <ArrowUp/>
-      </Container>
+        <Container maxWidth="xl">
+          {this.renderSearchForm()}
+          <ArrowUp/>
+        </Container>
+      </React.Fragment>
     )
   }
 }
