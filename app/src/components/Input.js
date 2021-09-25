@@ -12,7 +12,7 @@ const CustomTextField = withStyles({
         fontSize: '1.25rem',
         opacity: 0.85,
       },
-      color: '#fefefe',
+      color: '#333',
     },
     '&.small .MuiFormLabel-root': {
       '@media (min-width:600px)': {
@@ -23,7 +23,7 @@ const CustomTextField = withStyles({
       '@media (min-width:600px)': {
         fontSize: '2rem',
       },
-      color: '#fefefe',
+      color: '#333',
       transition: 'background 0.3s ease',
     },
     '&.small .MuiInput-input': {
@@ -32,20 +32,20 @@ const CustomTextField = withStyles({
       }
     },
     '& label.Mui-focused': {
-      color: '#fefefe',
+      color: '#333',
     },
     '&:hover .MuiInput-input': {
       background: 'rgba(255, 255, 255, 0.1)',
     },
     '&:hover .MuiInput-underline:before': {
-      borderBottomColor: '#fefefe',
+      borderBottomColor: '#333',
       borderBottom: '3px solid',
     },
     '& .MuiInput-underline:before': {
-      borderBottomColor: '#fefefe',
+      borderBottomColor: '#333',
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: '#fefefe',
+      borderBottomColor: '#333',
     },
     '& .MuiInputLabel-shrink': {
       transform: 'translate(0px, -10px)',

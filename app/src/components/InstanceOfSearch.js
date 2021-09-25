@@ -9,13 +9,13 @@ import { makeStyles, withStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    backgroundColor: 'rgb(120, 136, 148)',
+    backgroundColor: '#fefefe',
     borderRadius: 0,
     '& > div': {
-      color: '#fefefe',
+      color: '#333',
     },
     '& > ul': {
-      color: '#fefefe',
+      color: '#333',
       padding: 0,
     },
   },
@@ -38,7 +38,7 @@ const StyledTextField = withStyles({
         fontSize: '1.25rem',
         opacity: 0.85,
       },
-      color: '#fefefe',
+      color: '#333',
     },
     '&.small .MuiFormLabel-root': {
       '@media (min-width:600px)': {
@@ -49,7 +49,7 @@ const StyledTextField = withStyles({
       '@media (min-width:600px)': {
         fontSize: '2rem',
       },
-      color: '#fefefe',
+      color: '#333',
       transition: 'background 0.3s ease',
     },
     '&.small .MuiInput-input': {
@@ -58,30 +58,30 @@ const StyledTextField = withStyles({
       }
     },
     '& label.Mui-focused': {
-      color: '#fefefe',
+      color: '#333',
     },
     '&:hover .MuiInput-input': {
       background: 'rgba(255, 255, 255, 0.1)',
     },
     '&:hover .MuiInput-underline:before': {
-      borderBottomColor: '#fefefe',
+      borderBottomColor: '#333',
       borderBottom: '3px solid',
     },
     '& .MuiInput-underline:before': {
-      borderBottomColor: '#fefefe',
+      borderBottomColor: '#333',
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: '#fefefe',
+      borderBottomColor: '#333',
     },
     '& .MuiInputLabel-shrink': {
       transform: 'translate(0px, -10px)',
     },
     '& .MuiCircularProgress-root': {
-      color: '#fefefe',
+      color: '#333',
     },
     '& .MuiAutocomplete-endAdornment': {
       '& button': {
-        color: '#fefefe',
+        color: '#333',
       },
     },
   },
