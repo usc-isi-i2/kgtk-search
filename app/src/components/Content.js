@@ -19,8 +19,8 @@ import Switch from '@material-ui/core/Switch'
 import { withStyles } from '@material-ui/core/styles'
 
 
-import Logo from './Logo'
 import Input from './Input'
+import Header from './Header'
 import ArrowUp from './ArrowUp'
 import WikidataLogo from './WikidataLogo'
 import InstanceOfSearch from './InstanceOfSearch'
@@ -35,17 +35,6 @@ const styles = theme => ({
       padding: theme.spacing(3, 1),
       height: '100vh',
     },
-  },
-  header: {
-    color: '#fefefe',
-    marginTop: theme.spacing(3),
-  },
-  logo: {
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    width: theme.spacing(12),
-    height: theme.spacing(12),
-    marginRight: theme.spacing(2),
   },
   paper: {
     marginTop: theme.spacing(3),
@@ -637,23 +626,6 @@ class Content extends React.Component {
     )
   }
 
-  renderHeader() {
-    const { classes } = this.props
-    return (
-      <Typography
-        component="h3"
-        variant="h3"
-        className={classes.header}>
-        <a href="https://github.com/usc-isi-i2/kgtk" title="Knowledge Graph Toolkit" rel="noopener noreferrer nofollow" target="_blank">
-          <div className={ classes.logo }>
-            <Logo/>
-          </div>
-        </a>
-        Knowledge Graph Text Search
-      </Typography>
-    )
-  }
-
   renderSearchForm() {
     const { classes } = this.props
     return (
@@ -680,7 +652,7 @@ class Content extends React.Component {
     return (
       <Container maxWidth="xl">
         <div id="top" />
-        {this.renderHeader()}
+        <Header />
         {this.renderSearchForm()}
         <ArrowUp/>
       </Container>
