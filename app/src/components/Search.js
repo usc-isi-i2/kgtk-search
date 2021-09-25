@@ -55,14 +55,14 @@ const styles = theme => ({
     marginLeft: theme.spacing(5),
     transition: '0.2s background ease',
     '&:hover': {
-      background: '#eee',
+      color: '#111',
+      background: 'rgba(253, 214, 0, 0.25)',
       textDecoration: 'none',
       cursor: 'pointer',
-      color: '#111',
     },
   },
   label: {
-    color: '#333',
+    color: '#0077ea',
     textDecoration: 'underline',
   },
   description: {
