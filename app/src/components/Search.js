@@ -336,7 +336,7 @@ class Search extends React.Component {
     if ( this.state.mouseDown && !this.state.selecting ) {
       clearTimeout(this.timeoutID)
       this.timeoutID = setTimeout(() => {
-        window.open(`https://ringgaard.com/kb/${result.qnode}`, '_blank')
+        window.open(`https://kgtk.isi.edu/browser/item/${result.qnode}`, '_blank')
       }, 100)
     }
 
