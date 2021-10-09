@@ -332,11 +332,11 @@ class Search extends React.Component {
       }
     }
 
-    // else redirect to the ringgaard knowledge base
+    // else redirect to the kgtk-browser
     if ( this.state.mouseDown && !this.state.selecting ) {
       clearTimeout(this.timeoutID)
       this.timeoutID = setTimeout(() => {
-        window.open(`https://kgtk.isi.edu/browser/item/${result.qnode}`, '_blank')
+        window.open(`https://kgtk.isi.edu/browser/${result.qnode}`, '_blank')
       }, 100)
     }
 
