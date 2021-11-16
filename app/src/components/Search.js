@@ -14,6 +14,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Switch from '@material-ui/core/Switch'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { withStyles } from '@material-ui/core/styles'
 
 import Input from './Input'
@@ -109,6 +110,13 @@ const styles = theme => ({
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
     },
+  },
+  loading: {
+    position: 'absolute',
+    top: 'calc(50% - 25px)',
+    left: 'calc(50% - 25px)',
+    color: '#de6720',
+    zIndex: 99999,
   },
 })
 
@@ -634,6 +642,17 @@ class Search extends React.Component {
     )
   }
 
+  renderLoading() {
+    if ( !this.state.loading ) { return }
+    const { classes } = this.props
+    return (
+      <CircularProgress
+        size={50}
+        color="inherit"
+        className={classes.loading} />
+    )
+  }
+
   render() {
     const { classes } = this.props
     return (
@@ -650,6 +669,7 @@ class Search extends React.Component {
               {this.renderSettings()}
             </Paper>
             {this.renderResults()}
+            {this.renderLoading()}
           </Grid>
         </Grid>
       </form>
