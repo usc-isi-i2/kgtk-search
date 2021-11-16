@@ -188,6 +188,7 @@ class Search extends React.Component {
     this.state = {
       query: '',
       results: [],
+      loading: false,
       showSettings: false,
       openLanguageSettings: false,
       language: LANGUAGE_OPTIONS[0].value,
@@ -284,6 +285,9 @@ class Search extends React.Component {
     }
 
     if ( query || instanceOfTypeQuery ) {
+      this.setState({
+        loading: true,
+      })
       return fetch(url, {
         method: 'GET',
         headers: {
@@ -295,9 +299,13 @@ class Search extends React.Component {
         if ( instanceOfTypeQuery && isClass ) {
           this.setState({
             instanceOfTypeResults: results,
+            loading: false,
           })
         } else {
-          this.setState({ results })
+          this.setState({
+            results: results,
+            loading: false,
+          })
         }
       })
     }
