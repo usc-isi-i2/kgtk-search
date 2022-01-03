@@ -1,0 +1,28 @@
+version: "3"
+services:
+  kgtk-search:
+    image: kgtk-search
+    container_name: kgtk-search
+    command: sh -c 'python3 application.py'
+    restart: always
+    ports:
+      - "7884:7884"
+    environment:
+      - APP_SECRET=''
+      - MONGO_URI=''
+      - KGTK_SEARCH_PRODUCTION=true
+      - SLACK_TOKEN=''
+      - KGTK_SEARCH_ES_URL=''
+      - KGTK_SEARCH_ES_INDEX=''
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - /kgtk/data:/data/db
+networks:
+  default:
+    external:
+      name: overlay

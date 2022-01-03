@@ -44,7 +44,12 @@ class FindNearestQnodes(Resource):
         is_class = request.args.get('is_class', 'false').lower().strip() == 'true'
         data_type = request.args.get('data_type', None)
 
-        if user_es_url and user_es_index:
+        env_es_url = os.environ.get('KGTK_SEARCH_ES_URL', '')
+        env_es_index = os.environ.get('KGTK_SEARCH_ES_INDEX', '')
+
+        if env_es_url != "" and env_es_index != "":
+            es_search = Search(env_es_url, env_es_index)
+        elif user_es_url and user_es_index:
             es_search = Search(user_es_url, user_es_index)
         else:
             es_search = Search(es_url, es_index)
