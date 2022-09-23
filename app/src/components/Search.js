@@ -360,6 +360,15 @@ class Search extends React.Component {
     this.setState({selecting: false, mouseDown: false})
   }
 
+  getWikidataUrl(result) {
+    // check if result is a qnode or a property
+    if ( result.qnode[0] === 'Q' ) {
+      return `https://www.wikidata.org/wiki/${result.qnode}`
+    } else {
+      return `https://www.wikidata.org/wiki/Property:${result.qnode}`
+    }
+  }
+
   renderResults() {
     const { classes } = this.props
     const { results } = this.state
