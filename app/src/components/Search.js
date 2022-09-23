@@ -1,6 +1,5 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
@@ -38,7 +37,7 @@ const styles = theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
-  result: {
+  resultWrapper: {
     position: 'relative',
     marginTop: theme.spacing(3),
   },
@@ -48,7 +47,7 @@ const styles = theme => ({
     top: theme.spacing(1),
     left: theme.spacing(1),
   },
-  link: {
+  result: {
     color: '#333',
     width: '97%',
     display: 'inline-block',
@@ -59,11 +58,12 @@ const styles = theme => ({
       color: '#111',
       background: 'rgba(253, 214, 0, 0.25)',
       textDecoration: 'none',
-      cursor: 'pointer',
     },
   },
   label: {
     color: '#0077ea',
+    fontSize: '1.5rem',
+    lineHeight: '2rem',
     textDecoration: 'underline',
   },
   description: {
@@ -374,25 +374,21 @@ class Search extends React.Component {
     const { results } = this.state
     const { debugSwitchState } = this.state
     return results.map((result, i) => (
-      <Grid item xs={12} key={i} className={classes.result}>
+      <Grid item xs={12} key={i} className={classes.resultWrapper}>
         <Typography
           component="h5"
           variant="h5"
           className={classes.index}>
           {i + 1}.
         </Typography>
-        <Link
-          component="div"
-          className={classes.link}
-          onMouseDown={() => this.handleOnMouseDown()}
-          onMouseMove={() => this.handleOnMouseMove()}
-          onMouseUp={(event) => this.handleOnMouseUp(event, result)}>
+        <div className={classes.result}>
           <Typography
-            component="h5"
-            variant="h5"
-            className={classes.label}>
+            variant="a"
+            component="a"
+            target="_blank"
+            className={classes.label}
+            href={`https://kgtk.isi.edu/browser/${result.qnode}`}>
             {result.label[0]} ({result.qnode})
-            <WikidataLogo />
           </Typography>
           <Typography
             component="p"
@@ -432,7 +428,7 @@ class Search extends React.Component {
               <b>Data type:</b> {result.data_type}
             </Typography>
           ) : null }
-        </Link>
+        </div>
       </Grid>
     ))
   }
