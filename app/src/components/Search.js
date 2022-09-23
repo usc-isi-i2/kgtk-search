@@ -207,8 +207,6 @@ class Search extends React.Component {
       instanceOfType: '',
       debugSwitchState: false,
       classesSwitchState: false,
-      mouseDown: false,
-      selecting: false,
     }
   }
 
@@ -322,42 +320,6 @@ class Search extends React.Component {
   submit(event) {
     event.preventDefault()
     this.submitQuery()
-  }
-
-  handleOnMouseDown() {
-    this.setState({mouseDown: true})
-  }
-
-  handleOnMouseMove() {
-    if ( this.state.mouseDown ) {
-      const selection = window.getSelection()
-      if ( !!selection.toString() ) {
-        this.setState({selecting: true})
-      }
-    }
-  }
-
-  handleOnMouseUp(event, result) {
-
-    // check if users clicked on the wikidata logo
-    if ( event.target.nodeName === 'svg' || event.target.parentElement.nodeName === 'svg' ) {
-      if ( result.qnode[0] === 'Q' ) {
-        window.open(`https://www.wikidata.org/wiki/${result.qnode}`, '_blank')
-      } else {
-        window.open(`https://www.wikidata.org/wiki/Property:${result.qnode}`, '_blank')
-      }
-    }
-
-    // else redirect to the kgtk-browser
-    if ( this.state.mouseDown && !this.state.selecting ) {
-      clearTimeout(this.timeoutID)
-      this.timeoutID = setTimeout(() => {
-        window.open(`https://kgtk.isi.edu/browser/${result.qnode}`, '_blank')
-      }, 100)
-    }
-
-    // reset selecting and mouseDown state setttings
-    this.setState({selecting: false, mouseDown: false})
   }
 
   getWikidataUrl(result) {
