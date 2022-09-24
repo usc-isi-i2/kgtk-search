@@ -213,11 +213,14 @@ class Search extends React.Component {
   handleOnChange(query) {
     this.setState({ query }, () => {
       if ( !query ) {
-        this.setState({results: []})
+        this.setState({results: []}, () => {
+          document.title = 'Knowledge Graph Text Search'
+        })
       } else {
         clearTimeout(this.timeoutID)
         this.timeoutID = setTimeout(() => {
           this.submitQuery()
+          document.title = `KG Search: ${query}`
         }, 500)
       }
     })
