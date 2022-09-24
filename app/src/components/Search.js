@@ -353,6 +353,14 @@ class Search extends React.Component {
             {result.label[0]} ({result.qnode})
           </Typography>
           <Typography
+            variant="a"
+            component="a"
+            target="_blank"
+            className={classes.label}
+            href={this.getWikidataUrl(result)}>
+            <WikidataLogo />
+          </Typography>
+          <Typography
             component="p"
             variant="body1"
             className={classes.description}>
