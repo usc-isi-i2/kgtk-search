@@ -343,8 +343,20 @@ class Search extends React.Component {
 
   renderResults() {
     const { classes } = this.props
-    const { results } = this.state
+    const { loading, query, results } = this.state
     const { debugSwitchState } = this.state
+    if ( !loading && !!query && !results.length ) {
+      return (
+        <Grid item xs={12} className={classes.resultWrapper}>
+          <Typography
+            component="h5"
+            variant="h5"
+            className={classes.index}>
+            There are no results for this query
+          </Typography>
+        </Grid>
+      )
+    }
     return results.map((result, i) => (
       <Grid item xs={12} key={i} className={classes.resultWrapper}>
         <Typography
