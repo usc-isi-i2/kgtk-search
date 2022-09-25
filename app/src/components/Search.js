@@ -220,7 +220,7 @@ class Search extends React.Component {
         clearTimeout(this.timeoutID)
         this.timeoutID = setTimeout(() => {
           this.submitQuery()
-          document.title = `KG Search: ${query}`
+          document.title = `${query} - Knowledge Graph Text Search`
         }, 500)
       }
     })
