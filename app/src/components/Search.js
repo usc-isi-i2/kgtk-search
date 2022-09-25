@@ -219,8 +219,9 @@ class Search extends React.Component {
       } else {
         clearTimeout(this.timeoutID)
         this.timeoutID = setTimeout(() => {
-          this.submitQuery()
-          document.title = `${query} - Knowledge Graph Text Search`
+          this.submitQuery().then(() => {
+            document.title = `${query} - Knowledge Graph Text Search`
+          })
         }, 500)
       }
     })
@@ -260,64 +261,70 @@ class Search extends React.Component {
   }
 
   submitQuery(isClass=false) {
-    const { query } = this.state
-    const { language } = this.state
-    const { queryType } = this.state
-    const { itemType } = this.state
-    const { instanceOfType } = this.state
-    const { instanceOfTypeQuery } = this.state
-    const { classesSwitchState } = this.state
+    return new Promise((resolve, reject) => {
+      const { query } = this.state
+      const { language } = this.state
+      const { queryType } = this.state
+      const { itemType } = this.state
+      const { instanceOfType } = this.state
+      const { instanceOfTypeQuery } = this.state
+      const { classesSwitchState } = this.state
 
-    // Construct the url with correct parameters
-    let url = `/api?`
-    if ( instanceOfTypeQuery && isClass ) {
-      url += `&q=${instanceOfTypeQuery}`
-      url += `&is_class=true`
-      url += `&type=ngram`
-      url += `&size=5`
-    } else if ( query ) {
-      url += `&q=${query}`
-      url += `&type=${queryType}`
-    } else {
-      return false
-    }
-
-    url += `&extra_info=true&language=${language}&item=${itemType}`
-    if ( instanceOfType ) {
-      url += `&instance_of=${instanceOfType}`
-    }
-
-    if ( classesSwitchState ) {
-      if ( !url.includes(`&is_class=true`) ) {
+      // Construct the url with correct parameters
+      let url = `/api?`
+      if ( instanceOfTypeQuery && isClass ) {
+        url += `&q=${instanceOfTypeQuery}`
         url += `&is_class=true`
+        url += `&type=ngram`
+        url += `&size=5`
+      } else if ( query ) {
+        url += `&q=${query}`
+        url += `&type=${queryType}`
+      } else {
+        reject(false)
       }
-    }
 
-    if ( query || instanceOfTypeQuery ) {
-      this.setState({
-        loading: true,
-      })
-      return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((response) => response.json())
-      .then((results) => {
-        if ( instanceOfTypeQuery && isClass ) {
-          this.setState({
-            instanceOfTypeResults: results,
-            loading: false,
-          })
-        } else {
-          this.setState({
-            results: results,
-            loading: false,
-          })
+      url += `&extra_info=true&language=${language}&item=${itemType}`
+      if ( instanceOfType ) {
+        url += `&instance_of=${instanceOfType}`
+      }
+
+      if ( classesSwitchState ) {
+        if ( !url.includes(`&is_class=true`) ) {
+          url += `&is_class=true`
         }
-      })
-    }
+      }
+
+      if ( query || instanceOfTypeQuery ) {
+        this.setState({
+          loading: true,
+        })
+        return fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((response) => response.json())
+        .then((results) => {
+          if ( instanceOfTypeQuery && isClass ) {
+            this.setState({
+              instanceOfTypeResults: results,
+              loading: false,
+            }, () => {
+              resolve()
+            })
+          } else {
+            this.setState({
+              results: results,
+              loading: false,
+            }, () => {
+              resolve()
+            })
+          }
+        })
+      }
+    })
   }
 
   submit(event) {
