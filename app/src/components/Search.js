@@ -281,7 +281,7 @@ class Search extends React.Component {
         url += `&q=${query}`
         url += `&type=${queryType}`
       } else {
-        reject(false)
+        return reject(false)
       }
 
       url += `&extra_info=true&language=${language}&item=${itemType}`
