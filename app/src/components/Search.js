@@ -617,28 +617,6 @@ class Search extends React.Component {
     )
   }
 
-  renderSearchForm() {
-    const { classes } = this.props
-    return (
-      <form className={classes.form} noValidate
-        onSubmit={this.submit.bind(this)}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Paper component="div" className={classes.paper} square>
-              <Grid container spacing={3}>
-                {this.renderSearchBar()}
-                {this.renderInstanceOfSearch()}
-              </Grid>
-              {this.renderSettingsToggle()}
-              {this.renderSettings()}
-            </Paper>
-            {this.renderResults()}
-          </Grid>
-        </Grid>
-      </form>
-    )
-  }
-
   renderLoading() {
     if ( !this.state.loading ) { return }
     const { classes } = this.props
